@@ -59,11 +59,11 @@ This should have all the error handling and user interacting code. [Subject to c
 
 ### Directories
 
-Directory names too, should have "**-**" to separate words.
+Directory names should have a "**-**"(minus sign) to separate words.
 
 ### Source Files
 
-All ``.cpp`` and ``.hpp`` files should have a "**-**" (minus sign) if they have multiple words.
+All ``.cpp`` and ``.hpp`` files too, should have "**-**" if they have multiple words.
 
 Example: ``example-one.cpp``, ``example-two.cpp``, ``example-three.cpp``
 
@@ -92,3 +92,7 @@ int main() {
     cout << "Hello World!" << endl;
 }
 ```
+
+#### More on header files
+
+- Please place the line ``#pragma once`` at the start of every header (``.hpp``) file. This will make sure the file is included only once.
