@@ -14,8 +14,35 @@ A Quiz Game written in C++ using File Handling and a Database | For subject CSR-
 
 ## Build
 
+[This is a test run]
+TODO: change later
+
+First open cmd/terminal in the **build** directory; create one if it doesn't exist, and run the following command.
+
 ```shell
-echo "TODO"
+cmake ../
+cmake --build .
+```
+
+> Note: Remember! Run this *only* while in the **build** directory.
+
+### Run the test executable
+
+An executable by the name of **quiz** should have appeared within **build**.
+Run it.
+
+Windows
+
+```shell
+start quiz
+```
+
+> If it doesn't work, then maybe try renaming ``quiz`` to ``quiz.exe``.
+
+Linux
+
+```shell
+./quiz
 ```
 
 ## Conventions
