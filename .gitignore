@@ -1,3 +1,6 @@
+# automatically created build files
+build/*
+
 # Prerequisites
 *.d
 
