@@ -1,6 +1,6 @@
-#include "utility.hpp"
-
 #include <iostream>
+
+#include "quiz-game.hpp"
 using namespace std;
 
 int main() {

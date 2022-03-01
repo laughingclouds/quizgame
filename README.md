@@ -2,15 +2,21 @@
 
 A Quiz Game written in C++ using File Handling and a Database | For subject CSR-107
 
-> Note: Directory structure inspired (not completely) from: <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1204r0.html>
+> Note: Directory structure inspired (not completely) from [here](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1204r0.html).
 
 ## Project Members
 
-[Hemant Bhandari](https://github.com/laughingclouds)
-[Jagpreet Singh](https://github.com/JaGPR)
-[Prateek Sarna](https://github.com/PrateekSarna-24)
-[Shreya Singh](https://github.com/Shreya220)
-[Madhavi Gupta](https://github.com/MadhaviGupta18)
+- [Hemant Bhandari](https://github.com/laughingclouds)
+- [Jagpreet Singh](https://github.com/JaGPR)
+- [Prateek Sarna](https://github.com/PrateekSarna-24)
+- [Shreya Singh](https://github.com/Shreya220)
+- [Madhavi Gupta](https://github.com/MadhaviGupta18)
+
+## Build
+
+```shell
+echo "TODO"
+```
 
 ## Conventions
 
@@ -26,11 +32,11 @@ This should have all the error handling and user interacting code. [Subject to c
 
 ### Directories
 
-Directory names too, should have **-** to separate words.
+Directory names too, should have "**-**" to separate words.
 
 ### Source Files
 
-All ``.cpp`` and ``.hpp`` files should have a **-** (minus sign) if they have multiple words.
+All ``.cpp`` and ``.hpp`` files should have a "**-**" (minus sign) if they have multiple words.
 
 Example: ``example-one.cpp``, ``example-two.cpp``, ``example-three.cpp``
 
@@ -40,3 +46,22 @@ All variables, class instances, and functions should be named using *snake_case*
 Keep them descriptive, don't hesitate to use long variable names.
 
 Example: **max_score**, **question_number**, **user_name**, **user_id**
+
+### Including Header Files
+
+Include user-defined header files only after including normal header files. And put a new line between them.
+
+Example:
+
+```c++
+#include <iostream>
+
+#include "quiz-game.hpp"
+using namespace std;
+
+int main() {
+    clear_screen();
+
+    cout << "Hello World!" << endl;
+}
+```
