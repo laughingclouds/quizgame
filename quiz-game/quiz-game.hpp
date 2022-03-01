@@ -4,4 +4,5 @@ included here.
 */
 #pragma once
 
+#include "../version.hpp"
 #include "utility/utility.hpp"
