@@ -113,12 +113,11 @@ Example:
 #include <iostream>
 
 #include "quiz-game.hpp"
-using namespace std;
 
 int main() {
     clear_screen();
 
-    cout << "Hello World!" << endl;
+    std::cout << "Hello World!" << std::endl;
 }
 ```
 
