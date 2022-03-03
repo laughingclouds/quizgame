@@ -5,6 +5,8 @@ project('quiz', 'cpp',
 
 add_global_arguments('-DSOME_TOKEN=value', language : 'cpp')
 
+c = run_command('sh', 'setup-mongocxx.sh', check: true)
+
 c = run_command('python', 'grabber.py', check: true)
 sources = c.stdout().strip().split(' ')
 e = executable('quiz', sources)

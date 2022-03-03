@@ -27,7 +27,7 @@ pip install meson ninja
 create a build directory
 
 ```shell
-meson setup builddir
+meson builddir
 ```
 
 cd into the build directory and compile
