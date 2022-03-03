@@ -125,3 +125,10 @@ int main() {
 #### More on header files
 
 - Please place the line ``#pragma once`` at the start of every header (``.hpp``) file. This will make sure the file is included only once.
+
+### The "using namespace std" debate
+
+Cough, please try not to write the sweat old ``using namespace std;`` line after including the header files. More specifically, don't use namespaces **globally** (reasoning below).
+
+- [iso cpp faq](https://isocpp.org/wiki/faq/coding-standards#using-namespace-std)
+- [stackoverflow discussion](https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice)

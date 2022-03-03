@@ -1,17 +1,24 @@
 #include <iostream>
 #include <sqlite3.h>
+#include <string>
 
 #include "quiz-game.hpp"
 
-#define DATA_DIR "data/"
+using std::cout;
+using std::endl;
 
-using namespace std;
+namespace dbinfo {
+  using std::string;
+  string DATA_DIR = string("data");
+  string DB_NAME = string("test.db");
+}
 
 void create_testdb() {
+  
   sqlite3 *db;
   int rc;
 
-  rc = sqlite3_open("test.db", &db);
+  rc = sqlite3_open(dbinfo::DB_NAME.c_str(), &db);
 
   if (rc) {
     cout << "Couldn't open database: " << sqlite3_errmsg(db);
