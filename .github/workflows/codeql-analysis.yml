@@ -46,7 +46,8 @@ jobs:
     
     - name: custom meson build
       run: |
-      meson builddir && cd builddir
+      meson builddir
+      cd builddir
       meson compile
     
     # Initializes the CodeQL tools for scanning.
