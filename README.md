@@ -26,6 +26,8 @@ meson compile
 
 ```
 
+Next, run the executable.
+
 ## Build
 
 ### meson
