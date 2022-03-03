@@ -127,7 +127,7 @@ int main() {
 
 ### The "using namespace std" debate
 
-Cough, please try not to write the sweat old ``using namespace std;`` line after including the header files. More specifically, don't use namespaces **globally** (reasoning below).
+Cough, please try to not write the sweat old ``using namespace std;`` line after including the header files. More specifically, don't use namespaces **globally** (reasoning below).
 
 - [iso cpp faq](https://isocpp.org/wiki/faq/coding-standards#using-namespace-std)
 - [stackoverflow discussion](https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice)
