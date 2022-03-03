@@ -14,6 +14,35 @@ A Quiz Game written in C++ using File Handling and a Database | For subject CSR-
 
 ## Build
 
+### meson
+
+First, install meson and ninja using pip.
+
+> minimum requirement to use meson: python 3.7
+
+```shell
+pip install meson ninja
+```
+
+create a build directory
+
+```shell
+meson setup builddir
+```
+
+cd into the build directory and compile
+
+```shell
+cd builddir
+meson compile
+```
+
+An executable will be created (say, **quiz**). Run it (instructions below).
+
+### cmake
+
+I will be focussing primarily on meson. So try to use that if cmake doesn't work.
+
 [This is a test run]
 TODO: change later
 
