@@ -6,8 +6,8 @@
 
 
 namespace dbinfo {
-  std::string DATA_DIR = std::string("data");
-  std::string DB_NAME = std::string("test.sqlite3");
+  std::string DATA_DIR = "data";
+  std::string DB_NAME = "test.sqlite3";
 }
 
 void create_testdb() {
