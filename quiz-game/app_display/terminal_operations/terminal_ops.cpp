@@ -7,9 +7,10 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "../../quiz-game.hpp"
 #include "../../custom_types.hpp"
+#include "../../quiz-game.hpp"
 
+namespace app_display_op {
 namespace terminal {
 
 //
@@ -149,4 +150,5 @@ int getWindowSize(int *rows, int *cols) {
     return 0;
   }
 }
-} // namespace terminal_op
+} // namespace terminal
+} // namespace app_display_op

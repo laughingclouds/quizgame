@@ -9,7 +9,8 @@ namespace app_display_op {
 namespace _row {
 int _CxToRx(erow *row, int cx);
 void insert(int at, char *s, size_t len);
-void insertChar(int c);
+void update(erow *row);
+void insertChar(erow *row, int at, int c);
 void insertNewline();
 void delChar();
 } // namespace row

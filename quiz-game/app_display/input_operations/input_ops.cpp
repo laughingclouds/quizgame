@@ -3,9 +3,15 @@
 
 #include "../../quiz-game.hpp"
 #include "../../custom_types.hpp"
-#include "../display_operations/display_operations.hpp"
+#include "../display_operations/display_ops.hpp"
+#include "../display_operations/row_ops.hpp"
 #include "../terminal_operations/terminal_ops.hpp"
 
+/**
+app_display_op
+row         input
+f()             row::f()
+**/
 namespace app_display_op {
 namespace input {
 
@@ -166,8 +172,7 @@ void processKeypress() {
     break;
 
   default:
-    _row::insertChar(c);
-    // editorInsertChar(c);
+    insertChar(c);
     break;
   }
 

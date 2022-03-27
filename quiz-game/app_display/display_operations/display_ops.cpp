@@ -8,6 +8,30 @@
 
 namespace app_display_op {
 
+  void editorInsertNewline() {
+  if (E.cx == 0) {
+    _row::insert(E.cy, "", 0);
+  } else {
+    erow *row = &E.row[E.cy];
+    
+    _row::insert(E.cy + 1, &row->chars[E.cx], row->size - E.cx);
+    row = &E.row[E.cy];
+    row->size = E.cx;
+    row->chars[row->size] = '\0';
+    _row::update(row);
+  }
+  E.cy++;
+  E.cx = 0;
+}
+
+void insertChar(int c) {
+  if (E.cy == E.numrows) {
+    _row::insert(E.numrows, "", 0);
+  }
+  _row::insertChar(&E.row[E.cy], E.cx, c);
+  E.cx++;
+}
+
 void scroll() {
   E.rx = 0;
   if (E.cy < E.numrows) {

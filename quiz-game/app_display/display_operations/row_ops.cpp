@@ -1,9 +1,11 @@
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
+#include <string>
 
-#include "../../quiz-game.hpp"
 #include "../../custom_types.hpp"
+#include "../../quiz-game.hpp"
 
+namespace app_display_op {
 namespace _row {
 int _CxToRx(erow *row, int cx) {
   int rx = 0;
@@ -54,7 +56,7 @@ void update(erow *row) {
   row->rsize = idx;
 }
 
-void editorInsertRow(int at, char *s, size_t len) {
+void insert(int at, char *s, size_t len) {
   if (at < 0 || at > E.numrows)
     return;
 
@@ -78,6 +80,21 @@ void editorInsertRow(int at, char *s, size_t len) {
 
   E.numrows++;
   E.dirty++;
+}
+
+void insertNewline() {
+  if (E.cx == 0) {
+    insert(E.cy, &std::string("")[0], 0);
+  } else {
+    erow *row = &E.row[E.cy];
+    insert(E.cy + 1, &row->chars[E.cx], row->size - E.cx);
+    row = &E.row[E.cy];
+    row->size = E.cx;
+    row->chars[row->size] = '\0';
+    update(row);
+  }
+  E.cy++;
+  E.cx = 0;
 }
 
 void free(erow *row) {
@@ -110,7 +127,7 @@ void insertChar(erow *row, int at, int c) {
 }
 
 void editorRowAppendString(erow *row, char *s, size_t len) {
-  row->chars = (char*)realloc(row->chars, row->size + len + 1);
+  row->chars = (char *)realloc(row->chars, row->size + len + 1);
   memcpy(&row->chars[row->size], s, len);
   row->size += len;
   row->chars[row->size] = '\0';
@@ -126,4 +143,5 @@ void delChar(erow *row, int at) {
   update(row);
   E.dirty++;
 }
-} // namespace row
+} // namespace _row
+} // namespace app_display_op

@@ -2,6 +2,7 @@
 #include <sqlite3.h>
 #include <string>
 
+#include "app_display/terminal_operations/terminal_ops.hpp"
 #include "quiz-game.hpp"
 #include "custom_types.hpp"
 #include "app_display/app_display.hpp"
@@ -52,8 +53,6 @@ int main(int argc, char *argv[]) {
 
   app_display_op::terminal::enableRawMode();
   initApp();
-
-  // clear_screen();
 
   app_display_op::setStatusMessage(
       "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find");
