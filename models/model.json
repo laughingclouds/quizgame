@@ -2,7 +2,7 @@
     //rdbms: server type, postgresql,mysql or sqlite3
     "rdbms": "sqlite3",
     //filename: sqlite3 db file name
-    "filename":"quiz-game.db",
+    "filename":"/static/db/quiz-game.db",
     //host: server address,localhost by default;
     "host": "127.0.0.1",
     //port: server port, 5432 by default;
