@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(getting_started_drogon CXX)
+project(quiz_game CXX)
 
 include(CheckIncludeFileCXX)
 

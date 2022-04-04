@@ -1,8 +1,8 @@
 {
     //rdbms: server type, postgresql,mysql or sqlite3
-    "rdbms": "postgresql",
+    "rdbms": "sqlite3",
     //filename: sqlite3 db file name
-    //"filename":"",
+    "filename":"quiz-game.db",
     //host: server address,localhost by default;
     "host": "127.0.0.1",
     //port: server port, 5432 by default;
@@ -10,7 +10,7 @@
     //dbname: Database name;
     "dbname": "",
     //schema: valid for postgreSQL, "public" by default;
-    "schema": "public",
+    // "schema": "public",
     //user: User name
     "user": "",
     //password or passwd: Password
@@ -100,6 +100,6 @@
         // directory: The directory where the controller source files are stored.
         "directory": "controllers",
         // generate_base_only: false by default. Set to true to avoid overwriting custom subclasses.
-        "generate_base_only": false
+        "generate_base_only": true
     }
 }

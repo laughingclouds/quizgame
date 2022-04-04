@@ -12,6 +12,13 @@ A Quiz Game written in C++ using File Handling and a Database | For subject CSR-
 - [Shreya Singh](https://github.com/Shreya220)
 - [Madhavi Gupta](https://github.com/MadhaviGupta18)
 
+## TODO
+
+Read this
+
+- <https://www.freecodecamp.org/news/reusable-html-components-how-to-reuse-a-header-and-footer-on-a-website/>
+
+
 ## Quickstart
 
 Paste this in your shell

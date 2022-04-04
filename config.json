@@ -71,7 +71,7 @@
         //home_page: Set the HTML file of the home page, the default value is "index.html"
         //If there isn't any handler registered to the path "/", the home page file in the "document_root" is send to clients as a response
         //to the request for "/".
-        "home_page": "./index.html",
+        // "home_page": "./index.html",
         //use_implicit_page: enable implicit pages if true, true by default
         "use_implicit_page": true,
         //implicit_page: Set the file which would the server access in a directory that a user accessed.
