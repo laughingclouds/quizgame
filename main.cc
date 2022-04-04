@@ -5,8 +5,11 @@
 #include <drogon/utils/FunctionTraits.h>
 #include <functional>
 
+#include "create_test_db.cc"
+
 using namespace drogon;
 int main() {
+  make_db();
   app().registerHandler(
       "/", [](const HttpRequestPtr &req,
                std::function<void(const HttpResponsePtr &)> &&callback) {

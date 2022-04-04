@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(getting_started_drogon_test CXX)
+project(quiz_game_test CXX)
 
 add_executable(${PROJECT_NAME} test_main.cc)
 
