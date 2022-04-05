@@ -74,4 +74,6 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY ENABLE_EXPORTS ON)
 add_subdirectory(test)
 
 # for copying the static directory
+file(COPY ${CMAKE_SOURCE_DIR}/db DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/static DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/config.json DESTINATION ${CMAKE_BINARY_DIR}/config.json)

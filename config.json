@@ -1,28 +1,27 @@
 /* This is a JSON format configuration file
  */
 {
-    /*
     "listeners": [
         {
             //address: Ip address,0.0.0.0 by default
             "address": "0.0.0.0",
             //port: Port number
-            "port": 80,
+            "port": 8080,
             //https: If true, use https for security,false by default
             "https": false
         },
         {
             "address": "0.0.0.0",
-            "port": 443,
-            "https": true,
+            "port": 8080,
+            "https": false,
             //cert,key: Cert file path and key file path, empty by default,
             //if empty, use the global setting
             "cert": "",
             "key": "",
             //use_old_tls: enable the TLS1.0/1.1, false by default
             "use_old_tls": false,
+            //["MinProtocol", "TLSv1.3"]
             "ssl_conf": [
-                //["MinProtocol", "TLSv1.3"]
             ]
         }
     ],
@@ -31,19 +30,19 @@
             //name: Name of the client,'default' by default
             //"name":"",
             //rdbms: Server type, postgresql,mysql or sqlite3, "postgresql" by default
-            "rdbms": "postgresql",
+            "rdbms": "sqlite3",
             //filename: Sqlite3 db file name
-            //"filename":"",
+            "filename":"db/quiz-game.db",
             //host: Server address,localhost by default
             "host": "127.0.0.1",
             //port: Server port, 5432 by default
             "port": 5432,
             //dbname: Database name
-            "dbname": "test",
+            "dbname": "main",
             //user: 'postgres' by default
-            "user": "",
+            // "user": "",
             //passwd: '' by default
-            "passwd": "",
+            // "passwd": "",
             //is_fast: false by default, if it is true, the client is faster but user can't call
             //any synchronous interface of it.
             "is_fast": false,
@@ -58,7 +57,7 @@
             "timeout": -1.0
         }
     ],
-    */
+    /**/
     "app": {
         //number_of_threads: The number of IO threads, 1 by default, if the value is set to 0, the number of threads
         //is the number of CPU cores
@@ -73,7 +72,7 @@
         //to the request for "/".
         // "home_page": "./index.html",
         //use_implicit_page: enable implicit pages if true, true by default
-        "use_implicit_page": true,
+        "use_implicit_page": false,
         //implicit_page: Set the file which would the server access in a directory that a user accessed.
         //For example, by default, http://localhost/a-directory resolves to http://localhost/a-directory/index.html.
         "implicit_page": "index.html",
@@ -119,7 +118,7 @@
                 //presents an absolute path, otherwise it presents a relative path to 
                 //the document_root path. 
                 //The default value is "" which means use the document root path as the location base path.
-                "alias": "views/lol.html",
+                "alias": "",
                 //is_case_sensitive: indicates whether the URI prefix is case sensitive.
                 "is_case_sensitive": false,
                 //allow_all: true by default. If it is set to false, only static files with a valid extension can be accessed.

@@ -120,6 +120,7 @@ class Answer
     const std::shared_ptr<uint64_t> &getQuestionId() const noexcept;
     ///Set the value of the column question_id
     void setQuestionId(const uint64_t &pQuestionId) noexcept;
+    void setQuestionIdToNull() noexcept;
 
 
     static size_t getColumnNumber() noexcept {  return 3;  }

@@ -5,14 +5,5 @@ body {
 
     width: max-content;
     margin: 0 auto;
-    margin-top: 10rem;
-}
-
-li a, li a:visited {
-    text-decoration: none;
-    color: white;
-}
-
-li a:hover {
-    color: yellow;
+    /* margin-top: 1rem; */
 }

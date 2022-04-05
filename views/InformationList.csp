@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<%c++ auto userNameVec=@@.get<std::vector<std::string>>("userNameVec");%>
+		<%c++ auto questionTxtVec=@@.get<std::vector<std::string>>("questionTxtVec");%>
+			<%c++ auto categoryNameVec=@@.get<std::vector<std::string>>("categoryNameVec");%>
+
+				<meta charset="UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/x-icon">
+				<link rel="stylesheet" href="/static/styles/style.css">
+				<title>Information List</title>
+</head>
+
+<body>
+	<header>
+		<h1>Information from the database</h1>
+	</header>
+
+	<main>
+		<section>
+			<header>
+				<h2>Users</h2>
+			</header>
+
+			<ul>
+				<%c++ for(auto userName : userNameVec){%>
+					<li>{%userName%}</li>
+					<%c++}%>
+			</ul>
+		</section>
+
+		<section>
+			<header>
+				<h2>Questions</h2>
+			</header>
+
+			<ul>
+				<%c++ for(auto questionTxt : questionTxtVec){%>
+					<li>{%questionTxt%}</li>
+					<%c++}%>
+			</ul>
+		</section>
+
+		<section>
+			<header>
+				<h2>Categories</h2>
+			</header>
+
+			<ul>
+				<%c++ for(auto categoryName : categoryNameVec){%>
+					<li>{%categoryName%}</li>
+					<%c++}%>
+			</ul>
+		</section>
+	</main>
+</body>
+
+</html>

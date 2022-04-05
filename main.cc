@@ -1,25 +1,28 @@
 #include <drogon/HttpAppFramework.h>
-#include <drogon/HttpResponse.h>
-#include <drogon/HttpTypes.h>
+#include <drogon/orm/DbClient.h>
+#include <drogon/orm/SqlBinder.h>
+#include <sqlite3.h>
 #include <drogon/drogon.h>
-#include <drogon/utils/FunctionTraits.h>
-#include <functional>
 
-#include "create_test_db.cc"
+#include "models/Category.h"
+#include "models/User.h"
 
-using namespace drogon;
 int main() {
-  make_db();
+  using namespace drogon;
+  
+  std::cout << "Server started!\n";
+  
   app().registerHandler(
       "/", [](const HttpRequestPtr &req,
-               std::function<void(const HttpResponsePtr &)> &&callback) {
+              std::function<void(const HttpResponsePtr &)> &&callback) {
         auto resp = HttpResponse::newHttpViewResponse("quiz_game_home.csp");
         callback(resp);
       });
-  
+
   app().registerHandler(
-      "/StartGame", [](const HttpRequestPtr &req,
-               std::function<void(const HttpResponsePtr &)> &&callback) {
+      "/StartGame",
+      [](const HttpRequestPtr &req,
+         std::function<void(const HttpResponsePtr &)> &&callback) {
         auto resp = HttpResponse::newHttpViewResponse("quiz_game_start.csp");
         callback(resp);
       });
@@ -37,10 +40,11 @@ int main() {
         callback(resp);
       });
   // Set HTTP listener address and port
-  drogon::app().addListener("0.0.0.0", 8080);
+  app().addListener("0.0.0.0", 8080);
   // Load config file
-  // drogon::app().loadConfigFile("../config.json");
+  drogon::app().loadConfigFile("../config.json");
   // Run HTTP framework,the method will block in the internal event loop
-  drogon::app().run();
+  app().run();
+  // ::dbPtr = drogon::orm::DbClient::newSqlite3Client("main", 1);
   return 0;
 }
