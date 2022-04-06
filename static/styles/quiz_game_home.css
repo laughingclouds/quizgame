@@ -1,18 +1,60 @@
 body {
+    background-image: url("/static/imgs/game\ background\ image.png");
+    /* background-image: url("./game background image.png"), linear-gradient(to bottom right, pink, rgb(194, 91, 154), rgb(177, 26, 131), rgb(153, 65, 180)); */
     background-color: black;
+    height: 100vh;
+    width: auto;
+
     color: white;
+
     font-family: Arial, Helvetica, sans-serif;
-
-    width: max-content;
-    margin: 0 auto;
-    margin-top: 10rem;
+    font-size: 1.5rem;
 }
 
-li a, li a:visited {
-    text-decoration: none;
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    height: 100%;
+    width: auto;
+}
+
+.content {
+    background-color: rgba(177, 171, 171, 0.767);
+    border-radius: 0.43rem;
+}
+
+nav {
+    padding: 10px 15px 10px 15px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+nav ul li {
+    padding: 5px;
+}
+
+li {
     color: white;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-li a:hover {
-    color: yellow;
+li a {
+    display: block;
+}
+
+li a,
+li a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+li:hover {
+    color: black;
 }
