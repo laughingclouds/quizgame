@@ -20,14 +20,6 @@ int main() {
       });
 
   app().registerHandler(
-      "/StartGame",
-      [](const HttpRequestPtr &req,
-         std::function<void(const HttpResponsePtr &)> &&callback) {
-        auto resp = HttpResponse::newHttpViewResponse("quiz_game_start.csp");
-        callback(resp);
-      });
-
-  app().registerHandler(
       "/list_para",
       [=](const HttpRequestPtr &req,
           std::function<void(const HttpResponsePtr &)> &&callback) {
