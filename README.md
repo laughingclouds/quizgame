@@ -37,10 +37,8 @@ We have decided to include these six into the game. This means, every player wil
 
 ## TODO
 
-Read this
-
-- <https://www.freecodecamp.org/news/reusable-html-components-how-to-reuse-a-header-and-footer-on-a-website/>
-
+1. Read this: <https://www.freecodecamp.org/news/reusable-html-components-how-to-reuse-a-header-and-footer-on-a-website/>
+2. Replace handler in main.cc for "/StartGame" to a controller (not simpleHTTPController)
 
 ## Quickstart
 
