@@ -12,6 +12,10 @@ A Quiz Game written in C++ using File Handling and a Database | For subject CSR-
 - [Shreya Singh](https://github.com/Shreya220)
 - [Madhavi Gupta](https://github.com/MadhaviGupta18)
 
+## Categories
+
+
+
 ## TODO
 
 Read this
