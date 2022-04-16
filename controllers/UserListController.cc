@@ -7,9 +7,9 @@
 #include <drogon/HttpTypes.h>
 #include <drogon/HttpViewData.h>
 
-#include "../models/User.h"
-#include "../models/Question.h"
 #include "../models/Category.h"
+#include "../models/Question.h"
+#include "../models/User.h"
 #include "UserListController.h"
 
 using namespace drogon;
@@ -37,19 +37,20 @@ void UserListController::asyncHandleHttpRequest(
   std::vector<Question> questionVec = getModelObjectVec<Question>();
   std::vector<std::string> questionTxtVec;
 
-  std::vector<Category> categoryVec = orm::Mapper<Category>(app().getDbClient()).findAll();
+  std::vector<Category> categoryVec =
+      orm::Mapper<Category>(app().getDbClient()).findAll();
   std::vector<std::string> categoryNameVec;
 
   /** Initialize vector of text values */
   for (auto userObj : userVec)
     userNameVec.push_back(titilize(userObj.getValueOfName()));
-  
+
   for (auto quesObj : questionVec)
     questionTxtVec.push_back(quesObj.getValueOfText());
 
   for (auto categObj : categoryVec)
     categoryNameVec.push_back(categObj.getValueOfName());
-  
+
   /** Insert text values into `data` */
   HttpViewData data;
   data.insert("userNameVec", userNameVec);

@@ -19,7 +19,7 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="./StartGame">
+                        <a href="./QuizSetting">
                             Start
                         </a>
                     </li>
