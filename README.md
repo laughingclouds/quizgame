@@ -12,9 +12,28 @@ A Quiz Game written in C++ using File Handling and a Database | For subject CSR-
 - [Shreya Singh](https://github.com/Shreya220)
 - [Madhavi Gupta](https://github.com/MadhaviGupta18)
 
-## Categories
+## Quiz-Game Survey
 
+On conducting a survey among the students of Chandigarh University, we got the following responses.
 
+A total of 42 responses were collected. The respondents belonged to the following age groups:
+![Pie chart displaying the different age groups](https://user-images.githubusercontent.com/57110219/163675852-86f3ed99-fb20-4964-b6d5-e5d63f1e9fea.png)
+
+These respondents voted on the following categories to be included in the game:
+![Bar graph displaying the responses for the categories](https://user-images.githubusercontent.com/57110219/163675753-f00c19c1-8e5f-4022-b14f-299414d14d51.png)
+
+### Top six categories
+
+Below is the list of the six categories that received the most votes; in descending order of votes received:
+
+1. Entertainment
+2. Science
+3. Sports
+4. General knowledge
+5. TV Shows
+6. Anime
+
+We have decided to include these six into the game. This means, every player will get the chance to start a game with any of these six categories.
 
 ## TODO
 
