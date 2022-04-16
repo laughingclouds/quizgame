@@ -1,6 +1,10 @@
+<%inc#include "../models/Category.h"%>
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+    <%c++ auto catObj = @@.get<drogon_model::sqlite3::Category>("catObj");%>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,5 +18,11 @@
     <header>
         <h1>Start!</h1>
     </header>
+    <main>
+        <h2>
+            {% catObj.getValueOfName() %}
+        </h2>
+    </main>
 </body>
+
 </html>
