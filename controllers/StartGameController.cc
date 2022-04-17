@@ -27,7 +27,8 @@ void StartGameController::startGameBasedOnCategoryId(
     In this case, redirect user to "/QuizSetting" to select a category
     https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/300
     */
-    auto resp = HttpResponse::newRedirectionResponse("/QuizSetting", k300MultipleChoices);
+    auto resp = HttpResponse::newRedirectionResponse("/QuizSetting",
+                                                     k300MultipleChoices);
     callback(resp);
   }
 }
