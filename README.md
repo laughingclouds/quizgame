@@ -36,7 +36,6 @@ We have decided to include these six into the game. This means, every player wil
 ## TODO
 
 1. Read this: <https://www.freecodecamp.org/news/reusable-html-components-how-to-reuse-a-header-and-footer-on-a-website/>
-2. Replace handler in main.cc for "/StartGame" to a controller (not simpleHTTPController)
 
 ## Quickstart
 
@@ -52,7 +51,7 @@ git clone https://github.com/laughingclouds/quiz-game.git
 cd quiz-game
 mkdir build
 cd build
-cmake .. && make
+cmake .. && cmake --build .
 ```
 
 Next, run the executable.
