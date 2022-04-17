@@ -3,8 +3,8 @@
 
 <head>
 	<%c++ auto userNameVec=@@.get<std::vector<std::string>>("userNameVec");%>
-		<%c++ auto questionTxtVec=@@.get<std::vector<std::string>>("questionTxtVec");%>
-			<%c++ auto categoryNameVec=@@.get<std::vector<std::string>>("categoryNameVec");%>
+	<%c++ auto questionTxtVec=@@.get<std::vector<std::string>>("questionTxtVec");%>
+	<%c++ auto categoryNameVec=@@.get<std::vector<std::string>>("categoryNameVec");%>
 
 				<meta charset="UTF-8">
 				<meta http-equiv="X-UA-Compatible" content="IE=edge">
