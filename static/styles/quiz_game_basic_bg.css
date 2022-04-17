@@ -1,0 +1,13 @@
+body {
+    background-image: url("/static/imgs/game\ background\ image.png");
+}
+
+.content {
+    background: black;
+
+    border-style: solid;
+    border-color: rgba(177, 171, 171, 0.767);
+    border-radius: 0.43rem;
+
+    padding: 10px;
+}
