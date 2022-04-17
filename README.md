@@ -2,8 +2,6 @@
 
 A Quiz Game written in C++ using File Handling and a Database | For subject CSR-107
 
-> Note: Directory structure inspired (not completely) from [here](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1204r0.html).
-
 ## Project Members
 
 - [Hemant Bhandari](https://github.com/laughingclouds)
