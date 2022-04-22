@@ -14,782 +14,951 @@ using namespace drogon::orm;
 using namespace drogon_model::sqlite3;
 
 const std::string Question::Cols::_id = "id";
+const std::string Question::Cols::_categoryId = "categoryId";
+const std::string Question::Cols::_answerId = "answerId";
+const std::string Question::Cols::_option2Id = "option2Id";
+const std::string Question::Cols::_option3Id = "option3Id";
+const std::string Question::Cols::_option4Id = "option4Id";
 const std::string Question::Cols::_text = "text";
-const std::string Question::Cols::_answer_id = "answer_id";
-const std::string Question::Cols::_category_id = "category_id";
 const std::string Question::primaryKeyName = "id";
 const bool Question::hasPrimaryKey = true;
 const std::string Question::tableName = "question";
 
-const std::vector<typename Question::MetaData> Question::metaData_={
-{"id","uint64_t","integer",8,1,1,1},
-{"text","std::string","text",0,0,0,1},
-{"answer_id","uint64_t","integer",8,0,0,1},
-{"category_id","uint64_t","integer",8,0,0,1}
-};
-const std::string &Question::getColumnName(size_t index) noexcept(false)
-{
-    assert(index < metaData_.size());
-    return metaData_[index].colName_;
+const std::vector<typename Question::MetaData> Question::metaData_ = {
+    {"id", "uint64_t", "integer", 8, 1, 1, 1},
+    {"categoryId", "uint64_t", "integer", 8, 0, 0, 1},
+    {"answerId", "uint64_t", "integer", 8, 0, 0, 1},
+    {"option2Id", "uint64_t", "integer", 8, 0, 0, 1},
+    {"option3Id", "uint64_t", "integer", 8, 0, 0, 1},
+    {"option4Id", "uint64_t", "integer", 8, 0, 0, 1},
+    {"text", "std::string", "text", 0, 0, 0, 1}};
+const std::string &Question::getColumnName(size_t index) noexcept(false) {
+  assert(index < metaData_.size());
+  return metaData_[index].colName_;
 }
-Question::Question(const Row &r, const ssize_t indexOffset) noexcept
-{
-    if(indexOffset < 0)
-    {
-        if(!r["id"].isNull())
-        {
-            id_=std::make_shared<uint64_t>(r["id"].as<uint64_t>());
-        }
-        if(!r["text"].isNull())
-        {
-            text_=std::make_shared<std::string>(r["text"].as<std::string>());
-        }
-        if(!r["answer_id"].isNull())
-        {
-            answerId_=std::make_shared<uint64_t>(r["answer_id"].as<uint64_t>());
-        }
-        if(!r["category_id"].isNull())
-        {
-            categoryId_=std::make_shared<uint64_t>(r["category_id"].as<uint64_t>());
-        }
+Question::Question(const Row &r, const ssize_t indexOffset) noexcept {
+  if (indexOffset < 0) {
+    if (!r["id"].isNull()) {
+      id_ = std::make_shared<uint64_t>(r["id"].as<uint64_t>());
     }
-    else
-    {
-        size_t offset = (size_t)indexOffset;
-        if(offset + 4 > r.size())
-        {
-            LOG_FATAL << "Invalid SQL result for this model";
-            return;
-        }
-        size_t index;
-        index = offset + 0;
-        if(!r[index].isNull())
-        {
-            id_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
-        }
-        index = offset + 1;
-        if(!r[index].isNull())
-        {
-            text_=std::make_shared<std::string>(r[index].as<std::string>());
-        }
-        index = offset + 2;
-        if(!r[index].isNull())
-        {
-            answerId_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
-        }
-        index = offset + 3;
-        if(!r[index].isNull())
-        {
-            categoryId_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
-        }
+    if (!r["categoryId"].isNull()) {
+      categoryid_ = std::make_shared<uint64_t>(r["categoryId"].as<uint64_t>());
     }
-
-}
-
-Question::Question(const Json::Value &pJson, const std::vector<std::string> &pMasqueradingVector) noexcept(false)
-{
-    if(pMasqueradingVector.size() != 4)
-    {
-        LOG_ERROR << "Bad masquerading vector";
-        return;
+    if (!r["answerId"].isNull()) {
+      answerid_ = std::make_shared<uint64_t>(r["answerId"].as<uint64_t>());
     }
-    if(!pMasqueradingVector[0].empty() && pJson.isMember(pMasqueradingVector[0]))
-    {
-        dirtyFlag_[0] = true;
-        if(!pJson[pMasqueradingVector[0]].isNull())
-        {
-            id_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
-        }
+    if (!r["option2Id"].isNull()) {
+      option2id_ = std::make_shared<uint64_t>(r["option2Id"].as<uint64_t>());
     }
-    if(!pMasqueradingVector[1].empty() && pJson.isMember(pMasqueradingVector[1]))
-    {
-        dirtyFlag_[1] = true;
-        if(!pJson[pMasqueradingVector[1]].isNull())
-        {
-            text_=std::make_shared<std::string>(pJson[pMasqueradingVector[1]].asString());
-        }
+    if (!r["option3Id"].isNull()) {
+      option3id_ = std::make_shared<uint64_t>(r["option3Id"].as<uint64_t>());
     }
-    if(!pMasqueradingVector[2].empty() && pJson.isMember(pMasqueradingVector[2]))
-    {
-        dirtyFlag_[2] = true;
-        if(!pJson[pMasqueradingVector[2]].isNull())
-        {
-            answerId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[2]].asUInt64());
-        }
+    if (!r["option4Id"].isNull()) {
+      option4id_ = std::make_shared<uint64_t>(r["option4Id"].as<uint64_t>());
     }
-    if(!pMasqueradingVector[3].empty() && pJson.isMember(pMasqueradingVector[3]))
-    {
-        dirtyFlag_[3] = true;
-        if(!pJson[pMasqueradingVector[3]].isNull())
-        {
-            categoryId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[3]].asUInt64());
-        }
+    if (!r["text"].isNull()) {
+      text_ = std::make_shared<std::string>(r["text"].as<std::string>());
     }
+  } else {
+    size_t offset = (size_t)indexOffset;
+    if (offset + 7 > r.size()) {
+      LOG_FATAL << "Invalid SQL result for this model";
+      return;
+    }
+    size_t index;
+    index = offset + 0;
+    if (!r[index].isNull()) {
+      id_ = std::make_shared<uint64_t>(r[index].as<uint64_t>());
+    }
+    index = offset + 1;
+    if (!r[index].isNull()) {
+      categoryid_ = std::make_shared<uint64_t>(r[index].as<uint64_t>());
+    }
+    index = offset + 2;
+    if (!r[index].isNull()) {
+      answerid_ = std::make_shared<uint64_t>(r[index].as<uint64_t>());
+    }
+    index = offset + 3;
+    if (!r[index].isNull()) {
+      option2id_ = std::make_shared<uint64_t>(r[index].as<uint64_t>());
+    }
+    index = offset + 4;
+    if (!r[index].isNull()) {
+      option3id_ = std::make_shared<uint64_t>(r[index].as<uint64_t>());
+    }
+    index = offset + 5;
+    if (!r[index].isNull()) {
+      option4id_ = std::make_shared<uint64_t>(r[index].as<uint64_t>());
+    }
+    index = offset + 6;
+    if (!r[index].isNull()) {
+      text_ = std::make_shared<std::string>(r[index].as<std::string>());
+    }
+  }
 }
 
-Question::Question(const Json::Value &pJson) noexcept(false)
-{
-    if(pJson.isMember("id"))
-    {
-        dirtyFlag_[0]=true;
-        if(!pJson["id"].isNull())
-        {
-            id_=std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
-        }
-    }
-    if(pJson.isMember("text"))
-    {
-        dirtyFlag_[1]=true;
-        if(!pJson["text"].isNull())
-        {
-            text_=std::make_shared<std::string>(pJson["text"].asString());
-        }
-    }
-    if(pJson.isMember("answer_id"))
-    {
-        dirtyFlag_[2]=true;
-        if(!pJson["answer_id"].isNull())
-        {
-            answerId_=std::make_shared<uint64_t>((uint64_t)pJson["answer_id"].asUInt64());
-        }
-    }
-    if(pJson.isMember("category_id"))
-    {
-        dirtyFlag_[3]=true;
-        if(!pJson["category_id"].isNull())
-        {
-            categoryId_=std::make_shared<uint64_t>((uint64_t)pJson["category_id"].asUInt64());
-        }
-    }
-}
-
-void Question::updateByMasqueradedJson(const Json::Value &pJson,
-                                            const std::vector<std::string> &pMasqueradingVector) noexcept(false)
-{
-    if(pMasqueradingVector.size() != 4)
-    {
-        LOG_ERROR << "Bad masquerading vector";
-        return;
-    }
-    if(!pMasqueradingVector[0].empty() && pJson.isMember(pMasqueradingVector[0]))
-    {
-        if(!pJson[pMasqueradingVector[0]].isNull())
-        {
-            id_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
-        }
-    }
-    if(!pMasqueradingVector[1].empty() && pJson.isMember(pMasqueradingVector[1]))
-    {
-        dirtyFlag_[1] = true;
-        if(!pJson[pMasqueradingVector[1]].isNull())
-        {
-            text_=std::make_shared<std::string>(pJson[pMasqueradingVector[1]].asString());
-        }
-    }
-    if(!pMasqueradingVector[2].empty() && pJson.isMember(pMasqueradingVector[2]))
-    {
-        dirtyFlag_[2] = true;
-        if(!pJson[pMasqueradingVector[2]].isNull())
-        {
-            answerId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[2]].asUInt64());
-        }
-    }
-    if(!pMasqueradingVector[3].empty() && pJson.isMember(pMasqueradingVector[3]))
-    {
-        dirtyFlag_[3] = true;
-        if(!pJson[pMasqueradingVector[3]].isNull())
-        {
-            categoryId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[3]].asUInt64());
-        }
-    }
-}
-
-void Question::updateByJson(const Json::Value &pJson) noexcept(false)
-{
-    if(pJson.isMember("id"))
-    {
-        if(!pJson["id"].isNull())
-        {
-            id_=std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
-        }
-    }
-    if(pJson.isMember("text"))
-    {
-        dirtyFlag_[1] = true;
-        if(!pJson["text"].isNull())
-        {
-            text_=std::make_shared<std::string>(pJson["text"].asString());
-        }
-    }
-    if(pJson.isMember("answer_id"))
-    {
-        dirtyFlag_[2] = true;
-        if(!pJson["answer_id"].isNull())
-        {
-            answerId_=std::make_shared<uint64_t>((uint64_t)pJson["answer_id"].asUInt64());
-        }
-    }
-    if(pJson.isMember("category_id"))
-    {
-        dirtyFlag_[3] = true;
-        if(!pJson["category_id"].isNull())
-        {
-            categoryId_=std::make_shared<uint64_t>((uint64_t)pJson["category_id"].asUInt64());
-        }
-    }
-}
-
-const uint64_t &Question::getValueOfId() const noexcept
-{
-    const static uint64_t defaultValue = uint64_t();
-    if(id_)
-        return *id_;
-    return defaultValue;
-}
-const std::shared_ptr<uint64_t> &Question::getId() const noexcept
-{
-    return id_;
-}
-void Question::setId(const uint64_t &pId) noexcept
-{
-    id_ = std::make_shared<uint64_t>(pId);
+Question::Question(
+    const Json::Value &pJson,
+    const std::vector<std::string> &pMasqueradingVector) noexcept(false) {
+  if (pMasqueradingVector.size() != 7) {
+    LOG_ERROR << "Bad masquerading vector";
+    return;
+  }
+  if (!pMasqueradingVector[0].empty() &&
+      pJson.isMember(pMasqueradingVector[0])) {
     dirtyFlag_[0] = true;
-}
-const typename Question::PrimaryKeyType & Question::getPrimaryKey() const
-{
-    assert(id_);
-    return *id_;
-}
-
-const std::string &Question::getValueOfText() const noexcept
-{
-    const static std::string defaultValue = std::string();
-    if(text_)
-        return *text_;
-    return defaultValue;
-}
-const std::shared_ptr<std::string> &Question::getText() const noexcept
-{
-    return text_;
-}
-void Question::setText(const std::string &pText) noexcept
-{
-    text_ = std::make_shared<std::string>(pText);
+    if (!pJson[pMasqueradingVector[0]].isNull()) {
+      id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[1].empty() &&
+      pJson.isMember(pMasqueradingVector[1])) {
     dirtyFlag_[1] = true;
-}
-void Question::setText(std::string &&pText) noexcept
-{
-    text_ = std::make_shared<std::string>(std::move(pText));
-    dirtyFlag_[1] = true;
-}
-
-const uint64_t &Question::getValueOfAnswerId() const noexcept
-{
-    const static uint64_t defaultValue = uint64_t();
-    if(answerId_)
-        return *answerId_;
-    return defaultValue;
-}
-const std::shared_ptr<uint64_t> &Question::getAnswerId() const noexcept
-{
-    return answerId_;
-}
-void Question::setAnswerId(const uint64_t &pAnswerId) noexcept
-{
-    answerId_ = std::make_shared<uint64_t>(pAnswerId);
+    if (!pJson[pMasqueradingVector[1]].isNull()) {
+      categoryid_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[1]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[2].empty() &&
+      pJson.isMember(pMasqueradingVector[2])) {
     dirtyFlag_[2] = true;
-}
-
-const uint64_t &Question::getValueOfCategoryId() const noexcept
-{
-    const static uint64_t defaultValue = uint64_t();
-    if(categoryId_)
-        return *categoryId_;
-    return defaultValue;
-}
-const std::shared_ptr<uint64_t> &Question::getCategoryId() const noexcept
-{
-    return categoryId_;
-}
-void Question::setCategoryId(const uint64_t &pCategoryId) noexcept
-{
-    categoryId_ = std::make_shared<uint64_t>(pCategoryId);
+    if (!pJson[pMasqueradingVector[2]].isNull()) {
+      answerid_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[2]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[3].empty() &&
+      pJson.isMember(pMasqueradingVector[3])) {
     dirtyFlag_[3] = true;
+    if (!pJson[pMasqueradingVector[3]].isNull()) {
+      option2id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[3]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[4].empty() &&
+      pJson.isMember(pMasqueradingVector[4])) {
+    dirtyFlag_[4] = true;
+    if (!pJson[pMasqueradingVector[4]].isNull()) {
+      option3id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[4]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[5].empty() &&
+      pJson.isMember(pMasqueradingVector[5])) {
+    dirtyFlag_[5] = true;
+    if (!pJson[pMasqueradingVector[5]].isNull()) {
+      option4id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[5]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[6].empty() &&
+      pJson.isMember(pMasqueradingVector[6])) {
+    dirtyFlag_[6] = true;
+    if (!pJson[pMasqueradingVector[6]].isNull()) {
+      text_ = std::make_shared<std::string>(
+          pJson[pMasqueradingVector[6]].asString());
+    }
+  }
 }
 
-void Question::updateId(const uint64_t id)
-{
-    id_ = std::make_shared<uint64_t>(id);
+Question::Question(const Json::Value &pJson) noexcept(false) {
+  if (pJson.isMember("id")) {
+    dirtyFlag_[0] = true;
+    if (!pJson["id"].isNull()) {
+      id_ = std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
+    }
+  }
+  if (pJson.isMember("categoryId")) {
+    dirtyFlag_[1] = true;
+    if (!pJson["categoryId"].isNull()) {
+      categoryid_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["categoryId"].asUInt64());
+    }
+  }
+  if (pJson.isMember("answerId")) {
+    dirtyFlag_[2] = true;
+    if (!pJson["answerId"].isNull()) {
+      answerid_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["answerId"].asUInt64());
+    }
+  }
+  if (pJson.isMember("option2Id")) {
+    dirtyFlag_[3] = true;
+    if (!pJson["option2Id"].isNull()) {
+      option2id_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["option2Id"].asUInt64());
+    }
+  }
+  if (pJson.isMember("option3Id")) {
+    dirtyFlag_[4] = true;
+    if (!pJson["option3Id"].isNull()) {
+      option3id_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["option3Id"].asUInt64());
+    }
+  }
+  if (pJson.isMember("option4Id")) {
+    dirtyFlag_[5] = true;
+    if (!pJson["option4Id"].isNull()) {
+      option4id_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["option4Id"].asUInt64());
+    }
+  }
+  if (pJson.isMember("text")) {
+    dirtyFlag_[6] = true;
+    if (!pJson["text"].isNull()) {
+      text_ = std::make_shared<std::string>(pJson["text"].asString());
+    }
+  }
 }
 
-const std::vector<std::string> &Question::insertColumns() noexcept
-{
-    static const std::vector<std::string> inCols={
-        "text",
-        "answer_id",
-        "category_id"
-    };
-    return inCols;
+void Question::updateByMasqueradedJson(
+    const Json::Value &pJson,
+    const std::vector<std::string> &pMasqueradingVector) noexcept(false) {
+  if (pMasqueradingVector.size() != 7) {
+    LOG_ERROR << "Bad masquerading vector";
+    return;
+  }
+  if (!pMasqueradingVector[0].empty() &&
+      pJson.isMember(pMasqueradingVector[0])) {
+    if (!pJson[pMasqueradingVector[0]].isNull()) {
+      id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[1].empty() &&
+      pJson.isMember(pMasqueradingVector[1])) {
+    dirtyFlag_[1] = true;
+    if (!pJson[pMasqueradingVector[1]].isNull()) {
+      categoryid_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[1]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[2].empty() &&
+      pJson.isMember(pMasqueradingVector[2])) {
+    dirtyFlag_[2] = true;
+    if (!pJson[pMasqueradingVector[2]].isNull()) {
+      answerid_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[2]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[3].empty() &&
+      pJson.isMember(pMasqueradingVector[3])) {
+    dirtyFlag_[3] = true;
+    if (!pJson[pMasqueradingVector[3]].isNull()) {
+      option2id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[3]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[4].empty() &&
+      pJson.isMember(pMasqueradingVector[4])) {
+    dirtyFlag_[4] = true;
+    if (!pJson[pMasqueradingVector[4]].isNull()) {
+      option3id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[4]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[5].empty() &&
+      pJson.isMember(pMasqueradingVector[5])) {
+    dirtyFlag_[5] = true;
+    if (!pJson[pMasqueradingVector[5]].isNull()) {
+      option4id_ = std::make_shared<uint64_t>(
+          (uint64_t)pJson[pMasqueradingVector[5]].asUInt64());
+    }
+  }
+  if (!pMasqueradingVector[6].empty() &&
+      pJson.isMember(pMasqueradingVector[6])) {
+    dirtyFlag_[6] = true;
+    if (!pJson[pMasqueradingVector[6]].isNull()) {
+      text_ = std::make_shared<std::string>(
+          pJson[pMasqueradingVector[6]].asString());
+    }
+  }
 }
 
-void Question::outputArgs(drogon::orm::internal::SqlBinder &binder) const
-{
-    if(dirtyFlag_[1])
-    {
-        if(getText())
-        {
-            binder << getValueOfText();
-        }
-        else
-        {
-            binder << nullptr;
-        }
+void Question::updateByJson(const Json::Value &pJson) noexcept(false) {
+  if (pJson.isMember("id")) {
+    if (!pJson["id"].isNull()) {
+      id_ = std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
     }
-    if(dirtyFlag_[2])
-    {
-        if(getAnswerId())
-        {
-            binder << getValueOfAnswerId();
-        }
-        else
-        {
-            binder << nullptr;
-        }
+  }
+  if (pJson.isMember("categoryId")) {
+    dirtyFlag_[1] = true;
+    if (!pJson["categoryId"].isNull()) {
+      categoryid_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["categoryId"].asUInt64());
     }
-    if(dirtyFlag_[3])
-    {
-        if(getCategoryId())
-        {
-            binder << getValueOfCategoryId();
-        }
-        else
-        {
-            binder << nullptr;
-        }
+  }
+  if (pJson.isMember("answerId")) {
+    dirtyFlag_[2] = true;
+    if (!pJson["answerId"].isNull()) {
+      answerid_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["answerId"].asUInt64());
     }
+  }
+  if (pJson.isMember("option2Id")) {
+    dirtyFlag_[3] = true;
+    if (!pJson["option2Id"].isNull()) {
+      option2id_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["option2Id"].asUInt64());
+    }
+  }
+  if (pJson.isMember("option3Id")) {
+    dirtyFlag_[4] = true;
+    if (!pJson["option3Id"].isNull()) {
+      option3id_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["option3Id"].asUInt64());
+    }
+  }
+  if (pJson.isMember("option4Id")) {
+    dirtyFlag_[5] = true;
+    if (!pJson["option4Id"].isNull()) {
+      option4id_ =
+          std::make_shared<uint64_t>((uint64_t)pJson["option4Id"].asUInt64());
+    }
+  }
+  if (pJson.isMember("text")) {
+    dirtyFlag_[6] = true;
+    if (!pJson["text"].isNull()) {
+      text_ = std::make_shared<std::string>(pJson["text"].asString());
+    }
+  }
 }
 
-const std::vector<std::string> Question::updateColumns() const
-{
-    std::vector<std::string> ret;
-    if(dirtyFlag_[1])
-    {
-        ret.push_back(getColumnName(1));
-    }
-    if(dirtyFlag_[2])
-    {
-        ret.push_back(getColumnName(2));
-    }
-    if(dirtyFlag_[3])
-    {
-        ret.push_back(getColumnName(3));
-    }
-    return ret;
+const uint64_t &Question::getValueOfId() const noexcept {
+  const static uint64_t defaultValue = uint64_t();
+  if (id_)
+    return *id_;
+  return defaultValue;
+}
+const std::shared_ptr<uint64_t> &Question::getId() const noexcept {
+  return id_;
+}
+void Question::setId(const uint64_t &pId) noexcept {
+  id_ = std::make_shared<uint64_t>(pId);
+  dirtyFlag_[0] = true;
+}
+const typename Question::PrimaryKeyType &Question::getPrimaryKey() const {
+  assert(id_);
+  return *id_;
 }
 
-void Question::updateArgs(drogon::orm::internal::SqlBinder &binder) const
-{
-    if(dirtyFlag_[1])
-    {
-        if(getText())
-        {
-            binder << getValueOfText();
-        }
-        else
-        {
-            binder << nullptr;
-        }
-    }
-    if(dirtyFlag_[2])
-    {
-        if(getAnswerId())
-        {
-            binder << getValueOfAnswerId();
-        }
-        else
-        {
-            binder << nullptr;
-        }
-    }
-    if(dirtyFlag_[3])
-    {
-        if(getCategoryId())
-        {
-            binder << getValueOfCategoryId();
-        }
-        else
-        {
-            binder << nullptr;
-        }
-    }
+const uint64_t &Question::getValueOfCategoryid() const noexcept {
+  const static uint64_t defaultValue = uint64_t();
+  if (categoryid_)
+    return *categoryid_;
+  return defaultValue;
 }
-Json::Value Question::toJson() const
-{
-    Json::Value ret;
-    if(getId())
-    {
-        ret["id"]=(Json::UInt64)getValueOfId();
+const std::shared_ptr<uint64_t> &Question::getCategoryid() const noexcept {
+  return categoryid_;
+}
+void Question::setCategoryid(const uint64_t &pCategoryid) noexcept {
+  categoryid_ = std::make_shared<uint64_t>(pCategoryid);
+  dirtyFlag_[1] = true;
+}
+
+const uint64_t &Question::getValueOfAnswerid() const noexcept {
+  const static uint64_t defaultValue = uint64_t();
+  if (answerid_)
+    return *answerid_;
+  return defaultValue;
+}
+const std::shared_ptr<uint64_t> &Question::getAnswerid() const noexcept {
+  return answerid_;
+}
+void Question::setAnswerid(const uint64_t &pAnswerid) noexcept {
+  answerid_ = std::make_shared<uint64_t>(pAnswerid);
+  dirtyFlag_[2] = true;
+}
+
+const uint64_t &Question::getValueOfOption2id() const noexcept {
+  const static uint64_t defaultValue = uint64_t();
+  if (option2id_)
+    return *option2id_;
+  return defaultValue;
+}
+const std::shared_ptr<uint64_t> &Question::getOption2id() const noexcept {
+  return option2id_;
+}
+void Question::setOption2id(const uint64_t &pOption2id) noexcept {
+  option2id_ = std::make_shared<uint64_t>(pOption2id);
+  dirtyFlag_[3] = true;
+}
+
+const uint64_t &Question::getValueOfOption3id() const noexcept {
+  const static uint64_t defaultValue = uint64_t();
+  if (option3id_)
+    return *option3id_;
+  return defaultValue;
+}
+const std::shared_ptr<uint64_t> &Question::getOption3id() const noexcept {
+  return option3id_;
+}
+void Question::setOption3id(const uint64_t &pOption3id) noexcept {
+  option3id_ = std::make_shared<uint64_t>(pOption3id);
+  dirtyFlag_[4] = true;
+}
+
+const uint64_t &Question::getValueOfOption4id() const noexcept {
+  const static uint64_t defaultValue = uint64_t();
+  if (option4id_)
+    return *option4id_;
+  return defaultValue;
+}
+const std::shared_ptr<uint64_t> &Question::getOption4id() const noexcept {
+  return option4id_;
+}
+void Question::setOption4id(const uint64_t &pOption4id) noexcept {
+  option4id_ = std::make_shared<uint64_t>(pOption4id);
+  dirtyFlag_[5] = true;
+}
+
+const std::string &Question::getValueOfText() const noexcept {
+  const static std::string defaultValue = std::string();
+  if (text_)
+    return *text_;
+  return defaultValue;
+}
+const std::shared_ptr<std::string> &Question::getText() const noexcept {
+  return text_;
+}
+void Question::setText(const std::string &pText) noexcept {
+  text_ = std::make_shared<std::string>(pText);
+  dirtyFlag_[6] = true;
+}
+void Question::setText(std::string &&pText) noexcept {
+  text_ = std::make_shared<std::string>(std::move(pText));
+  dirtyFlag_[6] = true;
+}
+
+void Question::updateId(const uint64_t id) {
+  id_ = std::make_shared<uint64_t>(id);
+}
+
+const std::vector<std::string> &Question::insertColumns() noexcept {
+  static const std::vector<std::string> inCols = {
+      "categoryId", "answerId", "option2Id", "option3Id", "option4Id", "text"};
+  return inCols;
+}
+
+void Question::outputArgs(drogon::orm::internal::SqlBinder &binder) const {
+  if (dirtyFlag_[1]) {
+    if (getCategoryid()) {
+      binder << getValueOfCategoryid();
+    } else {
+      binder << nullptr;
     }
-    else
-    {
-        ret["id"]=Json::Value();
+  }
+  if (dirtyFlag_[2]) {
+    if (getAnswerid()) {
+      binder << getValueOfAnswerid();
+    } else {
+      binder << nullptr;
     }
-    if(getText())
-    {
-        ret["text"]=getValueOfText();
+  }
+  if (dirtyFlag_[3]) {
+    if (getOption2id()) {
+      binder << getValueOfOption2id();
+    } else {
+      binder << nullptr;
     }
-    else
-    {
-        ret["text"]=Json::Value();
+  }
+  if (dirtyFlag_[4]) {
+    if (getOption3id()) {
+      binder << getValueOfOption3id();
+    } else {
+      binder << nullptr;
     }
-    if(getAnswerId())
-    {
-        ret["answer_id"]=(Json::UInt64)getValueOfAnswerId();
+  }
+  if (dirtyFlag_[5]) {
+    if (getOption4id()) {
+      binder << getValueOfOption4id();
+    } else {
+      binder << nullptr;
     }
-    else
-    {
-        ret["answer_id"]=Json::Value();
+  }
+  if (dirtyFlag_[6]) {
+    if (getText()) {
+      binder << getValueOfText();
+    } else {
+      binder << nullptr;
     }
-    if(getCategoryId())
-    {
-        ret["category_id"]=(Json::UInt64)getValueOfCategoryId();
+  }
+}
+
+const std::vector<std::string> Question::updateColumns() const {
+  std::vector<std::string> ret;
+  if (dirtyFlag_[1]) {
+    ret.push_back(getColumnName(1));
+  }
+  if (dirtyFlag_[2]) {
+    ret.push_back(getColumnName(2));
+  }
+  if (dirtyFlag_[3]) {
+    ret.push_back(getColumnName(3));
+  }
+  if (dirtyFlag_[4]) {
+    ret.push_back(getColumnName(4));
+  }
+  if (dirtyFlag_[5]) {
+    ret.push_back(getColumnName(5));
+  }
+  if (dirtyFlag_[6]) {
+    ret.push_back(getColumnName(6));
+  }
+  return ret;
+}
+
+void Question::updateArgs(drogon::orm::internal::SqlBinder &binder) const {
+  if (dirtyFlag_[1]) {
+    if (getCategoryid()) {
+      binder << getValueOfCategoryid();
+    } else {
+      binder << nullptr;
     }
-    else
-    {
-        ret["category_id"]=Json::Value();
+  }
+  if (dirtyFlag_[2]) {
+    if (getAnswerid()) {
+      binder << getValueOfAnswerid();
+    } else {
+      binder << nullptr;
     }
-    return ret;
+  }
+  if (dirtyFlag_[3]) {
+    if (getOption2id()) {
+      binder << getValueOfOption2id();
+    } else {
+      binder << nullptr;
+    }
+  }
+  if (dirtyFlag_[4]) {
+    if (getOption3id()) {
+      binder << getValueOfOption3id();
+    } else {
+      binder << nullptr;
+    }
+  }
+  if (dirtyFlag_[5]) {
+    if (getOption4id()) {
+      binder << getValueOfOption4id();
+    } else {
+      binder << nullptr;
+    }
+  }
+  if (dirtyFlag_[6]) {
+    if (getText()) {
+      binder << getValueOfText();
+    } else {
+      binder << nullptr;
+    }
+  }
+}
+Json::Value Question::toJson() const {
+  Json::Value ret;
+  if (getId()) {
+    ret["id"] = (Json::UInt64)getValueOfId();
+  } else {
+    ret["id"] = Json::Value();
+  }
+  if (getCategoryid()) {
+    ret["categoryId"] = (Json::UInt64)getValueOfCategoryid();
+  } else {
+    ret["categoryId"] = Json::Value();
+  }
+  if (getAnswerid()) {
+    ret["answerId"] = (Json::UInt64)getValueOfAnswerid();
+  } else {
+    ret["answerId"] = Json::Value();
+  }
+  if (getOption2id()) {
+    ret["option2Id"] = (Json::UInt64)getValueOfOption2id();
+  } else {
+    ret["option2Id"] = Json::Value();
+  }
+  if (getOption3id()) {
+    ret["option3Id"] = (Json::UInt64)getValueOfOption3id();
+  } else {
+    ret["option3Id"] = Json::Value();
+  }
+  if (getOption4id()) {
+    ret["option4Id"] = (Json::UInt64)getValueOfOption4id();
+  } else {
+    ret["option4Id"] = Json::Value();
+  }
+  if (getText()) {
+    ret["text"] = getValueOfText();
+  } else {
+    ret["text"] = Json::Value();
+  }
+  return ret;
 }
 
 Json::Value Question::toMasqueradedJson(
-    const std::vector<std::string> &pMasqueradingVector) const
-{
-    Json::Value ret;
-    if(pMasqueradingVector.size() == 4)
-    {
-        if(!pMasqueradingVector[0].empty())
-        {
-            if(getId())
-            {
-                ret[pMasqueradingVector[0]]=(Json::UInt64)getValueOfId();
-            }
-            else
-            {
-                ret[pMasqueradingVector[0]]=Json::Value();
-            }
-        }
-        if(!pMasqueradingVector[1].empty())
-        {
-            if(getText())
-            {
-                ret[pMasqueradingVector[1]]=getValueOfText();
-            }
-            else
-            {
-                ret[pMasqueradingVector[1]]=Json::Value();
-            }
-        }
-        if(!pMasqueradingVector[2].empty())
-        {
-            if(getAnswerId())
-            {
-                ret[pMasqueradingVector[2]]=(Json::UInt64)getValueOfAnswerId();
-            }
-            else
-            {
-                ret[pMasqueradingVector[2]]=Json::Value();
-            }
-        }
-        if(!pMasqueradingVector[3].empty())
-        {
-            if(getCategoryId())
-            {
-                ret[pMasqueradingVector[3]]=(Json::UInt64)getValueOfCategoryId();
-            }
-            else
-            {
-                ret[pMasqueradingVector[3]]=Json::Value();
-            }
-        }
-        return ret;
+    const std::vector<std::string> &pMasqueradingVector) const {
+  Json::Value ret;
+  if (pMasqueradingVector.size() == 7) {
+    if (!pMasqueradingVector[0].empty()) {
+      if (getId()) {
+        ret[pMasqueradingVector[0]] = (Json::UInt64)getValueOfId();
+      } else {
+        ret[pMasqueradingVector[0]] = Json::Value();
+      }
     }
-    LOG_ERROR << "Masquerade failed";
-    if(getId())
-    {
-        ret["id"]=(Json::UInt64)getValueOfId();
+    if (!pMasqueradingVector[1].empty()) {
+      if (getCategoryid()) {
+        ret[pMasqueradingVector[1]] = (Json::UInt64)getValueOfCategoryid();
+      } else {
+        ret[pMasqueradingVector[1]] = Json::Value();
+      }
     }
-    else
-    {
-        ret["id"]=Json::Value();
+    if (!pMasqueradingVector[2].empty()) {
+      if (getAnswerid()) {
+        ret[pMasqueradingVector[2]] = (Json::UInt64)getValueOfAnswerid();
+      } else {
+        ret[pMasqueradingVector[2]] = Json::Value();
+      }
     }
-    if(getText())
-    {
-        ret["text"]=getValueOfText();
+    if (!pMasqueradingVector[3].empty()) {
+      if (getOption2id()) {
+        ret[pMasqueradingVector[3]] = (Json::UInt64)getValueOfOption2id();
+      } else {
+        ret[pMasqueradingVector[3]] = Json::Value();
+      }
     }
-    else
-    {
-        ret["text"]=Json::Value();
+    if (!pMasqueradingVector[4].empty()) {
+      if (getOption3id()) {
+        ret[pMasqueradingVector[4]] = (Json::UInt64)getValueOfOption3id();
+      } else {
+        ret[pMasqueradingVector[4]] = Json::Value();
+      }
     }
-    if(getAnswerId())
-    {
-        ret["answer_id"]=(Json::UInt64)getValueOfAnswerId();
+    if (!pMasqueradingVector[5].empty()) {
+      if (getOption4id()) {
+        ret[pMasqueradingVector[5]] = (Json::UInt64)getValueOfOption4id();
+      } else {
+        ret[pMasqueradingVector[5]] = Json::Value();
+      }
     }
-    else
-    {
-        ret["answer_id"]=Json::Value();
-    }
-    if(getCategoryId())
-    {
-        ret["category_id"]=(Json::UInt64)getValueOfCategoryId();
-    }
-    else
-    {
-        ret["category_id"]=Json::Value();
+    if (!pMasqueradingVector[6].empty()) {
+      if (getText()) {
+        ret[pMasqueradingVector[6]] = getValueOfText();
+      } else {
+        ret[pMasqueradingVector[6]] = Json::Value();
+      }
     }
     return ret;
+  }
+  LOG_ERROR << "Masquerade failed";
+  if (getId()) {
+    ret["id"] = (Json::UInt64)getValueOfId();
+  } else {
+    ret["id"] = Json::Value();
+  }
+  if (getCategoryid()) {
+    ret["categoryId"] = (Json::UInt64)getValueOfCategoryid();
+  } else {
+    ret["categoryId"] = Json::Value();
+  }
+  if (getAnswerid()) {
+    ret["answerId"] = (Json::UInt64)getValueOfAnswerid();
+  } else {
+    ret["answerId"] = Json::Value();
+  }
+  if (getOption2id()) {
+    ret["option2Id"] = (Json::UInt64)getValueOfOption2id();
+  } else {
+    ret["option2Id"] = Json::Value();
+  }
+  if (getOption3id()) {
+    ret["option3Id"] = (Json::UInt64)getValueOfOption3id();
+  } else {
+    ret["option3Id"] = Json::Value();
+  }
+  if (getOption4id()) {
+    ret["option4Id"] = (Json::UInt64)getValueOfOption4id();
+  } else {
+    ret["option4Id"] = Json::Value();
+  }
+  if (getText()) {
+    ret["text"] = getValueOfText();
+  } else {
+    ret["text"] = Json::Value();
+  }
+  return ret;
 }
 
-bool Question::validateJsonForCreation(const Json::Value &pJson, std::string &err)
-{
-    if(pJson.isMember("id"))
-    {
-        if(!validJsonOfField(0, "id", pJson["id"], err, true))
-            return false;
-    }
-    if(pJson.isMember("text"))
-    {
-        if(!validJsonOfField(1, "text", pJson["text"], err, true))
-            return false;
-    }
-    else
-    {
-        err="The text column cannot be null";
-        return false;
-    }
-    if(pJson.isMember("answer_id"))
-    {
-        if(!validJsonOfField(2, "answer_id", pJson["answer_id"], err, true))
-            return false;
-    }
-    else
-    {
-        err="The answer_id column cannot be null";
-        return false;
-    }
-    if(pJson.isMember("category_id"))
-    {
-        if(!validJsonOfField(3, "category_id", pJson["category_id"], err, true))
-            return false;
-    }
-    else
-    {
-        err="The category_id column cannot be null";
-        return false;
-    }
-    return true;
+bool Question::validateJsonForCreation(const Json::Value &pJson,
+                                       std::string &err) {
+  if (pJson.isMember("id")) {
+    if (!validJsonOfField(0, "id", pJson["id"], err, true))
+      return false;
+  }
+  if (pJson.isMember("categoryId")) {
+    if (!validJsonOfField(1, "categoryId", pJson["categoryId"], err, true))
+      return false;
+  }
+  if (pJson.isMember("answerId")) {
+    if (!validJsonOfField(2, "answerId", pJson["answerId"], err, true))
+      return false;
+  }
+  if (pJson.isMember("option2Id")) {
+    if (!validJsonOfField(3, "option2Id", pJson["option2Id"], err, true))
+      return false;
+  }
+  if (pJson.isMember("option3Id")) {
+    if (!validJsonOfField(4, "option3Id", pJson["option3Id"], err, true))
+      return false;
+  }
+  if (pJson.isMember("option4Id")) {
+    if (!validJsonOfField(5, "option4Id", pJson["option4Id"], err, true))
+      return false;
+  }
+  if (pJson.isMember("text")) {
+    if (!validJsonOfField(6, "text", pJson["text"], err, true))
+      return false;
+  }
+  return true;
 }
-bool Question::validateMasqueradedJsonForCreation(const Json::Value &pJson,
-                                                  const std::vector<std::string> &pMasqueradingVector,
-                                                  std::string &err)
-{
-    if(pMasqueradingVector.size() != 4)
-    {
-        err = "Bad masquerading vector";
+bool Question::validateMasqueradedJsonForCreation(
+    const Json::Value &pJson,
+    const std::vector<std::string> &pMasqueradingVector, std::string &err) {
+  if (pMasqueradingVector.size() != 7) {
+    err = "Bad masquerading vector";
+    return false;
+  }
+  try {
+    if (!pMasqueradingVector[0].empty()) {
+      if (pJson.isMember(pMasqueradingVector[0])) {
+        if (!validJsonOfField(0, pMasqueradingVector[0],
+                              pJson[pMasqueradingVector[0]], err, true))
+          return false;
+      }
+    }
+    if (!pMasqueradingVector[1].empty()) {
+      if (pJson.isMember(pMasqueradingVector[1])) {
+        if (!validJsonOfField(1, pMasqueradingVector[1],
+                              pJson[pMasqueradingVector[1]], err, true))
+          return false;
+      }
+    }
+    if (!pMasqueradingVector[2].empty()) {
+      if (pJson.isMember(pMasqueradingVector[2])) {
+        if (!validJsonOfField(2, pMasqueradingVector[2],
+                              pJson[pMasqueradingVector[2]], err, true))
+          return false;
+      }
+    }
+    if (!pMasqueradingVector[3].empty()) {
+      if (pJson.isMember(pMasqueradingVector[3])) {
+        if (!validJsonOfField(3, pMasqueradingVector[3],
+                              pJson[pMasqueradingVector[3]], err, true))
+          return false;
+      }
+    }
+    if (!pMasqueradingVector[4].empty()) {
+      if (pJson.isMember(pMasqueradingVector[4])) {
+        if (!validJsonOfField(4, pMasqueradingVector[4],
+                              pJson[pMasqueradingVector[4]], err, true))
+          return false;
+      }
+    }
+    if (!pMasqueradingVector[5].empty()) {
+      if (pJson.isMember(pMasqueradingVector[5])) {
+        if (!validJsonOfField(5, pMasqueradingVector[5],
+                              pJson[pMasqueradingVector[5]], err, true))
+          return false;
+      }
+    }
+    if (!pMasqueradingVector[6].empty()) {
+      if (pJson.isMember(pMasqueradingVector[6])) {
+        if (!validJsonOfField(6, pMasqueradingVector[6],
+                              pJson[pMasqueradingVector[6]], err, true))
+          return false;
+      }
+    }
+  } catch (const Json::LogicError &e) {
+    err = e.what();
+    return false;
+  }
+  return true;
+}
+bool Question::validateJsonForUpdate(const Json::Value &pJson,
+                                     std::string &err) {
+  if (pJson.isMember("id")) {
+    if (!validJsonOfField(0, "id", pJson["id"], err, false))
+      return false;
+  } else {
+    err = "The value of primary key must be set in the json object for update";
+    return false;
+  }
+  if (pJson.isMember("categoryId")) {
+    if (!validJsonOfField(1, "categoryId", pJson["categoryId"], err, false))
+      return false;
+  }
+  if (pJson.isMember("answerId")) {
+    if (!validJsonOfField(2, "answerId", pJson["answerId"], err, false))
+      return false;
+  }
+  if (pJson.isMember("option2Id")) {
+    if (!validJsonOfField(3, "option2Id", pJson["option2Id"], err, false))
+      return false;
+  }
+  if (pJson.isMember("option3Id")) {
+    if (!validJsonOfField(4, "option3Id", pJson["option3Id"], err, false))
+      return false;
+  }
+  if (pJson.isMember("option4Id")) {
+    if (!validJsonOfField(5, "option4Id", pJson["option4Id"], err, false))
+      return false;
+  }
+  if (pJson.isMember("text")) {
+    if (!validJsonOfField(6, "text", pJson["text"], err, false))
+      return false;
+  }
+  return true;
+}
+bool Question::validateMasqueradedJsonForUpdate(
+    const Json::Value &pJson,
+    const std::vector<std::string> &pMasqueradingVector, std::string &err) {
+  if (pMasqueradingVector.size() != 7) {
+    err = "Bad masquerading vector";
+    return false;
+  }
+  try {
+    if (!pMasqueradingVector[0].empty() &&
+        pJson.isMember(pMasqueradingVector[0])) {
+      if (!validJsonOfField(0, pMasqueradingVector[0],
+                            pJson[pMasqueradingVector[0]], err, false))
         return false;
-    }
-    try {
-      if(!pMasqueradingVector[0].empty())
-      {
-          if(pJson.isMember(pMasqueradingVector[0]))
-          {
-              if(!validJsonOfField(0, pMasqueradingVector[0], pJson[pMasqueradingVector[0]], err, true))
-                  return false;
-          }
-      }
-      if(!pMasqueradingVector[1].empty())
-      {
-          if(pJson.isMember(pMasqueradingVector[1]))
-          {
-              if(!validJsonOfField(1, pMasqueradingVector[1], pJson[pMasqueradingVector[1]], err, true))
-                  return false;
-          }
-        else
-        {
-            err="The " + pMasqueradingVector[1] + " column cannot be null";
-            return false;
-        }
-      }
-      if(!pMasqueradingVector[2].empty())
-      {
-          if(pJson.isMember(pMasqueradingVector[2]))
-          {
-              if(!validJsonOfField(2, pMasqueradingVector[2], pJson[pMasqueradingVector[2]], err, true))
-                  return false;
-          }
-        else
-        {
-            err="The " + pMasqueradingVector[2] + " column cannot be null";
-            return false;
-        }
-      }
-      if(!pMasqueradingVector[3].empty())
-      {
-          if(pJson.isMember(pMasqueradingVector[3]))
-          {
-              if(!validJsonOfField(3, pMasqueradingVector[3], pJson[pMasqueradingVector[3]], err, true))
-                  return false;
-          }
-        else
-        {
-            err="The " + pMasqueradingVector[3] + " column cannot be null";
-            return false;
-        }
-      }
-    }
-    catch(const Json::LogicError &e)
-    {
-      err = e.what();
+    } else {
+      err =
+          "The value of primary key must be set in the json object for update";
       return false;
     }
-    return true;
+    if (!pMasqueradingVector[1].empty() &&
+        pJson.isMember(pMasqueradingVector[1])) {
+      if (!validJsonOfField(1, pMasqueradingVector[1],
+                            pJson[pMasqueradingVector[1]], err, false))
+        return false;
+    }
+    if (!pMasqueradingVector[2].empty() &&
+        pJson.isMember(pMasqueradingVector[2])) {
+      if (!validJsonOfField(2, pMasqueradingVector[2],
+                            pJson[pMasqueradingVector[2]], err, false))
+        return false;
+    }
+    if (!pMasqueradingVector[3].empty() &&
+        pJson.isMember(pMasqueradingVector[3])) {
+      if (!validJsonOfField(3, pMasqueradingVector[3],
+                            pJson[pMasqueradingVector[3]], err, false))
+        return false;
+    }
+    if (!pMasqueradingVector[4].empty() &&
+        pJson.isMember(pMasqueradingVector[4])) {
+      if (!validJsonOfField(4, pMasqueradingVector[4],
+                            pJson[pMasqueradingVector[4]], err, false))
+        return false;
+    }
+    if (!pMasqueradingVector[5].empty() &&
+        pJson.isMember(pMasqueradingVector[5])) {
+      if (!validJsonOfField(5, pMasqueradingVector[5],
+                            pJson[pMasqueradingVector[5]], err, false))
+        return false;
+    }
+    if (!pMasqueradingVector[6].empty() &&
+        pJson.isMember(pMasqueradingVector[6])) {
+      if (!validJsonOfField(6, pMasqueradingVector[6],
+                            pJson[pMasqueradingVector[6]], err, false))
+        return false;
+    }
+  } catch (const Json::LogicError &e) {
+    err = e.what();
+    return false;
+  }
+  return true;
 }
-bool Question::validateJsonForUpdate(const Json::Value &pJson, std::string &err)
-{
-    if(pJson.isMember("id"))
-    {
-        if(!validJsonOfField(0, "id", pJson["id"], err, false))
-            return false;
-    }
-    else
-    {
-        err = "The value of primary key must be set in the json object for update";
-        return false;
-    }
-    if(pJson.isMember("text"))
-    {
-        if(!validJsonOfField(1, "text", pJson["text"], err, false))
-            return false;
-    }
-    if(pJson.isMember("answer_id"))
-    {
-        if(!validJsonOfField(2, "answer_id", pJson["answer_id"], err, false))
-            return false;
-    }
-    if(pJson.isMember("category_id"))
-    {
-        if(!validJsonOfField(3, "category_id", pJson["category_id"], err, false))
-            return false;
-    }
-    return true;
-}
-bool Question::validateMasqueradedJsonForUpdate(const Json::Value &pJson,
-                                                const std::vector<std::string> &pMasqueradingVector,
-                                                std::string &err)
-{
-    if(pMasqueradingVector.size() != 4)
-    {
-        err = "Bad masquerading vector";
-        return false;
-    }
-    try {
-      if(!pMasqueradingVector[0].empty() && pJson.isMember(pMasqueradingVector[0]))
-      {
-          if(!validJsonOfField(0, pMasqueradingVector[0], pJson[pMasqueradingVector[0]], err, false))
-              return false;
-      }
-    else
-    {
-        err = "The value of primary key must be set in the json object for update";
-        return false;
-    }
-      if(!pMasqueradingVector[1].empty() && pJson.isMember(pMasqueradingVector[1]))
-      {
-          if(!validJsonOfField(1, pMasqueradingVector[1], pJson[pMasqueradingVector[1]], err, false))
-              return false;
-      }
-      if(!pMasqueradingVector[2].empty() && pJson.isMember(pMasqueradingVector[2]))
-      {
-          if(!validJsonOfField(2, pMasqueradingVector[2], pJson[pMasqueradingVector[2]], err, false))
-              return false;
-      }
-      if(!pMasqueradingVector[3].empty() && pJson.isMember(pMasqueradingVector[3]))
-      {
-          if(!validJsonOfField(3, pMasqueradingVector[3], pJson[pMasqueradingVector[3]], err, false))
-              return false;
-      }
-    }
-    catch(const Json::LogicError &e)
-    {
-      err = e.what();
+bool Question::validJsonOfField(size_t index, const std::string &fieldName,
+                                const Json::Value &pJson, std::string &err,
+                                bool isForCreation) {
+  switch (index) {
+  case 0:
+    if (pJson.isNull()) {
+      err = "The " + fieldName + " column cannot be null";
       return false;
     }
-    return true;
-}
-bool Question::validJsonOfField(size_t index,
-                                const std::string &fieldName,
-                                const Json::Value &pJson,
-                                std::string &err,
-                                bool isForCreation)
-{
-    switch(index)
-    {
-        case 0:
-            if(pJson.isNull())
-            {
-                err="The " + fieldName + " column cannot be null";
-                return false;
-            }
-            if(isForCreation)
-            {
-                err="The automatic primary key cannot be set";
-                return false;
-            }
-            if(!pJson.isUInt64())
-            {
-                err="Type error in the "+fieldName+" field";
-                return false;
-            }
-            break;
-        case 1:
-            if(pJson.isNull())
-            {
-                err="The " + fieldName + " column cannot be null";
-                return false;
-            }
-            if(!pJson.isString())
-            {
-                err="Type error in the "+fieldName+" field";
-                return false;
-            }
-            break;
-        case 2:
-            if(pJson.isNull())
-            {
-                err="The " + fieldName + " column cannot be null";
-                return false;
-            }
-            if(!pJson.isUInt64())
-            {
-                err="Type error in the "+fieldName+" field";
-                return false;
-            }
-            break;
-        case 3:
-            if(pJson.isNull())
-            {
-                err="The " + fieldName + " column cannot be null";
-                return false;
-            }
-            if(!pJson.isUInt64())
-            {
-                err="Type error in the "+fieldName+" field";
-                return false;
-            }
-            break;
-        default:
-            err="Internal error in the server";
-            return false;
-            break;
+    if (isForCreation) {
+      err = "The automatic primary key cannot be set";
+      return false;
     }
-    return true;
+    if (!pJson.isUInt64()) {
+      err = "Type error in the " + fieldName + " field";
+      return false;
+    }
+    break;
+  case 1:
+    if (pJson.isNull()) {
+      err = "The " + fieldName + " column cannot be null";
+      return false;
+    }
+    if (!pJson.isUInt64()) {
+      err = "Type error in the " + fieldName + " field";
+      return false;
+    }
+    break;
+  case 2:
+    if (pJson.isNull()) {
+      err = "The " + fieldName + " column cannot be null";
+      return false;
+    }
+    if (!pJson.isUInt64()) {
+      err = "Type error in the " + fieldName + " field";
+      return false;
+    }
+    break;
+  case 3:
+    if (pJson.isNull()) {
+      err = "The " + fieldName + " column cannot be null";
+      return false;
+    }
+    if (!pJson.isUInt64()) {
+      err = "Type error in the " + fieldName + " field";
+      return false;
+    }
+    break;
+  case 4:
+    if (pJson.isNull()) {
+      err = "The " + fieldName + " column cannot be null";
+      return false;
+    }
+    if (!pJson.isUInt64()) {
+      err = "Type error in the " + fieldName + " field";
+      return false;
+    }
+    break;
+  case 5:
+    if (pJson.isNull()) {
+      err = "The " + fieldName + " column cannot be null";
+      return false;
+    }
+    if (!pJson.isUInt64()) {
+      err = "Type error in the " + fieldName + " field";
+      return false;
+    }
+    break;
+  case 6:
+    if (pJson.isNull()) {
+      err = "The " + fieldName + " column cannot be null";
+      return false;
+    }
+    if (!pJson.isString()) {
+      err = "Type error in the " + fieldName + " field";
+      return false;
+    }
+    break;
+  default:
+    err = "Internal error in the server";
+    return false;
+    break;
+  }
+  return true;
 }

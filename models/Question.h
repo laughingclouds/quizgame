@@ -6,227 +6,292 @@
  */
 
 #pragma once
+#include <drogon/orm/Field.h>
+#include <drogon/orm/Mapper.h>
 #include <drogon/orm/Result.h>
 #include <drogon/orm/Row.h>
-#include <drogon/orm/Field.h>
 #include <drogon/orm/SqlBinder.h>
-#include <drogon/orm/Mapper.h>
 #ifdef __cpp_impl_coroutine
 #include <drogon/orm/CoroMapper.h>
 #endif
+#include <iostream>
+#include <json/json.h>
+#include <memory>
+#include <stdint.h>
+#include <string>
 #include <trantor/utils/Date.h>
 #include <trantor/utils/Logger.h>
-#include <json/json.h>
-#include <string>
-#include <memory>
-#include <vector>
 #include <tuple>
-#include <stdint.h>
-#include <iostream>
+#include <vector>
 
-namespace drogon
-{
-namespace orm
-{
+namespace drogon {
+namespace orm {
 class DbClient;
 using DbClientPtr = std::shared_ptr<DbClient>;
-}
-}
-namespace drogon_model
-{
-namespace sqlite3
-{
+} // namespace orm
+} // namespace drogon
+namespace drogon_model {
+namespace sqlite3 {
 
-class Question
-{
-  public:
-    struct Cols
-    {
-        static const std::string _id;
-        static const std::string _text;
-        static const std::string _answer_id;
-        static const std::string _category_id;
-    };
+class Question {
+public:
+  struct Cols {
+    static const std::string _id;
+    static const std::string _categoryId;
+    static const std::string _answerId;
+    static const std::string _option2Id;
+    static const std::string _option3Id;
+    static const std::string _option4Id;
+    static const std::string _text;
+  };
 
-    const static int primaryKeyNumber;
-    const static std::string tableName;
-    const static bool hasPrimaryKey;
-    const static std::string primaryKeyName;
-    using PrimaryKeyType = uint64_t;
-    const PrimaryKeyType &getPrimaryKey() const;
+  const static int primaryKeyNumber;
+  const static std::string tableName;
+  const static bool hasPrimaryKey;
+  const static std::string primaryKeyName;
+  using PrimaryKeyType = uint64_t;
+  const PrimaryKeyType &getPrimaryKey() const;
 
-    /**
-     * @brief constructor
-     * @param r One row of records in the SQL query result.
-     * @param indexOffset Set the offset to -1 to access all columns by column names,
-     * otherwise access all columns by offsets.
-     * @note If the SQL is not a style of 'select * from table_name ...' (select all
-     * columns by an asterisk), please set the offset to -1.
-     */
-    explicit Question(const drogon::orm::Row &r, const ssize_t indexOffset = 0) noexcept;
+  /**
+   * @brief constructor
+   * @param r One row of records in the SQL query result.
+   * @param indexOffset Set the offset to -1 to access all columns by column
+   * names, otherwise access all columns by offsets.
+   * @note If the SQL is not a style of 'select * from table_name ...' (select
+   * all columns by an asterisk), please set the offset to -1.
+   */
+  explicit Question(const drogon::orm::Row &r,
+                    const ssize_t indexOffset = 0) noexcept;
 
-    /**
-     * @brief constructor
-     * @param pJson The json object to construct a new instance.
-     */
-    explicit Question(const Json::Value &pJson) noexcept(false);
+  /**
+   * @brief constructor
+   * @param pJson The json object to construct a new instance.
+   */
+  explicit Question(const Json::Value &pJson) noexcept(false);
 
-    /**
-     * @brief constructor
-     * @param pJson The json object to construct a new instance.
-     * @param pMasqueradingVector The aliases of table columns.
-     */
-    Question(const Json::Value &pJson, const std::vector<std::string> &pMasqueradingVector) noexcept(false);
+  /**
+   * @brief constructor
+   * @param pJson The json object to construct a new instance.
+   * @param pMasqueradingVector The aliases of table columns.
+   */
+  Question(const Json::Value &pJson,
+           const std::vector<std::string> &pMasqueradingVector) noexcept(false);
 
-    Question() = default;
+  Question() = default;
 
-    void updateByJson(const Json::Value &pJson) noexcept(false);
-    void updateByMasqueradedJson(const Json::Value &pJson,
-                                 const std::vector<std::string> &pMasqueradingVector) noexcept(false);
-    static bool validateJsonForCreation(const Json::Value &pJson, std::string &err);
-    static bool validateMasqueradedJsonForCreation(const Json::Value &,
-                                                const std::vector<std::string> &pMasqueradingVector,
-                                                    std::string &err);
-    static bool validateJsonForUpdate(const Json::Value &pJson, std::string &err);
-    static bool validateMasqueradedJsonForUpdate(const Json::Value &,
-                                          const std::vector<std::string> &pMasqueradingVector,
-                                          std::string &err);
-    static bool validJsonOfField(size_t index,
-                          const std::string &fieldName,
-                          const Json::Value &pJson,
-                          std::string &err,
-                          bool isForCreation);
+  void updateByJson(const Json::Value &pJson) noexcept(false);
+  void updateByMasqueradedJson(
+      const Json::Value &pJson,
+      const std::vector<std::string> &pMasqueradingVector) noexcept(false);
+  static bool validateJsonForCreation(const Json::Value &pJson,
+                                      std::string &err);
+  static bool validateMasqueradedJsonForCreation(
+      const Json::Value &, const std::vector<std::string> &pMasqueradingVector,
+      std::string &err);
+  static bool validateJsonForUpdate(const Json::Value &pJson, std::string &err);
+  static bool validateMasqueradedJsonForUpdate(
+      const Json::Value &, const std::vector<std::string> &pMasqueradingVector,
+      std::string &err);
+  static bool validJsonOfField(size_t index, const std::string &fieldName,
+                               const Json::Value &pJson, std::string &err,
+                               bool isForCreation);
 
-    /**  For column id  */
-    ///Get the value of the column id, returns the default value if the column is null
-    const uint64_t &getValueOfId() const noexcept;
-    ///Return a shared_ptr object pointing to the column const value, or an empty shared_ptr object if the column is null
-    const std::shared_ptr<uint64_t> &getId() const noexcept;
-    ///Set the value of the column id
-    void setId(const uint64_t &pId) noexcept;
+  /**  For column id  */
+  /// Get the value of the column id, returns the default value if the column is
+  /// null
+  const uint64_t &getValueOfId() const noexcept;
+  /// Return a shared_ptr object pointing to the column const value, or an empty
+  /// shared_ptr object if the column is null
+  const std::shared_ptr<uint64_t> &getId() const noexcept;
+  /// Set the value of the column id
+  void setId(const uint64_t &pId) noexcept;
 
-    /**  For column text  */
-    ///Get the value of the column text, returns the default value if the column is null
-    const std::string &getValueOfText() const noexcept;
-    ///Return a shared_ptr object pointing to the column const value, or an empty shared_ptr object if the column is null
-    const std::shared_ptr<std::string> &getText() const noexcept;
-    ///Set the value of the column text
-    void setText(const std::string &pText) noexcept;
-    void setText(std::string &&pText) noexcept;
+  /**  For column categoryId  */
+  /// Get the value of the column categoryId, returns the default value if the
+  /// column is null
+  const uint64_t &getValueOfCategoryid() const noexcept;
+  /// Return a shared_ptr object pointing to the column const value, or an empty
+  /// shared_ptr object if the column is null
+  const std::shared_ptr<uint64_t> &getCategoryid() const noexcept;
+  /// Set the value of the column categoryId
+  void setCategoryid(const uint64_t &pCategoryid) noexcept;
 
-    /**  For column answer_id  */
-    ///Get the value of the column answer_id, returns the default value if the column is null
-    const uint64_t &getValueOfAnswerId() const noexcept;
-    ///Return a shared_ptr object pointing to the column const value, or an empty shared_ptr object if the column is null
-    const std::shared_ptr<uint64_t> &getAnswerId() const noexcept;
-    ///Set the value of the column answer_id
-    void setAnswerId(const uint64_t &pAnswerId) noexcept;
+  /**  For column answerId  */
+  /// Get the value of the column answerId, returns the default value if the
+  /// column is null
+  const uint64_t &getValueOfAnswerid() const noexcept;
+  /// Return a shared_ptr object pointing to the column const value, or an empty
+  /// shared_ptr object if the column is null
+  const std::shared_ptr<uint64_t> &getAnswerid() const noexcept;
+  /// Set the value of the column answerId
+  void setAnswerid(const uint64_t &pAnswerid) noexcept;
 
-    /**  For column category_id  */
-    ///Get the value of the column category_id, returns the default value if the column is null
-    const uint64_t &getValueOfCategoryId() const noexcept;
-    ///Return a shared_ptr object pointing to the column const value, or an empty shared_ptr object if the column is null
-    const std::shared_ptr<uint64_t> &getCategoryId() const noexcept;
-    ///Set the value of the column category_id
-    void setCategoryId(const uint64_t &pCategoryId) noexcept;
+  /**  For column option2Id  */
+  /// Get the value of the column option2Id, returns the default value if the
+  /// column is null
+  const uint64_t &getValueOfOption2id() const noexcept;
+  /// Return a shared_ptr object pointing to the column const value, or an empty
+  /// shared_ptr object if the column is null
+  const std::shared_ptr<uint64_t> &getOption2id() const noexcept;
+  /// Set the value of the column option2Id
+  void setOption2id(const uint64_t &pOption2id) noexcept;
 
+  /**  For column option3Id  */
+  /// Get the value of the column option3Id, returns the default value if the
+  /// column is null
+  const uint64_t &getValueOfOption3id() const noexcept;
+  /// Return a shared_ptr object pointing to the column const value, or an empty
+  /// shared_ptr object if the column is null
+  const std::shared_ptr<uint64_t> &getOption3id() const noexcept;
+  /// Set the value of the column option3Id
+  void setOption3id(const uint64_t &pOption3id) noexcept;
 
-    static size_t getColumnNumber() noexcept {  return 4;  }
-    static const std::string &getColumnName(size_t index) noexcept(false);
+  /**  For column option4Id  */
+  /// Get the value of the column option4Id, returns the default value if the
+  /// column is null
+  const uint64_t &getValueOfOption4id() const noexcept;
+  /// Return a shared_ptr object pointing to the column const value, or an empty
+  /// shared_ptr object if the column is null
+  const std::shared_ptr<uint64_t> &getOption4id() const noexcept;
+  /// Set the value of the column option4Id
+  void setOption4id(const uint64_t &pOption4id) noexcept;
 
-    Json::Value toJson() const;
-    Json::Value toMasqueradedJson(const std::vector<std::string> &pMasqueradingVector) const;
-    /// Relationship interfaces
-  private:
-    friend drogon::orm::Mapper<Question>;
+  /**  For column text  */
+  /// Get the value of the column text, returns the default value if the column
+  /// is null
+  const std::string &getValueOfText() const noexcept;
+  /// Return a shared_ptr object pointing to the column const value, or an empty
+  /// shared_ptr object if the column is null
+  const std::shared_ptr<std::string> &getText() const noexcept;
+  /// Set the value of the column text
+  void setText(const std::string &pText) noexcept;
+  void setText(std::string &&pText) noexcept;
+
+  static size_t getColumnNumber() noexcept { return 7; }
+  static const std::string &getColumnName(size_t index) noexcept(false);
+
+  Json::Value toJson() const;
+  Json::Value
+  toMasqueradedJson(const std::vector<std::string> &pMasqueradingVector) const;
+  /// Relationship interfaces
+private:
+  friend drogon::orm::Mapper<Question>;
 #ifdef __cpp_impl_coroutine
-    friend drogon::orm::CoroMapper<Question>;
+  friend drogon::orm::CoroMapper<Question>;
 #endif
-    static const std::vector<std::string> &insertColumns() noexcept;
-    void outputArgs(drogon::orm::internal::SqlBinder &binder) const;
-    const std::vector<std::string> updateColumns() const;
-    void updateArgs(drogon::orm::internal::SqlBinder &binder) const;
-    ///For mysql or sqlite3
-    void updateId(const uint64_t id);
-    std::shared_ptr<uint64_t> id_;
-    std::shared_ptr<std::string> text_;
-    std::shared_ptr<uint64_t> answerId_;
-    std::shared_ptr<uint64_t> categoryId_;
-    struct MetaData
-    {
-        const std::string colName_;
-        const std::string colType_;
-        const std::string colDatabaseType_;
-        const ssize_t colLength_;
-        const bool isAutoVal_;
-        const bool isPrimaryKey_;
-        const bool notNull_;
-    };
-    static const std::vector<MetaData> metaData_;
-    bool dirtyFlag_[4]={ false };
-  public:
-    static const std::string &sqlForFindingByPrimaryKey()
-    {
-        static const std::string sql="select * from " + tableName + " where id = ?";
-        return sql;
+  static const std::vector<std::string> &insertColumns() noexcept;
+  void outputArgs(drogon::orm::internal::SqlBinder &binder) const;
+  const std::vector<std::string> updateColumns() const;
+  void updateArgs(drogon::orm::internal::SqlBinder &binder) const;
+  /// For mysql or sqlite3
+  void updateId(const uint64_t id);
+  std::shared_ptr<uint64_t> id_;
+  std::shared_ptr<uint64_t> categoryid_;
+  std::shared_ptr<uint64_t> answerid_;
+  std::shared_ptr<uint64_t> option2id_;
+  std::shared_ptr<uint64_t> option3id_;
+  std::shared_ptr<uint64_t> option4id_;
+  std::shared_ptr<std::string> text_;
+  struct MetaData {
+    const std::string colName_;
+    const std::string colType_;
+    const std::string colDatabaseType_;
+    const ssize_t colLength_;
+    const bool isAutoVal_;
+    const bool isPrimaryKey_;
+    const bool notNull_;
+  };
+  static const std::vector<MetaData> metaData_;
+  bool dirtyFlag_[7] = {false};
+
+public:
+  static const std::string &sqlForFindingByPrimaryKey() {
+    static const std::string sql =
+        "select * from " + tableName + " where id = ?";
+    return sql;
+  }
+
+  static const std::string &sqlForDeletingByPrimaryKey() {
+    static const std::string sql = "delete from " + tableName + " where id = ?";
+    return sql;
+  }
+  std::string sqlForInserting(bool &needSelection) const {
+    std::string sql = "insert into " + tableName + " (";
+    size_t parametersCount = 0;
+    needSelection = false;
+    if (dirtyFlag_[1]) {
+      sql += "categoryId,";
+      ++parametersCount;
     }
-
-    static const std::string &sqlForDeletingByPrimaryKey()
-    {
-        static const std::string sql="delete from " + tableName + " where id = ?";
-        return sql;
+    if (!dirtyFlag_[1]) {
+      needSelection = true;
     }
-    std::string sqlForInserting(bool &needSelection) const
-    {
-        std::string sql="insert into " + tableName + " (";
-        size_t parametersCount = 0;
-        needSelection = false;
-        if(dirtyFlag_[1])
-        {
-            sql += "text,";
-            ++parametersCount;
-        }
-        if(dirtyFlag_[2])
-        {
-            sql += "answer_id,";
-            ++parametersCount;
-        }
-        if(dirtyFlag_[3])
-        {
-            sql += "category_id,";
-            ++parametersCount;
-        }
-        if(parametersCount > 0)
-        {
-            sql[sql.length()-1]=')';
-            sql += " values (";
-        }
-        else
-            sql += ") values (";
-
-        if(dirtyFlag_[1])
-        {
-            sql.append("?,");
-
-        }
-        if(dirtyFlag_[2])
-        {
-            sql.append("?,");
-
-        }
-        if(dirtyFlag_[3])
-        {
-            sql.append("?,");
-
-        }
-        if(parametersCount > 0)
-        {
-            sql.resize(sql.length() - 1);
-        }
-        sql.append(1, ')');
-        LOG_TRACE << sql;
-        return sql;
+    if (dirtyFlag_[2]) {
+      sql += "answerId,";
+      ++parametersCount;
     }
+    if (!dirtyFlag_[2]) {
+      needSelection = true;
+    }
+    if (dirtyFlag_[3]) {
+      sql += "option2Id,";
+      ++parametersCount;
+    }
+    if (!dirtyFlag_[3]) {
+      needSelection = true;
+    }
+    if (dirtyFlag_[4]) {
+      sql += "option3Id,";
+      ++parametersCount;
+    }
+    if (!dirtyFlag_[4]) {
+      needSelection = true;
+    }
+    if (dirtyFlag_[5]) {
+      sql += "option4Id,";
+      ++parametersCount;
+    }
+    if (!dirtyFlag_[5]) {
+      needSelection = true;
+    }
+    if (dirtyFlag_[6]) {
+      sql += "text,";
+      ++parametersCount;
+    }
+    if (!dirtyFlag_[6]) {
+      needSelection = true;
+    }
+    if (parametersCount > 0) {
+      sql[sql.length() - 1] = ')';
+      sql += " values (";
+    } else
+      sql += ") values (";
+
+    if (dirtyFlag_[1]) {
+      sql.append("?,");
+    }
+    if (dirtyFlag_[2]) {
+      sql.append("?,");
+    }
+    if (dirtyFlag_[3]) {
+      sql.append("?,");
+    }
+    if (dirtyFlag_[4]) {
+      sql.append("?,");
+    }
+    if (dirtyFlag_[5]) {
+      sql.append("?,");
+    }
+    if (dirtyFlag_[6]) {
+      sql.append("?,");
+    }
+    if (parametersCount > 0) {
+      sql.resize(sql.length() - 1);
+    }
+    sql.append(1, ')');
+    LOG_TRACE << sql;
+    return sql;
+  }
 };
 } // namespace sqlite3
 } // namespace drogon_model
