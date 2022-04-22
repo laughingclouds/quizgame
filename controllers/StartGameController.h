@@ -15,6 +15,7 @@ public:
   // path is /StartGameController/{arg1}/{arg2}/list
   ADD_METHOD_TO(StartGameController::startGameBasedOnCategoryId,
                 "/StartGame?category_id={1}", Get);
+  ADD_METHOD_TO(StartGameController::gameSubmission, "/StartGame/Submit", Post);
   METHOD_LIST_END
   /*
   your declaration of processing function maybe like this:
@@ -28,4 +29,8 @@ public:
       const HttpRequestPtr &req,
       std::function<void(const HttpResponsePtr &)> &&callback,
       int category_id) const;
+  
+  void gameSubmission(
+      const HttpRequestPtr &req,
+      std::function<void(const HttpResponsePtr &)> &&callback) const;
 };
