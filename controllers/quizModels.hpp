@@ -1,5 +1,15 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <cstdint>
+
+#include <drogon/HttpAppFramework.h>
+#include <drogon/orm/Mapper.h>
+#include "../models/models.hpp"
+
+#include "../main.hpp"
 
 namespace quiz {
 class Option {
@@ -7,9 +17,9 @@ public:
   int id;
   std::string text;
 
-  Option(int _id, std::string _text) {
-    id = _id;
-    text = _text;
+  Option(drogon_model::sqlite3::Option &ormOption) {
+    id = ormOption.getValueOfId();
+    text = ormOption.getValueOfText();
   }
 };
 
@@ -22,10 +32,23 @@ public:
   // https://stackoverflow.com/questions/6926433/how-to-shuffle-a-stdvector
   std::vector<Option> options;
 
-  Question(int _id, std::string _text, std::vector<Option> _options) {
-    id = _id;
-    text = _text;
-    options = _options;
+  Question(drogon_model::sqlite3::Question &ormQuestion) {
+    id = ormQuestion.getValueOfId();
+    text = ormQuestion.getValueOfText();
+
+    const uint64_t optionIds[4] = {
+        ormQuestion.getValueOfAnswerid(), ormQuestion.getValueOfOption2id(),
+        ormQuestion.getValueOfOption3id(), ormQuestion.getValueOfOption4id()};
+
+    for (auto val : optionIds) {
+      auto ormOption = drogon::orm::Mapper<drogon_model::sqlite3::Option>(
+                           drogon::app().getDbClient())
+                           .findByPrimaryKey(val);
+
+      options.push_back(Option(ormOption));
+    }
+
+    std::shuffle(options.begin(), options.end(), randomEngine);
   }
 };
 } // namespace quiz

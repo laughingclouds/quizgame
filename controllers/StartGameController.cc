@@ -1,10 +1,12 @@
 #include "StartGameController.h"
 #include "../models/Category.h"
-#include "../models/Option.h"
 #include "../models/Question.h"
 
-#include "quizModels.hpp"
 #include <drogon/HttpAppFramework.h>
+#include <drogon/HttpResponse.h>
+#include <iostream>
+
+#include "quizModels.hpp"
 
 using namespace drogon_model;
 using namespace drogon_model::sqlite3;
@@ -32,12 +34,16 @@ void StartGameController::startGameBasedOnCategoryId(
         orm::Mapper<Question>(app().getDbClient())
             .findBy(orm::Criteria("categoryId", orm::CompareOperator::EQ,
                                   category_id));
-    // ormQuestionVec[0].;
+
+    std::vector<quiz::Question> questions;
+
+    for (auto ormQuestion : ormQuestionVec)
+      questions.push_back(quiz::Question(ormQuestion));
 
     HttpViewData data;
 
     data.insert("catObj", catObj);
-    data.insert("ormQuestionVec", ormQuestionVec);
+    data.insert("questions", questions);
 
     auto resp = HttpResponse::newHttpViewResponse("StartGame.csp", data);
     callback(resp);
@@ -58,7 +64,14 @@ void StartGameController::startGameBasedOnCategoryId(
 void StartGameController::gameSubmission(
     const HttpRequestPtr &req,
     std::function<void(const HttpResponsePtr &)> &&callback) const {
-  auto resp =
-      HttpResponse::newRedirectionResponse("/QuizSetting", k300MultipleChoices);
+  // auto resp =
+  //     HttpResponse::newRedirectionResponse("/QuizSetting", k300MultipleChoices);
+  // req->getBody()
+  auto paramemters = req->getParameters();
+  for (auto param : paramemters) {
+    std::cout << param.first << " " << param.second << '\n';
+  }
+  auto resp = HttpResponse::newHttpResponse();
+  resp->setBody(std::string(req->getBody()));
   callback(resp);
 }

@@ -1,16 +1,21 @@
-<%inc#include "../models/models.hpp"%>
+<%inc#include "../controllers/quizModels.hpp"%>
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
     <%c++ auto catObj = @@.get<drogon_model::sqlite3::Category>("catObj");%>
-    <%c++ auto ormQuestionVec = @@.get<std::vector<drogon_model::sqlite3::Question>>("ormQuestionVec");%>
+    <%c++ auto questions = @@.get<std::vector<quiz::Question>>("questions");%>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles/quiz_game_home.css">
+    <!-- <link rel="stylesheet" href="/static/styles/quiz_game_home.css"> -->
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    </style>
 
     <title>Start</title>
 </head>
@@ -24,14 +29,26 @@
             {% catObj.getValueOfName() %}
         </h2>
 
-        <form action="#">
+        <form action="/StartGame/Submit", method="post", id="userSubmission">
             <ol>
-                <%c++ for (auto ormQuestion : ormQuestionVec) {%>
-                    <li id={% ormQuestion.getValueOfId() %}>
-                        {% ormQuestion.getValueOfText() %}
+                <%c++ for (auto question : questions) {%>
+                    <li>
+                        <span>{% question.text %}</span>
+                        <ul>
+                            <%c++ for (auto option : question.options) {%>
+                                <li>
+                                    <input type="radio" name={% question.id %} id={% question.id %} value={% option.id %} required>
+                                    <label for={% question.id %}>{% option.text %}</label>
+                                </li>
+                            <%c++}%>
+                        </ul>
                     </li>
                 <%c++}%>
             </ol>
+
+            <button type="submit">
+                <span>Submit</span>
+            </button>
         </form>
     </main>
 </body>
