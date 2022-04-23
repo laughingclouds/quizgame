@@ -1,4 +1,4 @@
-FROM drogonframework/drogon
+FROM alpine-drogon
 
 WORKDIR /src
 COPY . .

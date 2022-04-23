@@ -37,6 +37,7 @@ We have decided to include these six into the game. This means, every player wil
 
 1. Read this: <https://www.freecodecamp.org/news/reusable-html-components-how-to-reuse-a-header-and-footer-on-a-website/>
 2. This too: <https://stackoverflow.com/questions/14551194/how-are-parameters-sent-in-an-http-post-request>
+3. For future reference: <https://stackoverflow.com/questions/44769315/how-to-see-docker-image-contents>
 
 ## Quickstart
 
@@ -62,6 +63,30 @@ Next, run the executable.
 ```
 
 ## Build and Run
+
+### docker
+
+Docker makes it convenient to run this on any system that supports docker. Which is a lot of systems.
+
+> Before executing this, be sure to build a different image from /docker/alpine
+
+#### Build
+
+Open the terminal in the project_root and run
+
+```shell
+docker compose build
+```
+
+#### Run
+
+Next, execute
+
+```shell
+docker compose up
+```
+
+If you didn't build before, then docker will built the image for you and then run a container.
 
 ### cmake
 
