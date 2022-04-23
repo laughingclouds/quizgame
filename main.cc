@@ -1,7 +1,11 @@
+#include <random>
+
 #include <drogon/drogon.h>
 
 #include "models/Category.h"
 #include "models/User.h"
+
+auto randomEngine = std::default_random_engine();
 
 int main() {
   using namespace drogon;
