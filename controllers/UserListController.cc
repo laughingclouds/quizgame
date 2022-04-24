@@ -1,4 +1,5 @@
 #include <cctype>
+#include <drogon/HttpAppFramework.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,9 +8,7 @@
 #include <drogon/HttpTypes.h>
 #include <drogon/HttpViewData.h>
 
-#include "../models/Category.h"
-#include "../models/Question.h"
-#include "../models/User.h"
+#include "../models/models.hpp"
 #include "UserListController.h"
 
 using namespace drogon;
@@ -34,12 +33,14 @@ void UserListController::asyncHandleHttpRequest(
   std::vector<User> userVec = getModelObjectVec<User>();
   std::vector<std::string> userNameVec;
 
-  std::vector<Question> questionVec = getModelObjectVec<Question>();
+  auto questionVec = getModelObjectVec<Question>();
   std::vector<std::string> questionTxtVec;
 
-  std::vector<Category> categoryVec =
+  auto categoryVec =
       orm::Mapper<Category>(app().getDbClient()).findAll();
   std::vector<std::string> categoryNameVec;
+
+  auto ormSolvedVec = orm::Mapper<Solved>(app().getDbClient()).findAll();
 
   /** Initialize vector of text values */
   for (auto userObj : userVec)
@@ -50,12 +51,13 @@ void UserListController::asyncHandleHttpRequest(
 
   for (auto categObj : categoryVec)
     categoryNameVec.push_back(categObj.getValueOfName());
-
+    
   /** Insert text values into `data` */
   HttpViewData data;
   data.insert("userNameVec", userNameVec);
   data.insert("questionTxtVec", questionTxtVec);
   data.insert("categoryNameVec", categoryNameVec);
+  data.insert("ormSolvedVec", ormSolvedVec);
 
   auto resp = HttpResponse::newHttpViewResponse("InformationList.csp", data);
   callback(resp);

@@ -1,3 +1,4 @@
+<%inc#include "../models/models.hpp"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,14 +6,14 @@
 	<%c++ auto userNameVec=@@.get<std::vector<std::string>>("userNameVec");%>
 	<%c++ auto questionTxtVec=@@.get<std::vector<std::string>>("questionTxtVec");%>
 	<%c++ auto categoryNameVec=@@.get<std::vector<std::string>>("categoryNameVec");%>
+	<%c++ auto ormSolvedVec=@@.get<std::vector<drogon_model::sqlite3::Solved>>("ormSolvedVec");%>
 
-				<meta charset="UTF-8">
-				<meta http-equiv="X-UA-Compatible" content="IE=edge">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
-				<link rel="stylesheet" href="/static/styles/style.css">
-				<link rel="stylesheet" href="/static/styles/quiz_game_basic_bg.css">
-				<title>Information List</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
+	<link rel="stylesheet" href="/static/styles/style.css">
+	<link rel="stylesheet" href="/static/styles/quiz_game_basic_bg.css">
+	<title>Information List</title>
 </head>
 
 <body>
@@ -57,6 +58,27 @@
 						<%c++}%>
 				</ul>
 			</section>
+
+			<article>
+				<h2>Solved</h2>
+				<section>
+					<table>
+						<thead>
+							<th>userId</th>
+							<th>questionId</th>
+						</thead>
+
+						<tbody>
+							<%c++ for (auto ormSolved : ormSolvedVec) {%>
+								<tr>
+									<td>{% ormSolved.getValueOfUserId() %}</td>
+									<td>{% ormSolved.getValueOfQuestionId() %}</td>
+								</tr>
+							<%c++}%>
+						</tbody>
+					</table>
+				</section>
+			</article>
 		</main>
 	</div>
 </body>
