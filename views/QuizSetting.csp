@@ -17,8 +17,11 @@
     </h1>
     <form action="./StartGame" method="get" id="quiz-setting-form">
         <div>
+            <%c++ bool SKIP_ITERATION = true;%>
             <%c++ for(auto catObj : categoryVec){ %>
-                <!-- {% catObj.getValueOfName() %} -->
+                <%c++ if (SKIP_ITERATION) {%>
+                <%c++ SKIP_ITERATION = false; continue; }%>
+                
                 <%c++ const std::string categoryName = catObj.getValueOfName();%>
                 <input type="radio" name="category_id" id={% categoryName %} value={% catObj.getValueOfId() %} required>
                 <label for={% categoryName %}>{% categoryName %}</label>

@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
+    <%c++ bool IS_USER_LOGGED_IN = @@.get<bool>("IS_USER_LOGGED_IN");%>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/static/styles/quiz_game_home.css">
@@ -18,11 +18,26 @@
 
             <nav>
                 <ul>
-                    <li>
-                        <a href="./QuizSetting">
-                            Start
-                        </a>
-                    </li>
+                    
+                    <%c++ if (IS_USER_LOGGED_IN) {%>
+                        <li>
+                            <a href="./QuizSetting">
+                                Start
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/Logout">
+                                Logout
+                            </a>
+                        </li>
+                    <%c++} else {%>
+                        <li>
+                            <a href="/Login">
+                                Login
+                            </a>
+                        </li>
+                    <%c++ }%>
                     <li>
                         <a href="#">
                             Leaderboard

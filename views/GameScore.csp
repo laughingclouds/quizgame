@@ -1,0 +1,86 @@
+<%inc#include "../controllers/quizModels.hpp"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%c++ int number_of_questions = @@.get<int>("number_of_questions");%>
+    <%c++ int number_of_correctly_answered_questions = @@.get<int>("number_of_correctly_answered_questions");%>
+    <%c++ auto answers = @@.get<std::vector<quiz::Answer>>("answers");%>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
+    <title>Score</title>
+
+    <style>
+        li {
+            padding: 5px;
+        }
+
+        .answer-text {
+            color: rgb(8, 155, 8);
+        }
+
+        .answers-container {
+            position: relative;
+            height: 500px;
+            overflow: auto;
+
+            width: max-content;
+            margin: 0 auto;
+        }
+
+        header#answers-list-head {
+            position: sticky;
+            top: 0px;
+            background-color: inherit;
+        }
+
+        button.look-like-link {
+            background: none!important;
+            border: none;
+            padding: 0!important;
+            /*optional*/
+            /* font-family: arial, sans-serif; */
+            /*input has OS specific font-family*/
+            color: #069;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <span>Here's your score!</span>
+        <span>{% number_of_correctly_answered_questions %} / {% number_of_questions %}</span>
+
+        <div class="answers-container">
+            <header id="answers-list-head">Correct Answers</header>
+
+            <main>
+                <ol>
+                    <%c++ for (auto answer : answers) {%>
+                        <li>
+                            <span>Question: {% answer.questionText %}</span>
+                            <div>
+                                <span class="answer-text">{% answer.text %}</span>
+                            </div>
+                        </li>
+                    <%c++ }%>
+                </ol>
+            
+            </main>
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/">Return to Home Page</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

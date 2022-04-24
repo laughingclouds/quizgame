@@ -51,4 +51,23 @@ public:
     std::shuffle(options.begin(), options.end(), randomEngine);
   }
 };
+
+/** An object that represents an answer to a question.*/
+class Answer {
+public:
+  int id;
+  int questionId;
+  std::string questionText;
+  std::string text;
+
+  Answer(drogon_model::sqlite3::Question &ormQuestion) {
+    id = ormQuestion.getValueOfAnswerid();
+    questionId = ormQuestion.getValueOfId();
+    questionText = ormQuestion.getValueOfText();
+
+    // the Option object that represents "Answer"
+    auto tempOption = drogon::orm::Mapper<drogon_model::sqlite3::Option>(drogon::app().getDbClient()).findByPrimaryKey(id);
+    text = tempOption.getValueOfText();
+  }
+};
 } // namespace quiz
