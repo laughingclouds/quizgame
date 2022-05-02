@@ -59,6 +59,6 @@ void UserListController::asyncHandleHttpRequest(
   data.insert("categoryNameVec", categoryNameVec);
   data.insert("ormSolvedVec", ormSolvedVec);
 
-  auto resp = HttpResponse::newHttpViewResponse("InformationList.csp", data);
+  auto resp = HttpResponse::newHttpViewResponse("InformationList", data);
   callback(resp);
 }

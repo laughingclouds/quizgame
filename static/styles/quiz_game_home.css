@@ -49,8 +49,7 @@ li a {
     display: block;
 }
 
-li a,
-li a:visited {
+li :is(a, a:visited) {
     text-decoration: none;
     color: inherit;
 }

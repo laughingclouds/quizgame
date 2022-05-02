@@ -9,10 +9,10 @@
 #include <drogon/orm/Exception.h>
 #include <drogon/orm/Mapper.h>
 
-#include "../models/models.hpp"
+#include "../../models/models.hpp"
 
-#include "utils.hpp"
-#include "../exceptions/InvalidSession.hpp"
+#include "../../exceptions/InvalidSession.hpp"
+#include "../utility/utils.hpp"
 
 using namespace drogon_model;
 using namespace drogon_model::sqlite3;
@@ -27,7 +27,7 @@ void LoginController::userLogin(
 void LoginController::userLogout(
     const HttpRequestPtr &req,
     std::function<void(const HttpResponsePtr &)> &&callback) const {
-  
+
   auto redir = HttpResponse::newRedirectionResponse("/", k303SeeOther);
   redir->addCookie(makeSecureCookie("user", "None"));
   redir->addCookie(makeSecureCookie("userId", "0"));
@@ -72,9 +72,8 @@ void LoginController::evaluateUserCredentials(
     callback(redir);
 
   } catch (std::out_of_range err) {
-  
+
     auto redir = HttpResponse::newRedirectionResponse("/Login");
     callback(redir);
-    
   }
 }

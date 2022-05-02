@@ -1,19 +1,11 @@
-#include <drogon/HttpTypes.h>
-#include <drogon/orm/Row.h>
 #include <string>
-
-#include "../models/Category.h"
-#include "../models/Question.h"
-#include "StartGameController.h"
-
-#include <drogon/HttpAppFramework.h>
-#include <drogon/HttpResponse.h>
-#include <drogon/orm/Mapper.h>
 #include <vector>
 
-#include "../exceptions/InvalidSession.hpp"
-#include "quizModels.hpp"
-#include "utils.hpp"
+#include "../../exceptions/InvalidSession.hpp"
+#include "../../models/models.hpp"
+#include "../utility/quizModels.hpp"
+#include "../utility/utils.hpp"
+#include "StartGameController.h"
 
 using namespace drogon_model;
 using namespace drogon_model::sqlite3;
@@ -33,7 +25,7 @@ void StartGameController::quizSetting(
   HttpViewData data;
   data.insert("categoryVec", categoryVec);
 
-  auto resp = HttpResponse::newHttpViewResponse("QuizSetting.csp", data);
+  auto resp = HttpResponse::newHttpViewResponse("QuizSetting", data);
   callback(resp);
 }
 
@@ -73,7 +65,7 @@ void StartGameController::startGameBasedOnCategoryId(
     data.insert("catObj", catObj);
     data.insert("questions", questions);
 
-    auto resp = HttpResponse::newHttpViewResponse("StartGame.csp", data);
+    auto resp = HttpResponse::newHttpViewResponse("StartGame", data);
     callback(resp);
 
   } catch (orm::UnexpectedRows err) {
@@ -136,7 +128,7 @@ void StartGameController::gameSubmission(
               number_of_correctly_answered_questions);
   data.insert("answers", answers);
 
-  auto resp = HttpResponse::newHttpViewResponse("GameScore.csp", data);
+  auto resp = HttpResponse::newHttpViewResponse("GameScore", data);
 
   resp->addCookie(makeSecureCookie(
       "score", std::to_string(number_of_correctly_answered_questions)));

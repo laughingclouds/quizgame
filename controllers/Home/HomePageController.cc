@@ -1,7 +1,7 @@
 #include "HomePageController.h"
 #include <drogon/HttpViewData.h>
 
-#include "utils.hpp"
+#include "../utility/utils.hpp"
 
 void HomePageController::homePage(
     const HttpRequestPtr &req,
@@ -13,6 +13,6 @@ void HomePageController::homePage(
 
 	data.insert("IS_USER_LOGGED_IN", IS_USER_LOGGED_IN);
 	//
-	auto resp = HttpResponse::newHttpViewResponse("HomePage.csp", data);
+	auto resp = HttpResponse::newHttpViewResponse("HomePage", data);
 	callback(resp);
 }
