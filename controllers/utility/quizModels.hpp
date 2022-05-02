@@ -7,9 +7,9 @@
 
 #include <drogon/HttpAppFramework.h>
 #include <drogon/orm/Mapper.h>
-#include "../models/models.hpp"
+#include "../../models/models.hpp"
 
-#include "../main.hpp"
+#include "../../main.hpp"
 
 namespace quiz {
 class Option {

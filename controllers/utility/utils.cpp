@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string>
 
-#include "../exceptions/InvalidSession.hpp"
-#include "../models/models.hpp"
+#include "../../exceptions/InvalidSession.hpp"
+#include "../../models/models.hpp"
 
 // Make cookies that persist for all pages
 drogon::Cookie makeSecureCookie(std::string key, std::string value) {

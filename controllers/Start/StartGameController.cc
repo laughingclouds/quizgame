@@ -2,8 +2,7 @@
 #include <drogon/orm/Row.h>
 #include <string>
 
-#include "../models/Category.h"
-#include "../models/Question.h"
+#include "../../models/models.hpp"
 #include "StartGameController.h"
 
 #include <drogon/HttpAppFramework.h>
@@ -11,9 +10,9 @@
 #include <drogon/orm/Mapper.h>
 #include <vector>
 
-#include "../exceptions/InvalidSession.hpp"
-#include "quizModels.hpp"
-#include "utils.hpp"
+#include "../../exceptions/InvalidSession.hpp"
+#include "../utility/quizModels.hpp"
+#include "../utility/utils.hpp"
 
 using namespace drogon_model;
 using namespace drogon_model::sqlite3;
@@ -136,7 +135,7 @@ void StartGameController::gameSubmission(
               number_of_correctly_answered_questions);
   data.insert("answers", answers);
 
-  auto resp = HttpResponse::newHttpViewResponse("GameScore.csp", data);
+  auto resp = HttpResponse::newHttpViewResponse("GameScore", data);
 
   resp->addCookie(makeSecureCookie(
       "score", std::to_string(number_of_correctly_answered_questions)));

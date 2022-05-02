@@ -1,7 +1,7 @@
 #include "HomePageController.h"
 #include <drogon/HttpViewData.h>
 
-#include "utils.hpp"
+#include "../utility/utils.hpp"
 
 void HomePageController::homePage(
     const HttpRequestPtr &req,
