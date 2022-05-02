@@ -49,6 +49,13 @@ aux_source_directory(filters FILTER_SRC)
 aux_source_directory(plugins PLUGIN_SRC)
 aux_source_directory(models MODEL_SRC)
 
+# custom changes
+aux_source_directory(controllers/utility UTL_SRC)
+aux_source_directory(controllers/Home HME_SRC)
+aux_source_directory(controllers/Login LGN_SRC)
+aux_source_directory(controllers/Start STRT_SRC)
+#
+
 drogon_create_views(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/views
                     ${CMAKE_CURRENT_BINARY_DIR})
 # use the following line to create views with namespaces.
@@ -64,7 +71,12 @@ target_sources(${PROJECT_NAME}
                ${CTL_SRC}
                ${FILTER_SRC}
                ${PLUGIN_SRC}
-               ${MODEL_SRC})
+               ${MODEL_SRC}
+               # custom changes
+               ${UTL_SRC}
+               ${HME_SRC}
+               ${LGN_SRC}
+               ${STRT_SRC})
 # ##############################################################################
 # uncomment the following line for dynamically loading views 
 set_property(TARGET ${PROJECT_NAME} PROPERTY ENABLE_EXPORTS ON)
