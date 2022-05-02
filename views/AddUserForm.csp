@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+</head>
+<body>
+    <form action="/AddUser/CreateUser" method="post">
+        <div>
+            <label for="usernameInput">Enter username</label>
+            <input type="text" name="username" id="usernameInput">
+        </div>
+
+        <div>
+            <label for="passwordInput">Enter password</label>
+            <input type="password" name="password" id="passwordInput">
+        </div>
+
+        <button type="submit">Create User</button>
+    </form>
+</body>
+</html>
