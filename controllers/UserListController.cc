@@ -30,8 +30,7 @@ void UserListController::asyncHandleHttpRequest(
     std::function<void(const HttpResponsePtr &)> &&callback) {
 
   /** Make vector of objects, then vector of their text values */
-  std::vector<User> userVec = getModelObjectVec<User>();
-  std::vector<std::string> userNameVec;
+  auto ormUserVec = getModelObjectVec<User>();
 
   auto questionVec = getModelObjectVec<Question>();
   std::vector<std::string> questionTxtVec;
@@ -43,9 +42,6 @@ void UserListController::asyncHandleHttpRequest(
   auto ormSolvedVec = orm::Mapper<Solved>(app().getDbClient()).findAll();
 
   /** Initialize vector of text values */
-  for (auto userObj : userVec)
-    userNameVec.push_back(titilize(userObj.getValueOfName()));
-
   for (auto quesObj : questionVec)
     questionTxtVec.push_back(quesObj.getValueOfText());
 
@@ -54,7 +50,7 @@ void UserListController::asyncHandleHttpRequest(
     
   /** Insert text values into `data` */
   HttpViewData data;
-  data.insert("userNameVec", userNameVec);
+  data.insert("ormUserVec", ormUserVec);
   data.insert("questionTxtVec", questionTxtVec);
   data.insert("categoryNameVec", categoryNameVec);
   data.insert("ormSolvedVec", ormSolvedVec);

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-	<%c++ auto userNameVec=@@.get<std::vector<std::string>>("userNameVec");%>
+	<%c++ auto ormUserVec=@@.get<std::vector<drogon_model::sqlite3::User>>("ormUserVec");%>
 	<%c++ auto questionTxtVec=@@.get<std::vector<std::string>>("questionTxtVec");%>
 	<%c++ auto categoryNameVec=@@.get<std::vector<std::string>>("categoryNameVec");%>
 	<%c++ auto ormSolvedVec=@@.get<std::vector<drogon_model::sqlite3::Solved>>("ormSolvedVec");%>
@@ -29,9 +29,9 @@
 				</header>
 	
 				<ul>
-					<%c++ for(auto userName : userNameVec){%>
-						<li>{%userName%}</li>
-						<%c++}%>
+					<%c++ for(auto ormUser : ormUserVec){%>
+						<li>{% ormUser.getValueOfName() %}, {% ormUser.getValueOfScore() %}</li>
+					<%c++}%>
 				</ul>
 			</section>
 	
