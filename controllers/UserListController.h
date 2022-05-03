@@ -2,12 +2,14 @@
 
 #include <drogon/HttpSimpleController.h>
 
-class UserListController : public drogon::HttpSimpleController<UserListController> {
+using namespace drogon;
+
+class UserListController : public HttpSimpleController<UserListController> {
 public:
   virtual void asyncHandleHttpRequest(
-      const drogon::HttpRequestPtr &req,
-      std::function<void(const drogon::HttpResponsePtr &)> &&callback) override;
+      const HttpRequestPtr &req,
+      std::function<void(const HttpResponsePtr &)> &&callback) override;
   PATH_LIST_BEGIN
-  PATH_ADD("/InformationList", drogon::Get);
+  PATH_ADD("/InformationList", Get);
   PATH_LIST_END
 };
