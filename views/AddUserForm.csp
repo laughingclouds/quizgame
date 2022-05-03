@@ -9,12 +9,12 @@
     <form action="/AddUser/CreateUser" method="post">
         <div>
             <label for="usernameInput">Enter username</label>
-            <input type="text" name="username" id="usernameInput">
+            <input type="text" name="username" id="usernameInput" required>
         </div>
 
         <div>
             <label for="passwordInput">Enter password</label>
-            <input type="password" name="password" id="passwordInput">
+            <input type="password" name="password" id="passwordInput" required>
         </div>
 
         <button type="submit">Create User</button>
