@@ -15,8 +15,8 @@ extern bool isValidUserLoggedIn(const drogon::HttpRequestPtr &req,
 extern drogon_model::sqlite3::Solved makeSolvedObject(int questionId,
                                                       int userId);
 
-// find all values from the given orm Model and return a vector of all the values
-template <class T> std::vector<T> getModelObjectVec();
+// find all entries from the given orm Model and return their vector
+template <class T> std::vector<T> findAllFromModel();
 
 // Convert first character to uppercase
 extern std::string titilize(std::string str);

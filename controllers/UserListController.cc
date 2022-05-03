@@ -14,9 +14,9 @@ void UserListController::asyncHandleHttpRequest(
     std::function<void(const HttpResponsePtr &)> &&callback) {
 
   /** Make vector of objects, then vector of their text values */
-  auto ormUserVec = getModelObjectVec<User>();
+  auto ormUserVec = findAllFromModel<User>();
 
-  auto questionVec = getModelObjectVec<Question>();
+  auto questionVec = findAllFromModel<Question>();
   std::vector<std::string> questionTxtVec;
 
   auto categoryVec = orm::Mapper<Category>(app().getDbClient()).findAll();
