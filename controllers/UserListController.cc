@@ -1,18 +1,11 @@
 #include <cctype>
-#include <drogon/HttpAppFramework.h>
-#include <iostream>
 #include <string>
 #include <vector>
 
-#include <drogon/HttpResponse.h>
-#include <drogon/HttpTypes.h>
-#include <drogon/HttpViewData.h>
-
 #include "../models/models.hpp"
-#include "utility/utils.hpp"
 #include "UserListController.h"
+#include "utility/utils.hpp"
 
-using namespace drogon;
 using namespace drogon_model;
 using namespace drogon_model::sqlite3;
 
@@ -26,8 +19,7 @@ void UserListController::asyncHandleHttpRequest(
   auto questionVec = getModelObjectVec<Question>();
   std::vector<std::string> questionTxtVec;
 
-  auto categoryVec =
-      orm::Mapper<Category>(app().getDbClient()).findAll();
+  auto categoryVec = orm::Mapper<Category>(app().getDbClient()).findAll();
   std::vector<std::string> categoryNameVec;
 
   auto ormSolvedVec = orm::Mapper<Solved>(app().getDbClient()).findAll();
@@ -38,7 +30,7 @@ void UserListController::asyncHandleHttpRequest(
 
   for (auto categObj : categoryVec)
     categoryNameVec.push_back(categObj.getValueOfName());
-    
+
   /** Insert text values into `data` */
   HttpViewData data;
   data.insert("ormUserVec", ormUserVec);
