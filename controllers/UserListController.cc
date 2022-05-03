@@ -9,21 +9,12 @@
 #include <drogon/HttpViewData.h>
 
 #include "../models/models.hpp"
+#include "utility/utils.hpp"
 #include "UserListController.h"
 
 using namespace drogon;
 using namespace drogon_model;
 using namespace drogon_model::sqlite3;
-
-template <class T> std::vector<T> getModelObjectVec() {
-  return orm::Mapper<T>(app().getDbClient()).findAll();
-}
-
-std::string titilize(std::string str) {
-  // converting first character to uppercase
-  str[0] = std::toupper(str[0]);
-  return str;
-}
 
 void UserListController::asyncHandleHttpRequest(
     const HttpRequestPtr &req,

@@ -36,3 +36,14 @@ drogon_model::sqlite3::Solved makeSolvedObject(int questionId, int userId) {
 
   return ormSolved;
 }
+// rename to findAllFromModel
+// find all values from the given orm Model and return a vector of all the values
+template <class T> std::vector<T> getModelObjectVec() {
+  return drogon::orm::Mapper<T>(drogon::app().getDbClient()).findAll();
+}
+
+// Convert first character to uppercase
+std::string titilize(std::string str) {
+  str[0] = std::toupper(str[0]);
+  return str;
+}
