@@ -19,8 +19,7 @@ void StartGameController::quizSetting(
     callback(redir);
   }
   /** Get Category data from DB */
-  std::vector<Category> categoryVec =
-      orm::Mapper<Category>(app().getDbClient()).findAll();
+  auto categoryVec = orm::Mapper<Category>(app().getDbClient()).findAll();
 
   HttpViewData data;
   data.insert("categoryVec", categoryVec);
