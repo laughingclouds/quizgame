@@ -55,6 +55,7 @@ aux_source_directory(controllers/Home HME_SRC)
 aux_source_directory(controllers/Login LGN_SRC)
 aux_source_directory(controllers/Start STRT_SRC)
 aux_source_directory(controllers/User USR_SRC)
+aux_source_directory(controllers/LeaderBoard LDRBRD_SRC)
 #
 
 drogon_create_views(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/views
@@ -78,7 +79,8 @@ target_sources(${PROJECT_NAME}
                ${HME_SRC}
                ${LGN_SRC}
                ${STRT_SRC}
-               ${USR_SRC})
+               ${USR_SRC}
+               ${LDRBRD_SRC})
 # ##############################################################################
 # uncomment the following line for dynamically loading views 
 set_property(TARGET ${PROJECT_NAME} PROPERTY ENABLE_EXPORTS ON)
