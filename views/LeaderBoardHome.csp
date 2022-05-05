@@ -1,7 +1,9 @@
+<%inc#include "../controllers/utility/quizModels.hpp"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <%c++ auto ormUsersTopScorers = @@.get<std::vector<drogon_model::sqlite3::User>>("ormUsersTopScorers");%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
@@ -10,6 +12,20 @@
 
 <body>
     <h1>Leaderboard</h1>
+    <table>
+        <thead>
+            <th>User name</th>
+            <th>Score</th>
+        </thead>
+        <tbody>
+            <%c++ for (auto ormUser : ormUsersTopScorers) {%>
+                <tr>
+                    <td>{% ormUser.getValueOfName() %}</td>
+                    <td>{% ormUser.getValueOfScore() %}</td>
+                </tr>
+            <%c++}%>
+        </tbody>
+    </table>
 </body>
 
 </html>
