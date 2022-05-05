@@ -16,7 +16,9 @@ extern drogon_model::sqlite3::Solved makeSolvedObject(int questionId,
                                                       int userId);
 
 // find all entries from the given orm Model and return their vector
-template <class T> std::vector<T> findAllFromModel();
+template <class T> std::vector<T> findAllFromModel() {
+  return drogon::orm::Mapper<T>(drogon::app().getDbClient()).findAll();
+}
 
 // Convert first character to uppercase
 extern std::string titilize(std::string str);
