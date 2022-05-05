@@ -1,5 +1,6 @@
 #include "LeaderBoardController.h"
 #include "../../models/models.hpp"
+#include <drogon/orm/Criteria.h>
 
 using namespace drogon_model;
 using namespace drogon_model::sqlite3;
@@ -18,10 +19,10 @@ void LeaderBoardController::leaderBoardHome(
   // User "No Name" lies at row 0 of the database
   auto ormUsersTopScorers =
       orm::Mapper<User>(app().getDbClient())
-          .orderBy(User::Cols::_score, orm::SortOrder::DESC)
+          .offset(0)
           .limit(5)
-          .offset(1)
-          .findAll();
+          .orderBy(User::Cols::_score, orm::SortOrder::DESC)
+          .findBy(orm::Criteria("id", orm::CompareOperator::NE, "0"));
 
   HttpViewData data;
 
