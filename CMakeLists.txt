@@ -53,7 +53,7 @@ aux_source_directory(models MODEL_SRC)
 aux_source_directory(controllers/utility UTL_SRC)
 aux_source_directory(controllers/Home HME_SRC)
 aux_source_directory(controllers/Login LGN_SRC)
-aux_source_directory(controllers/Start STRT_SRC)
+aux_source_directory(controllers/StartGameController STRT_SRC)
 aux_source_directory(controllers/User USR_SRC)
 aux_source_directory(controllers/LeaderBoard LDRBRD_SRC)
 #

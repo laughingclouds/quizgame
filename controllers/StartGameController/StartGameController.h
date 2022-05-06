@@ -1,8 +1,13 @@
 #pragma once
 
 #include <drogon/HttpController.h>
+#include "../../models/models.hpp"
+#include "../utility/quizModels.hpp"
+#include "../utility/utils.hpp"
 
 using namespace drogon;
+using namespace drogon_model;
+using namespace drogon_model::sqlite3;
 
 class StartGameController : public drogon::HttpController<StartGameController> {
 public:
