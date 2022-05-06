@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -113,12 +114,13 @@ void StartGameController::gameSubmission(
     }
   }
 
-  {
-    auto ormUser =
-        orm::Mapper<User>(app().getDbClient()).findByPrimaryKey(userId);
-    ormUser.setScore(ormUser.getValueOfScore() +
-                     number_of_correctly_answered_questions);
-  }
+  auto ormUser =
+      orm::Mapper<User>(app().getDbClient()).findByPrimaryKey(userId);
+  ormUser.setScore(ormUser.getValueOfScore() +
+                   number_of_correctly_answered_questions);
+  
+  // saving changes to the user score
+  orm::Mapper<User>(app().getDbClient()).update(ormUser);
 
   HttpViewData data;
 
