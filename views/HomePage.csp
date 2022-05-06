@@ -39,7 +39,7 @@
                         </li>
                     <%c++ }%>
                     <li>
-                        <a href="#">
+                        <a href="./LeaderBoard">
                             Leaderboard
                         </a>
                     </li>
