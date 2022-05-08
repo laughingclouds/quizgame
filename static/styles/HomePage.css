@@ -101,6 +101,19 @@ li:hover {
 max-width: 500px;
 }
 
+.about-section :is(a, a:visited) {
+  color: #90080e;
+  text-decoration: none;
+}
+
+.about-section :is(a:hover) {
+  color: yellow;
+}
+
+.about-article :is(h1, h2, h3, h4, h5, h6) {
+  text-align: center;
+}
+
 @media only screen and (max-width: 985px) {
 body {
   display: block;
