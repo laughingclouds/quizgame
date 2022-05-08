@@ -10,13 +10,13 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
 .container {
 background-color: #f2f2f291;
 width: 900px;
-margin: 0 auto;
 border-radius: 0.43rem;
 
 display: flex;
@@ -60,6 +60,41 @@ li :is(a, a:visited) {
 
 li:hover {
   color: yellow;
+}
+
+/* info-wrap */
+#main-nav ul li {
+  position: relative;
+}
+
+.hidden-object-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  visibility: hidden;
+  opacity: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.hidden-object {
+  font-size: medium;
+  color: rgb(0, 0, 0);
+  transition: 0.2s;
+  transform: translateX(11.5em);
+  text-align: end;
+}
+
+
+#main-nav ul :is(li:hover .hidden-object-layer) {
+  visibility: visible;
+  opacity: 1;
 }
 
 .about-section {

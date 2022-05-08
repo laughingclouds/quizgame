@@ -18,41 +18,59 @@
 
     <main>
       <div class="content">
-        <nav>
+        <nav id="main-nav">
           <ul>
             <%c++ if (IS_USER_LOGGED_IN) {%>
               <li>
                 <a href="./QuizSetting">
                   Start
                 </a>
+                <div class="hidden-object-layer">
+                  <span class="hidden-object">Start the game</span>
+                </div>
               </li>
 
               <li>
                 <a href="/Logout">
                   Logout
                 </a>
+                <div class="hidden-object-layer">
+                  <span class="hidden-object">Logout of the game</span>
+                </div>
               </li>
               <%c++} else {%>
                 <li>
                   <a href="/Login">
                     Login
                   </a>
+                  <div class="hidden-object-layer">
+                    <span class="hidden-object">Login to save your progress</span>
+                  </div>
                 </li>
                 <%c++ }%>
                   <li>
                     <a href="./LeaderBoard">
                       Leaderboard
                     </a>
+                    <div class="hidden-object-layer">
+                      <span class="hidden-object">Show users with top scores</span>
+                    </div>
                   </li>
                   <li>
                     <a href="./AddUser">
-                      Add new user
+                      New user
                     </a>
+                    <div class="hidden-object-layer">
+                      <span class="hidden-object">Add a new user to the database</span>
+                    </div>
                   </li>
                   <li>
                     <a href="./InformationList">
                       Information list
                     </a>
+                    <div class="hidden-object-layer">
+                      <span class="hidden-object">[Not for players] Show some information stored in the database</span>
+                    </div>
                   </li>
           </ul>
         </nav>
