@@ -3,6 +3,7 @@
 
 <head>
   <%c++ bool IS_USER_LOGGED_IN=@@.get<bool>("IS_USER_LOGGED_IN");%>
+  <%c++ const std::string USER_NAME=@@.get<const std::string>("USER_NAME");%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
@@ -13,7 +14,11 @@
 <body>
   <div class="container">
     <header>
-      <h1>Welcome!</h1>
+      <%c++ if (IS_USER_LOGGED_IN) {%>
+        <h1>Welcome {% USER_NAME %}!</h1>
+      <%c++} else {%>
+        <h1>Welcome!</h1>
+      <%c++}%>
     </header>
 
     <main>
