@@ -25,7 +25,7 @@ It is a *design type* project and its outcome is a *product*. Which is, a quiz-g
 
 It means that the application will have a web front-end.
 
-## Basic questions
+## Phase 1 questions
 > What problems does your project solve?
 
 - Our project aims to provide a learning and entertainment platform to people
@@ -48,8 +48,27 @@ It means that the application will have a web front-end.
 ## Phase 3 questions
 
 > What features does your project have?
+> NOTE: First mention their names, and then their information
+
+This project has the following main features:
+- **Login**: A session will be cerated, allowing the user to save their progress in the database.
+- **Logout**: They will also be able to "logout" to allow other users to login.
+- **Leaderboard**: will show users with the top scores.
+- **Add New User**: will allow be new users to create their own accounts.
+- **Start Game**: will start the quiz. Only users who have logged in can start the quiz.
  
 > What different design solutions did your team come up with?
+
+We created two design solutions for the database:
+1. In the first design, one whole table would be dedicated to every user, and it also did not have an option to store the password.
+2. In the second design, everything would be simpler and there was also the option to store the user password.
+
+We also thought of two approaches for the whole front-end of the project:
+1. In the first approach, we would create a terminal-based quiz-game which would use the ncurses library.
+2. In the second approach, we would use the web-browser for the application front-end.
+
+We chose the second approach as the team believed that working with HTML and CSS was easier.
+
 
 ## Questions About Drogon and MVC
 
@@ -64,7 +83,14 @@ The **Model-View-Controller (MVC)** is an architectural pattern that separates a
 > How is file handling used in this project?
 > What is the use of DBMS in this project?
 
-We are using an SQLite database instead of file handling to store data. This database is stored locally. And we use the ORM
+- We are using an SQLite database instead of file handling to store data. This database is stored locally. And we use the ORM provided by the drogon framework to access the database.
+- We use a database to store the different categories of the quiz, and all the questions and their options. We store user information such as username and password, and also what questions were already solved by a user.
+- The database has five tables in total, namely:
+	1. **user**
+	2. **option**
+	3. **category**
+	4. **question**
+	5. **solved**
 
 
 
