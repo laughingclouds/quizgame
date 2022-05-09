@@ -68,11 +68,12 @@ li:hover {
 }
 
 .hidden-object {
+  display: block;
   font-size: medium;
   color: rgb(0, 0, 0);
   transition: 0.2s;
   transform: translateX(11.5em);
-  text-align: end;
+  text-align: start;
 }
 
 

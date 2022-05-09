@@ -28,3 +28,7 @@ input[type=text], input[type=password] {
   margin: 8px 0;
   box-sizing: border-box;
 }
+
+.radio-list-form ul li:not(:last-child) {
+  margin-bottom: 10px;
+}
