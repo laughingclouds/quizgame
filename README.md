@@ -40,6 +40,16 @@ We have decided to include these six into the game. This means, every player wil
 3. For future reference: <https://stackoverflow.com/questions/44769315/how-to-see-docker-image-contents>
 4. This is worth looking into: <https://docs.docker.com/compose/compose-file/#illustrative-example-1>
 
+### Styling
+
+You need to add styles for these pages
+
+- /LeaderBoard
+- /QuizSetting
+- StartGame/Score
+
+Also style the scroll bar
+
 ## Quickstart
 
 ### Install the Drogon framework

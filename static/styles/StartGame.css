@@ -1,0 +1,16 @@
+.form-header {
+  position: sticky;
+  top: 0px;
+  background-color: #3689c6;
+}
+
+.form-container {
+  max-height: 900px;
+  overflow-x: auto;
+  overflow-y: auto;
+  background-color: #3689c6b8;
+}
+
+ul {
+  list-style-type: none;
+}

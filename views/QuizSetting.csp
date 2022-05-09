@@ -8,6 +8,8 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
+            <link rel="stylesheet" href="/static/styles/Global.css">
+            <link rel="stylesheet" href="/static/styles/Button.css">
             <title>Quiz Setting</title>
 </head>
 
@@ -28,7 +30,7 @@
             <%c++ } %>
 
         </div>
-        <button type="submit">
+        <button type="submit" class="form-button">
             Start Quiz
         </button>
     </form>

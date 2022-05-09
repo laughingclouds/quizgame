@@ -1,33 +1,17 @@
-body {
-  background-image: url("/static/imgs/game\ background\ image.png");
-  background-color: #3689c6;
-  
-  color: black;
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.5rem;
+.container {
+  background-color: #f2f2f291;
+  width: 900px;
+  border-radius: 0.43rem;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.container {
-background-color: #f2f2f291;
-width: 900px;
-border-radius: 0.43rem;
-
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
 }
 
 .content {
-background-color: rgba(0, 0, 0, 0.77);
-border-radius: 0.43rem;
+  background-color: rgba(0, 0, 0, 0.77);
+  border-radius: 0.43rem;
 }
 
 nav {
@@ -115,14 +99,14 @@ max-width: 500px;
 }
 
 @media only screen and (max-width: 985px) {
-body {
-  display: block;
-  height: auto;
-}
+  body {
+    display: block;
+    height: auto;
+  }
 
-.container {
-  width: unset;
-  max-width: 900px;
-  margin: auto;
-}
+  .container {
+    width: unset;
+    max-width: 900px;
+    margin: auto;
+  }
 }

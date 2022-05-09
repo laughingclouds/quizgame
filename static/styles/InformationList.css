@@ -1,0 +1,13 @@
+body {
+  color: white;
+}
+
+.content {
+  background: 000000bf;
+
+  border-style: solid;
+  border-color: rgba(177, 171, 171, 0.767);
+  border-radius: 0.43rem;
+
+  padding: 10px;
+}
