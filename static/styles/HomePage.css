@@ -1,0 +1,120 @@
+body {
+  height: 100vh;
+}
+
+.container {
+  background-color: #f2f2f291;
+  width: 900px;
+  border-radius: 0.43rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  background-color: rgba(0, 0, 0, 0.77);
+  border-radius: 0.43rem;
+}
+
+nav {
+  padding: 10px 15px 10px 15px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+nav ul li {
+  padding: 5px;
+}
+
+li {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+li a {
+  display: block;
+}
+
+li :is(a, a:visited) {
+  text-decoration: none;
+  color: inherit;
+}
+
+li:hover {
+  color: yellow;
+}
+
+/* info-wrap */
+#main-nav ul li {
+  position: relative;
+}
+
+.hidden-object-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  visibility: hidden;
+  opacity: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.hidden-object {
+  display: block;
+  font-size: medium;
+  color: rgb(0, 0, 0);
+  transition: 0.2s;
+  transform: translateX(11.5em);
+  text-align: start;
+}
+
+
+#main-nav ul :is(li:hover .hidden-object-layer) {
+  visibility: visible;
+  opacity: 1;
+}
+
+.about-section {
+max-width: 500px;
+}
+
+.about-section :is(a, a:visited) {
+  color: #90080e;
+  text-decoration: none;
+}
+
+.about-section :is(a:hover) {
+  color: yellow;
+  background: black;
+  padding: 5px;
+  box-shadow: 10px 5px aliceblue;
+}
+
+.about-article :is(h1, h2, h3, h4, h5, h6) {
+  text-align: center;
+}
+
+@media only screen and (max-width: 985px) {
+  body {
+    display: block;
+    height: auto;
+  }
+
+  .container {
+    width: unset;
+    max-width: 900px;
+    margin: auto;
+  }
+}

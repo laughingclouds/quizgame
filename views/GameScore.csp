@@ -8,59 +8,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/styles/Global.css">
+    <link rel="stylesheet" href="/static/styles/GameScore.css">
+    <link rel="stylesheet" href="/static/styles/Button.css">
     <title>Score</title>
-
-    <style>
-        li {
-            padding: 5px;
-        }
-
-        .answer-text {
-            color: rgb(8, 155, 8);
-        }
-
-        .answers-container {
-            position: relative;
-            height: 500px;
-            overflow: auto;
-
-            width: max-content;
-            margin: 0 auto;
-        }
-
-        header#answers-list-head {
-            position: sticky;
-            top: 0px;
-            background-color: inherit;
-        }
-
-        button.look-like-link {
-            background: none!important;
-            border: none;
-            padding: 0!important;
-            /*optional*/
-            /* font-family: arial, sans-serif; */
-            /*input has OS specific font-family*/
-            color: #069;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
     <main>
-        <span>Here's your score!</span>
-        <span>{% number_of_correctly_answered_questions %} / {% number_of_questions %}</span>
+      <div id="score-header">
+        <h1>Your Score</h1>
+        <div id="score">
+          <span id="scored">
+            {% number_of_correctly_answered_questions %}
+          </span>
+          <hr id="horizontal-line">
+          <span id="total">
+            {% number_of_questions %}
+          </span>
+        </div>
+      </div>
 
         <div class="answers-container">
             <header id="answers-list-head">Correct Answers</header>
 
-            <main>
+            <main id="answers-list">
                 <ol>
                     <%c++ for (auto answer : answers) {%>
                         <li>
                             <span>Question: {% answer.questionText %}</span>
-                            <div>
+                            <div class="answer-text-container">
                                 <span class="answer-text">{% answer.text %}</span>
                             </div>
                         </li>
@@ -72,15 +48,7 @@
     </main>
 
     <footer>
-        <div>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="/">Return to Home Page</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+      <a href="/" class="form-button">Return to Home Page</a>
     </footer>
 </body>
 </html>

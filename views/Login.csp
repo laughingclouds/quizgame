@@ -5,19 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/styles/Global.css">
+    <link rel="stylesheet" href="/static/styles/Form.css">
+    <link rel="stylesheet" href="/static/styles/Button.css">
     <title>Login</title>
 </head>
 
 <body>
+  <header>
+    <h1 class="form-header">Enter your credentials</h1>
+  </header>
+
+  <main class="form-container">
     <form action="/EvaluateCredentials" method="post">
-        <label for="username">Your Username:</label>
+      <div>
+        <label for="username">Username</label>
         <input type="text" name="username" id="username">
+      </div>
 
-        <label for="password">Your Password:</label>
+      <div>
+        <label for="password">Password</label>
         <input type="password" name="password" id="password">
+      </div>
 
-        <button type="submit">Login</button>
+      <button type="submit" class="form-button">Login</button>
     </form>
+  </main>
 </body>
 
 </html>

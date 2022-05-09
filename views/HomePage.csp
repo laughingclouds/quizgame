@@ -2,61 +2,96 @@
 <html lang="en">
 
 <head>
-    <%c++ bool IS_USER_LOGGED_IN = @@.get<bool>("IS_USER_LOGGED_IN");%>
+  <%c++ bool IS_USER_LOGGED_IN=@@.get<bool>("IS_USER_LOGGED_IN");%>
+  <%c++ const std::string USER_NAME=@@.get<const std::string>("USER_NAME");%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles/quiz_game_home.css">
+    <link rel="stylesheet" href="/static/styles/Global.css">
+    <link rel="stylesheet" href="/static/styles/HomePage.css">
     <title>Quiz Game</title>
 </head>
 
 <body>
-    <div class="container">
+  <div class="container">
+    <header>
+      <%c++ if (IS_USER_LOGGED_IN) {%>
+        <h1>Welcome {% USER_NAME %}!</h1>
+      <%c++} else {%>
         <h1>Welcome!</h1>
+      <%c++}%>
+    </header>
 
-        <div class="content">
+    <main>
+      <div class="content">
+        <nav id="main-nav">
+          <ul>
+            <%c++ if (IS_USER_LOGGED_IN) {%>
+              <li>
+                <a href="./QuizSetting">                  
+                  <span>Start</span>
+                  <div class="hidden-object-layer">
+                    <span class="hidden-object">Start the game</span>
+                  </div>
+                </a>
+              </li>
 
-            <nav>
-                <ul>
-                    
-                    <%c++ if (IS_USER_LOGGED_IN) {%>
-                        <li>
-                            <a href="./QuizSetting">
-                                Start
-                            </a>
-                        </li>
+              <li>
+                <a href="/Logout">
+                  <span>Logout</span>
+                  <div class="hidden-object-layer">
+                    <span class="hidden-object">Logout of the game</span>
+                  </div>
+                </a>
+              </li>
+              <%c++} else {%>
+                <li>
+                  <a href="/Login">
+                    <span>Login</span>
+                    <div class="hidden-object-layer">
+                      <span class="hidden-object">Login to save your progress</span>
+                    </div>
+                  </a>
+                </li>
+                <%c++ }%>
+                  <li>
+                    <a href="./LeaderBoard">
+                      <span>Leaderboard</span>
+                      <div class="hidden-object-layer">
+                        <span class="hidden-object">Show users with top scores</span>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="./AddUser">                      
+                      <span>New user</span>
+                      <div class="hidden-object-layer">
+                        <span class="hidden-object">Add a new user to the database</span>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="./InformationList">
+                      <span>Information list</span>
+                      <div class="hidden-object-layer">
+                        <span class="hidden-object">[Not for players] Show some information stored in the database</span>
+                      </div>
+                    </a>
+                  </li>
+          </ul>
+        </nav>
+      </div>
+    </main>
 
-                        <li>
-                            <a href="/Logout">
-                                Logout
-                            </a>
-                        </li>
-                    <%c++} else {%>
-                        <li>
-                            <a href="/Login">
-                                Login
-                            </a>
-                        </li>
-                    <%c++ }%>
-                    <li>
-                        <a href="./LeaderBoard">
-                            Leaderboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./AddUser">
-                            Add new user
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./InformationList">
-                            Information list
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <footer class="about-section">
+      <article id="about" class="about-article">
+        <h2>About</h2>
+        <p>Welcome to this quiz-game me and my team has prepared for you. You can find the source code in <a
+            href="https://github.com/laughingclouds/quiz-game" target="_blank">this github repository</a>.</p>
+        <p>Hover your mouse over any of the options to know what they do.</p>
+      </article>
+    </footer>
+  </div>
 </body>
 
 </html>

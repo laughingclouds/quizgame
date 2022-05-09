@@ -7,6 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/imgs/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/styles/Global.css">
+    <link rel="stylesheet" href="/static/styles/LeaderBoard.css">
+    <link rel="stylesheet" href="/static/styles/Button.css">
     <title>LeaderBoard</title>
 </head>
 
@@ -26,6 +29,7 @@
             <%c++}%>
         </tbody>
     </table>
+    <footer><a href="/" class="form-button">Return to Home Page</a></footer>
 </body>
 
 </html>

@@ -38,6 +38,17 @@ We have decided to include these six into the game. This means, every player wil
 1. Read this: <https://www.freecodecamp.org/news/reusable-html-components-how-to-reuse-a-header-and-footer-on-a-website/>
 2. This too: <https://stackoverflow.com/questions/14551194/how-are-parameters-sent-in-an-http-post-request>
 3. For future reference: <https://stackoverflow.com/questions/44769315/how-to-see-docker-image-contents>
+4. This is worth looking into: <https://docs.docker.com/compose/compose-file/#illustrative-example-1>
+
+### Styling
+
+You need to add styles for these pages
+
+- /LeaderBoard
+- /QuizSetting
+- StartGame/Score
+
+Also style the scroll bar
 
 ## Quickstart
 
@@ -117,4 +128,13 @@ Linux
 
 ```shell
 ./quiz
+```
+
+### Deploy Testing
+
+Assuming you want to easily deploy it to heroku.
+You can test it using this.
+
+```shell
+docker build -t quiz-game-deploy-test -f dist.Dockerfile .
 ```

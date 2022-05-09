@@ -1,0 +1,66 @@
+body {
+  height: unset;
+}
+
+#score-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#score {
+  background-color: yellowgreen;
+  padding: 5px;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  display: inline-block;
+  transform: translate(2rem, 1rem);
+  box-shadow: 10px 5px black;
+}
+
+#scored {
+  display: block;
+  transform: translateX(2rem);
+}
+
+#total {
+  display: block;
+  transform: translateX(1.5rem);
+}
+
+#answers-list {
+  background-color: #3689c6b8;
+}
+
+#answers-list li:not(:last-child) {
+  padding: 5px;
+}
+
+.answer-text-container, .answer-text {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.answer-text {
+  color: rgb(255, 255, 255);
+  background-color: green;
+  box-shadow: 5px 5px #400505;
+  
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.answers-container {
+  position: relative;
+  height: 430px;
+  overflow: auto;
+
+  width: max-content;
+  margin: 0 auto;
+}
+
+header#answers-list-head {
+  position: sticky;
+  top: 0px;
+  background-color: #3689c6;
+}
