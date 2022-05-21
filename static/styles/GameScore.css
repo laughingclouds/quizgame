@@ -53,9 +53,9 @@ body {
 .answers-container {
   position: relative;
   height: 430px;
+  max-width: 1000px;
   overflow: auto;
 
-  width: max-content;
   margin: 0 auto;
 }
 
