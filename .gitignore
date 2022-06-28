@@ -15,6 +15,8 @@ ignore_folder/
 *.dll
 *.so
 *.dylib
+# Binary directory
+bin/
 
 # Test binary, built with `go test -c`
 *.test
