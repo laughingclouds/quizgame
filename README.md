@@ -8,6 +8,11 @@ A Quiz Game written in golang
 2. [Complete project using drogon framework](https://github.com/laughingclouds/quizgame/tree/def7792)
 3. Now. Rewrite in golang
 
+## Plans
+
+I was thinking of using react for the front-end (cuz' why not). For that I will have to create an api (backend) that will return
+data in json format. This is the time to work on the various end-points for our app.
+
 ## Where To Get Started
 
 -   [PostgreSQL 14 Documentation](https://www.postgresql.org/docs/current/index.html)
