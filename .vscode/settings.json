@@ -1,4 +1,8 @@
 {
     "editor.detectIndentation": false,
     "editor.tabSize": 2,
+    "go.gotoSymbol.ignoreFolders": [
+      "ignore_directory"
+    ],
+    "go.lintTool": "golangci-lint",
 }
