@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Home from "./routes/home";
+import Login from "./routes/login";
+import Leaderboard from "./routes/leaderboard";
+
+import getCookie from "./util";
+
+export default function App() {
+	const [session, setSession] = useState({
+		inSession: false,
+		user: "None",
+		userId: "0",
+	});
+
+	useEffect(() => {
+		const user = getCookie("user");
+		const userId = getCookie("userId");
+		if (user !== "None" && user !== "" && userId !== "0" && userId !== "") {
+			setSession({
+				inSession: true,
+				user: user,
+				userId: userId,
+			});
+		}
+	}, []);
+
+	return (
+		<>
+			<Routes>
+				<Route path="/" element={<Home session={session} />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/leaderboard" element={<Leaderboard />} />
+			</Routes>
+		</>
+	);
 }
-
-export default App;
