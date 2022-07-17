@@ -1,13 +1,16 @@
 package routes
 
 import (
-	"net/http"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laughingclouds/quizgame/auth"
 )
 
 func Logout(c *gin.Context) {
-	auth.SetSessionCookies(c, "None", "0")
-	c.Redirect(http.StatusMovedPermanently, "/")
+	fmt.Println(auth.UserSession)
+	auth.UserSession.End()
+	fmt.Println(auth.UserSession)
+
+	c.File("index.html")
 }
