@@ -1,16 +1,16 @@
-package routes
+package api
 
 import (
-	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laughingclouds/quizgame/auth"
 )
 
 func Logout(c *gin.Context) {
-	fmt.Println(auth.UserSession)
 	auth.UserSession.End()
-	fmt.Println(auth.UserSession)
 
-	c.File("index.html")
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+	})
 }
