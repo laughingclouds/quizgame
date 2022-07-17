@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function Leaderboard() {
 	const [lbData, setLbData] = useState([]);
 	useEffect(() => {
-		fetch("/leaderboard.json")
+		fetch("/api/leaderboard")
 			.then((resp) => resp.json())
 			.then((data) => {
 				setLbData(data.users);
@@ -20,7 +20,6 @@ export default function Leaderboard() {
 	});
 	return (
 		<>
-			<div>Idk what I'm doing</div>
 			<table>
 				<thead>
 					<th>Name</th>
@@ -29,6 +28,7 @@ export default function Leaderboard() {
 
 				<tbody>{leaderboard}</tbody>
 			</table>
+      <a href="/">Return Home</a>
 		</>
 	);
 }

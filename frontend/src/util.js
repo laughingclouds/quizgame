@@ -53,3 +53,22 @@ function getCookies() {
 export default function getCookie(name) {
 	return getCookies()[name];
 }
+
+function tempLogin(username, password) {
+	postUserPassForm("/login/authenticate", username, password);
+}
+
+function addUser(username, password) {
+  postUserPassForm("/adduser/create", username, password);
+}
+
+function postUserPassForm(url, username, password) {
+	let formData = new FormData();
+	formData.append("username", username);
+	formData.append("password", password);
+
+	fetch(url, {
+		method: "POST",
+		body: formData,
+	});
+}

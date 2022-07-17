@@ -1,7 +1,7 @@
 export default function Adduser() {
   return (
     <>
-     <form action='/adduser/create' method='post'>
+     <form action='/api/createuser' method='post'>
       <div>
         <label htmlFor='username'>Username</label>
         <input id='username' type='text' name='username' />

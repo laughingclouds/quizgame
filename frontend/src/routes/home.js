@@ -1,5 +1,28 @@
-export default function Home({ state }) {
-	console.log("Home:", state);
+import { useState, useEffect } from "react";
+import handleLogout from "./logout";
+
+// element when not logged in
+const baseNavList = [
+	["Leaderboard", "/leaderboard", 1],
+	["New User", "/adduser", 2],
+];
+
+export default function Home() {
+	const [state, setState] = useState({
+		user: undefined,
+		userId: undefined,
+	});
+
+	useEffect(() => {
+		fetch("/api/sessioninfo")
+			.then((resp) => resp.json())
+			.then((jsonData) => {
+				setState({
+					user: jsonData.user,
+					userId: jsonData.userId,
+				});
+			});
+	}, []);
 
 	let inSession = false;
 
@@ -7,11 +30,7 @@ export default function Home({ state }) {
 	if (state.user !== "None" && state.user !== undefined) {
 		inSession = true;
 
-		navList = [
-			["Start", "/quiz/setting", -1],
-			["Logout", "/logout", 0],
-			...baseNavList,
-		];
+		navList = [["Start", "/quiz/setting", 0], ...baseNavList];
 	} else {
 		navList = [["Login", "/login", 0], ...baseNavList];
 	}
@@ -27,26 +46,33 @@ export default function Home({ state }) {
 			)}
 			<div className="max-w-lg">
 				<nav className="bg-black rounded-lg border border-gray-200 w-48 text-white text-lg font-medium text-center">
-					{navList.map((navItem) => {
-						return (
-							<li key={navItem[2]}>
-								<a
-									href={navItem[1]}
-									className="block px-4 py-2 w-full hover:text-yellow-400 cursor-pointer"
-								>
-									{navItem[0]}
-								</a>
+					<ol>
+						{navList.map((navItem) => {
+							return (
+								<li key={navItem[2]}>
+									<a
+										href={navItem[1]}
+										className="block px-4 py-2 w-full hover:text-yellow-400 cursor-pointer"
+									>
+										{navItem[0]}
+									</a>
+								</li>
+							);
+						})}
+
+						{inSession ? (
+							<li
+								onClick={handleLogout(setState)}
+								className="block px-4 py-2 w-full hover:text-yellow-400 cursor-pointer"
+							>
+								Logout
 							</li>
-						);
-					})}
+						) : (
+							<></>
+						)}
+					</ol>
 				</nav>
 			</div>
 		</>
 	);
 }
-
-// element when not logged in
-const baseNavList = [
-	["Leaderboard", "/leaderboard", 1],
-	["New User", "/adduser", 2],
-];

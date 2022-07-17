@@ -1,7 +1,7 @@
 export default function Login() {
   return (
     <>
-     <form action='/login/authenticate' method='post'>
+     <form action='/api/login' method='post'>
       <div>
         <label htmlFor='username'>Username</label>
         <input id='username' type='text' name='username' />

@@ -1,9 +1,12 @@
-export default function Logout({ state }) {
-  console.log("Before Logout:", state);
-	return (
-		<>
-			<h1>You Have Been Logged Out</h1>
-      <a href="/">Return Home</a>
-		</>
-	);
+export default function handleLogout(setState) {
+	return () => {
+		fetch("/api/logout")
+			.then((resp) => resp.json())
+			.then((data) => {
+				setState({
+					user: "None",
+					userId: "0",
+				});
+			});
+	};
 }
