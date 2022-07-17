@@ -1,6 +1,12 @@
-export default function Home({ session }) {
+export default function Home({ state }) {
+	console.log("Home:", state);
+
+	let inSession = false;
+
 	let navList = [];
-	if (session.inSession) {
+	if (state.user !== "None" && state.user !== undefined) {
+		inSession = true;
+
 		navList = [
 			["Start", "/quiz/setting", -1],
 			["Logout", "/logout", 0],
@@ -10,25 +16,32 @@ export default function Home({ session }) {
 		navList = [["Login", "/login", 0], ...baseNavList];
 	}
 
-	navList = navList.map((navItem) => {
-		return (
-			<li key={navItem[2]}>
-				<a
-					href={navItem[1]}
-					className="block px-4 py-2 w-full hover:text-yellow-400 cursor-pointer"
-				>
-					{navItem[0]}
-				</a>
-			</li>
-		);
-	});
-
 	return (
-		<div className="max-w-lg">
-			<nav className="bg-black rounded-lg border border-gray-200 w-48 text-white text-lg font-medium text-center">
-				{navList}
-			</nav>
-		</div>
+		<>
+			{inSession ? (
+				<header>
+					<h3>Welcome! {state.user}</h3>
+				</header>
+			) : (
+				<></>
+			)}
+			<div className="max-w-lg">
+				<nav className="bg-black rounded-lg border border-gray-200 w-48 text-white text-lg font-medium text-center">
+					{navList.map((navItem) => {
+						return (
+							<li key={navItem[2]}>
+								<a
+									href={navItem[1]}
+									className="block px-4 py-2 w-full hover:text-yellow-400 cursor-pointer"
+								>
+									{navItem[0]}
+								</a>
+							</li>
+						);
+					})}
+				</nav>
+			</div>
+		</>
 	);
 }
 
