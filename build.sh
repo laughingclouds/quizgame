@@ -6,7 +6,7 @@ mkdir -p build
 # BACKEND_BUILD_PATH=$PROJECT_ROOT/build/
 
 cd $PROJECT_ROOT/frontend/
-npm run build
+yarn build
 
 
 cd $PROJECT_ROOT/backend/
