@@ -31,5 +31,9 @@
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.1.6"
   },
+  "resolutions": {
+    "browserslist": "4.23.2",
+    "caniuse-lite": "1.0.30001367"
+  },
   "proxy": "http://localhost:8080"
 }

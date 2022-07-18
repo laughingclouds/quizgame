@@ -3,7 +3,6 @@ package api
 import (
 	"errors"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -35,7 +34,7 @@ func Login(c *gin.Context) {
 		c.Redirect(http.StatusSeeOther, "/login")
 
 	} else {
-		auth.UserSession.Start(name, strconv.Itoa(int(user.ID)))
+		auth.UserSession.Start(name, user.ID)
 		c.Redirect(http.StatusSeeOther, "/")
 
 	}

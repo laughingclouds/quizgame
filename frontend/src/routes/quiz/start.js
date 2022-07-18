@@ -2,43 +2,75 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function QuizStart() {
-	let [questions, setQuestions] = useState([]);
-	let [category, setCategory] = useState({});
-	let [searchParams] = useSearchParams();
+  const [questions, setQuestions] = useState([]);
+  const [category, setCategory] = useState({
+    ID: "0",
+    Name: "None",
+  });
+  const [searchParams] = useSearchParams();
 
   const categoryId = searchParams.get("categoryId");
 
-	useEffect(() => {
-		console.log(`/api/categories/${categoryId}`);
-		fetch(`/api/categories/${searchParams.get("categoryId")}`)
-			.then((resp) => resp.json())
-			.then((data) => {
-				setCategory(data.category);
-			});
+  useEffect(() => {
+    fetch(`/api/categories/${categoryId}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+        setCategory(data.category);
+      });
 
-		fetch(`/api/questions/${categoryId}`)
-			.then((resp) => resp.json())
-			.then((data) => {
-				setQuestions(data.questions);
-			});
-	}, []);
+    fetch(`/api/questions/${categoryId}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+        setQuestions(data.questions);
+      });
+  }, []);
 
-	return (
-		<>
-			<h1>{category.Name}</h1>
-			<h3>Start!</h3>
+  return (
+    <>
+      <h1>{category.Name}</h1>
+      <h3>Start!</h3>
 
-      <ul>
-        <QuestionList questions={questions} />
-      </ul>
-		</>
-	);
+      <form action="/api/calculatescore" method="post">
+        <input name="category" value={category.ID} hidden readOnly />
+
+        <ul>
+          <QuestionList questions={questions} />
+        </ul>
+
+        <button type="submit">Submit</button>
+      </form>
+    </>
+  );
 }
 
-function QuestionList({questions}) {
+function QuestionList({ questions }) {
   return questions.map((question) => {
     return (
-      <li key={question.ID}>{question.Text}</li>
+      <li key={question.ID}>
+        <span>{question.Text}</span>
+        <ul>
+          <OptionList question={question} />
+        </ul>
+      </li>
+    );
+  });
+}
+
+function OptionList({ question }) {
+  const options = question.Options;
+
+  return options.map((option) => {
+    return (
+      <li key={option.ID}>
+        <input
+          id={option.ID}
+          type="radio"
+          name={question.ID}
+          value={option.ID}
+          required
+        />
+        <label htmlFor={option.ID}>{option.Text}</label>
+      </li>
     );
   });
 }

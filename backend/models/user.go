@@ -14,3 +14,7 @@ type APIUser struct {
 	Name  string `gorm:"unique"`
 	Score int    `gorm:"not null;default:0"`
 }
+
+type Score struct {
+	Score int
+}

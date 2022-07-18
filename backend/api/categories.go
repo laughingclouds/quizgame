@@ -22,7 +22,13 @@ func AllCategories(c *gin.Context) {
 //
 // Handle /api/categories/:categoryId
 func Category(c *gin.Context) {
-	categoryId := c.Param("categoryId")
+	categoryId := ""
+	categoryId = c.Param("categoryId")
+
+	if categoryId == "" {
+		c.Redirect(http.StatusMultipleChoices, "/")
+		return
+	}
 
 	category := models.Category{}
 	db.DB.Where("id = ?", categoryId).First(&category)

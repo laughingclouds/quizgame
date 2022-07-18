@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import handleLogout from "./logout";
+import { useState, useEffect } from "react";
 
 // element when not logged in
 const baseNavList = [
@@ -8,7 +8,7 @@ const baseNavList = [
 ];
 
 export default function Home() {
-	const [state, setState] = useState({
+  const [state, setState] = useState({
 		user: undefined,
 		userId: undefined,
 	});
