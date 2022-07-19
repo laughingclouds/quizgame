@@ -21,16 +21,17 @@ func CalculateScore(c *gin.Context) {
 	err := db.DB.Where("id = ?", auth.UserSession.UserId()).First(&user).Error
 	// user probably not logged in
 	if err != nil {
+		log.Println(err)
 		c.Redirect(http.StatusMultipleChoices, "/")
 		return
 	}
 
 	questions := []models.Question{}
-	questionsMap := make(map[uint]*models.Question)
+	questionsMap := make(map[uint]models.Question)
 	db.DB.Where("\"categoryId\" = ?", categoryId).Find(&questions)
 
 	for _, question := range questions {
-		questionsMap[question.ID] = &question
+		questionsMap[question.ID] = question
 	}
 
 	// How to parse forms
@@ -39,7 +40,6 @@ func CalculateScore(c *gin.Context) {
 	for strQuestionId, values := range c.Request.PostForm {
 		if strQuestionId != "category" {
 			optionId, err := strconv.Atoi(values[0])
-
 			// it would be weird if value is not a number as it represents optionId
 			if err != nil {
 				log.Fatal(err)
@@ -58,11 +58,10 @@ func CalculateScore(c *gin.Context) {
 						QuestionId: uint(formQuestionId),
 					}
 					db.DB.Create(&solved)
+					db.DB.Model(&user).Where("id = ?", user.ID).Update("score", user.Score)
 				}
 			}
 		}
 	}
-
-	db.DB.Model(&user).Where("id = ?", user.ID).Update("score", user.Score)
 	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/quiz/score?category=%v", categoryId))
 }
