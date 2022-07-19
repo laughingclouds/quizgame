@@ -27,8 +27,8 @@ export default function QuizStart() {
 
   return (
     <>
-      <h1>{category.Name}</h1>
-      <h3>Start!</h3>
+      <h1>Start!</h1>
+      <h2>{category.Name}</h2>
 
       <form action="/api/calculatescore" method="post">
         <input name="category" value={category.ID} hidden readOnly />

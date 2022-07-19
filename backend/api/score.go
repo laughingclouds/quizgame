@@ -16,8 +16,10 @@ import (
 //
 // Handle /api/score
 func Score(c *gin.Context) {
+	var count int64
 	solveds := []models.Solved{}
 	user := models.User{}
+	db.DB.Model(&models.Question{}).Count(&count)
 	err := db.DB.Where("id = ?", auth.UserSession.UserId()).First(&user).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -40,5 +42,6 @@ func Score(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"score": user.Score,
+		"count": count,
 	})
 }
