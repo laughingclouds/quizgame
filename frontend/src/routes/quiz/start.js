@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { ICONS } from "../../icons";
 
 export default function QuizStart() {
   const [questions, setQuestions] = useState([]);
@@ -12,6 +13,8 @@ export default function QuizStart() {
   const categoryId = searchParams.get("categoryId");
 
   useEffect(() => {
+    document.title = "Start";
+    
     fetch(`/api/categories/${categoryId}`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -68,6 +71,7 @@ function OptionList({ question }) {
           name={question.ID}
           value={option.ID}
           required
+          className="radio radio-primary"
         />
         <label htmlFor={option.ID}>{option.Text}</label>
       </li>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { ICONS } from "../../icons";
 
 export default function QuizScore() {
   const [score, setScore] = useState({
@@ -11,6 +12,7 @@ export default function QuizScore() {
   const categoryId = searchParams.get("category");
 
   useEffect(() => {
+    document.title = "Score";
     fetch("/api/score")
       .then((resp) => resp.json())
       .then((data) => {
@@ -29,15 +31,15 @@ export default function QuizScore() {
 
   return (
     <>
-      <h1>Total Score! {score.score} / {score.count}</h1>
+      <h1>{ICONS.academiccap} Total Score! {score.score} / {score.count}</h1>
 
-      <h4>Answers</h4>
+      <h4>{ICONS.lightbulb} Answers</h4>
 
       <ol>
         <QuestionList questions={questions} />
       </ol>
 
-      <a href="/">Return Home</a>
+      <a href="/">{ICONS.home} Return Home</a>
     </>
   );
 }

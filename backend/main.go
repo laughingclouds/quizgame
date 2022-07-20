@@ -22,15 +22,12 @@ func main() {
 
 	// For front-end
 	server.GET("/", index)
-	server.GET("/quiz/setting", index)
 	server.GET("/quiz/start", index)
 	server.GET("/quiz/score", index)
-	server.GET("/login", index)
-	server.GET("/leaderboard", index)
-	server.GET("/adduser", index)
 
 	// Both
 	server.GET("/api/logout", api.Logout)
+	server.POST("/api/logout", api.Logout)
 
 	// For backend
 	server.POST("/api/createuser", api.CreateUser)
