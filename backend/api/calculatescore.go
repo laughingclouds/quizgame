@@ -2,7 +2,6 @@ package api
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -22,7 +21,10 @@ func CalculateScore(c *gin.Context) {
 	// user probably not logged in
 	if err != nil {
 		log.Println(err)
-		c.Redirect(http.StatusMultipleChoices, "/")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   "User probably not logged in",
+		})
 		return
 	}
 
@@ -63,5 +65,7 @@ func CalculateScore(c *gin.Context) {
 			}
 		}
 	}
-	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/quiz/score?category=%v", categoryId))
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+	})
 }

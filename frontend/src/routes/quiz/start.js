@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import ModalWithClose from "../../components/ModalWithCloseComponent";
 import { ICONS } from "../../icons";
 
-export default function QuizStart() {
+export default function QuizStart({ categoryId, setCategoryId }) {
   const [questions, setQuestions] = useState([]);
   const [category, setCategory] = useState({
     ID: "0",
     Name: "None",
   });
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
 
-  const categoryId = searchParams.get("categoryId");
+  // const categoryId = searchParams.get("categoryId");
 
   useEffect(() => {
-    document.title = "Start";
-    
     fetch(`/api/categories/${categoryId}`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -26,22 +24,60 @@ export default function QuizStart() {
       .then((data) => {
         setQuestions(data.questions);
       });
-  }, []);
+  }, [categoryId]);
 
   return (
     <>
-      <h1>Start!</h1>
-      <h2>{category.Name}</h2>
+      <ModalWithClose id="quiz-start" divClass="w-11/12 max-w-5xl min-h-screen">
+        <h1>Start!</h1>
+        <h2>{category.Name}</h2>
 
-      <form action="/api/calculatescore" method="post">
-        <input name="category" value={category.ID} hidden readOnly />
+        <form
+          action="/api/calculatescore"
+          method="post"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const data = new FormData(e.target);
+            const val = Object.fromEntries(data.entries());
+            fetch("/api/calculatescore", {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-type": "Application/json",
+              },
+              body: JSON.stringify(val),
+            }).then((res) =>
+              res.text().then(() => window.location.replace("/#quiz-score"))
+            );
+          }}
+        >
+          {/* <input name="category" value={category.ID} hidden readOnly /> */}
 
-        <ul>
-          <QuestionList questions={questions} />
-        </ul>
+          <ol>
+            <QuestionList questions={questions} />
+          </ol>
 
-        <button type="submit">Submit</button>
-      </form>
+          <div className="flex justify-between">
+            <button
+              type="submit"
+              className="btn btn-sm btn-outline btn-primary"
+            >
+              Submit
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setCategoryId(-1);
+                window.location.replace("/#quiz-setting");
+              }}
+              className="btn btn-sm btn-outline btn-primary"
+            >
+              {ICONS.start}Go Back
+            </button>
+          </div>
+        </form>
+      </ModalWithClose>
     </>
   );
 }
@@ -51,9 +87,9 @@ function QuestionList({ questions }) {
     return (
       <li key={question.ID}>
         <span>{question.Text}</span>
-        <ul>
+        <ol>
           <OptionList question={question} />
-        </ul>
+        </ol>
       </li>
     );
   });
@@ -64,16 +100,19 @@ function OptionList({ question }) {
 
   return options.map((option) => {
     return (
-      <li key={option.ID}>
-        <input
-          id={option.ID}
-          type="radio"
-          name={question.ID}
-          value={option.ID}
-          required
-          className="radio radio-primary"
-        />
-        <label htmlFor={option.ID}>{option.Text}</label>
+      <li key={option.ID} className="form-control">
+        <label htmlFor={option.ID} className="label cursor-pointer">
+          <span className="label-text hover:text-accent">{option.Text}</span>
+
+          <input
+            id={option.ID}
+            type="radio"
+            name={question.ID}
+            value={option.ID}
+            required
+            className="radio radio-primary"
+          />
+        </label>
       </li>
     );
   });

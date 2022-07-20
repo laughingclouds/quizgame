@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import ModalWithClose from "../../components/ModalWithCloseComponent";
 import { ICONS } from "../../icons";
 
 export default function QuizScore() {
+  const [categories, setCategories] = useState([]);
+  const [state, setState] = useState({
+    isShow: false,
+    categoryId: -1,
+  });
+
   const [score, setScore] = useState({
     score: 0,
     count: 0,
   });
-  const [questions, setQuestions] = useState([]);
-  const [searchParams] = useSearchParams();
-  const categoryId = searchParams.get("category");
 
   useEffect(() => {
-    document.title = "Score";
     fetch("/api/score")
       .then((resp) => resp.json())
       .then((data) => {
@@ -22,26 +24,93 @@ export default function QuizScore() {
         });
       });
 
-    fetch(`/api/questions/${categoryId}/answered`)
+    fetch("/api/categories/all")
       .then((resp) => resp.json())
       .then((data) => {
-        setQuestions(data.questions);
+        setCategories(data.categories);
       });
   }, []);
 
   return (
     <>
-      <h1>{ICONS.academiccap} Total Score! {score.score} / {score.count}</h1>
+      <ModalWithClose id="quiz-score" divClass="w-11/12 max-w-5xl prose">
+        <h1>
+          <span className="text-secondary">
+            {ICONS.academiccap} Total Score!
+          </span>
 
-      <h4>{ICONS.lightbulb} Answers</h4>
+          <span>
+            {" "}
+            {score.score} / {score.count}
+          </span>
+        </h1>
 
-      <ol>
-        <QuestionList questions={questions} />
-      </ol>
+        <ShowAnswers isShow={state.isShow} categoryId={state.categoryId} />
 
-      <a href="/">{ICONS.home} Return Home</a>
+        <div className="flex justify-between">
+          <button
+            onClick={() => window.location.replace("/")}
+            className="btn btn-outline btn-primary"
+          >
+            {ICONS.home}Return Home
+          </button>
+          <div className="form-control">
+            <select
+              onChange={(e) => {
+                setState({
+                  isShow: true,
+                  categoryId: e.target.value,
+                });
+              }}
+              className="select select-ghost"
+            >
+              <option disabled selected>
+                {ICONS.academiccap}Show Answers
+              </option>
+              {categories.map((category) => {
+                return (
+                  <option key={category.ID} value={category.ID}>
+                    {category.Name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <button
+            onClick={() => window.location.replace("/#quiz-setting  ")}
+            className="btn btn-outline btn-primary"
+          >
+            {ICONS.start}Attempt more quizes
+          </button>
+        </div>
+      </ModalWithClose>
     </>
   );
+}
+
+function ShowAnswers({ isShow, categoryId }) {
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    fetch(`/api/questions/${categoryId}/answered`)
+      .then((resp) => resp.json())
+      .then((data) => {
+        setQuestions(data.questions);
+      });
+  }, [isShow, categoryId]);
+
+  if (isShow) {
+    return (
+      <>
+        <h4>{ICONS.lightbulb} Answers</h4>
+
+        <ol>
+          <QuestionList questions={questions} />
+        </ol>
+      </>
+    );
+  }
+  return <></>;
 }
 
 function QuestionList({ questions }) {
@@ -49,7 +118,7 @@ function QuestionList({ questions }) {
     return (
       <li key={question.ID}>
         <span>{question.Text}</span>
-        <div>{question.Answer.Text}</div>
+        <div className="text-accent">{question.Answer.Text}</div>
       </li>
     );
   });
