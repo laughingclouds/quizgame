@@ -18,6 +18,7 @@ func main() {
 	auth.UserSession.Start("None", 0)
 	server := gin.Default()
 
+	server.StaticFile("manifest.json", "./manifest.json")
 	server.StaticFS("/static/", http.Dir("./static"))
 
 	// For serving index.html

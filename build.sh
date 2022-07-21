@@ -8,10 +8,13 @@ mkdir -p build
 cd $PROJECT_ROOT/frontend/
 yarn build
 
+echo "Copy all static files into $BUILD_PATH"
+
+mdir -p $BUILD_PATH/static/media
+cp src/static/media/* $BUILD_PATH/static/media/
 
 cd $PROJECT_ROOT/backend/
 
-echo "Copy all static files into $BUILD_PATH"
 cp static/media/* $BUILD_PATH/static/media/
 
 echo "Building backend into $BUILD_PATH"
