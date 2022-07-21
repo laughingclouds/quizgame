@@ -20,21 +20,18 @@ func main() {
 
 	server.StaticFS("/static/", http.Dir("./static"))
 
-	// For front-end
+	// For serving index.html
 	server.GET("/", index)
-	server.GET("/quiz/start", index)
-	server.GET("/quiz/score", index)
 
-	// Both
+	// API endpoints
 	server.GET("/api/logout", api.Logout)
 	server.POST("/api/logout", api.Logout)
 
-	// For backend
 	server.POST("/api/createuser", api.CreateUser)
 	server.POST("/api/login", api.Login)
 	server.POST("/api/calculatescore", api.CalculateScore)
-	server.GET("/api/score", api.Score)
 	// json responses
+	server.GET("/api/score", api.Score)
 	server.GET("/api/sessioninfo", api.SessionInfo)
 	server.GET("/api/leaderboard", api.LeaderboardData)
 	server.GET("/api/categories/all", api.AllCategories)
