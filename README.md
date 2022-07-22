@@ -1,33 +1,31 @@
 # quizgame
 
-A Quiz Game written in golang
+A Quiz Game written in golang.
 
-## history
+> Mini-Project made for the Summer Training program of my Uni
+
+## History
 
 1. [Working example using ncurses library and C++](https://github.com/laughingclouds/quizgame/tree/917462b)
 2. [Complete project using drogon framework](https://github.com/laughingclouds/quizgame/tree/def7792)
 3. Now. Rewrite in golang
 
-## Plans
 
-I was thinking of using react for the front-end (cuz' why not). For that I will have to create an api (backend) that will return
-data in json format. This is the time to work on the various end-points for our app.
+## Acknowledgement
 
-## Where To Get Started
+As a novice in Go programming and Gin framework (and web development in general) I frequently referred to the [go-banking-api](https://github.com/Devansh3712/go-banking-api) project by [Devansh](https://github.com/Devansh3712). Thanks for being awesome!
 
--   [PostgreSQL 14 Documentation](https://www.postgresql.org/docs/current/index.html)
--   Read book: Go Web Programming
--   [Install Golang](https://go.dev/doc/install)
--   [Get started](https://go.dev/doc/tutorial/getting-started) with Go
-
-
-## Furthur Readings
-
--   [Golang Documentation](https://go.dev/doc/)
--   [Types of APIs](https://blog.hubspot.com/website/types-of-apis)
--   [Tour of Go](https://go.dev/tour/welcome/1)
 
 ## Database
+
+We're going to need a postgres database to start. I've already included an SQL script to create the tables and add sample data into them.
+
+- cd into project directory
+- run the below script for user `postgres` who owns a database `quizgame`
+
+```bash
+psql -U postgres -d quizgame -a -f backend/scripts/database.sql
+```
 
 Quiz game uses the following environment variables to connect to a database.
 
@@ -38,3 +36,9 @@ Quiz game uses the following environment variables to connect to a database.
 | QZ_PASSWORD |
 | QZ_DBNAME |
 
+```bash
+export QZ_HOSTNAME="localhost"
+export QZ_USERNAME="postgres"
+export QZ_PASSWORD="PASSWORD"
+export QZ_DBNAME="quizgame"
+```

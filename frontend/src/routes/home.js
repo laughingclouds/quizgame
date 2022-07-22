@@ -1,5 +1,4 @@
-import handleLogout from "./logout";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { ICONS } from "../icons";
 import AboutQuizGame from "../components/AboutComponent";
 import QuizSetting from "../components/QuizSettingComponent";
@@ -8,8 +7,10 @@ import Link from "../components/LinkComponent";
 import Login from "../components/LoginComponent";
 import Leaderboard from "../components/LeaderboardComponent";
 import AddUser from "../components/AddUserComponent";
-import QuizStart from "./quiz/start";
-import QuizScore from "./quiz/score";
+import QuizStart from "../components/QuizStartComponent";
+import QuizScore from "../components/QuizScoreComponent";
+
+import handleLogout from "./logout";
 
 export default function Home() {
   const [state, setState] = useState({
@@ -60,8 +61,6 @@ export default function Home() {
 }
 
 function Menu({ inSession = false, setState }) {
-  // let categoryId = -1;
-  // const setCategoryId = (newId) => {categoryId = newId}
   const [categoryId, setCategoryId] = useState(-1);
   return (
     <>

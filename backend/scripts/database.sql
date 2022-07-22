@@ -1,153 +1,332 @@
--- Database: quizgame
+-- Creating tables
 
-DROP DATABASE IF EXISTS quizgame;
-
-CREATE DATABASE quizgame
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.UTF-8'
-    LC_CTYPE = 'en_US.UTF-8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
-
-COMMENT ON DATABASE quizgame
-    IS 'database for quiz-game';
-
--- Table: public.user
-
-DROP TABLE IF EXISTS public."user";
-
-CREATE TABLE IF NOT EXISTS public."user"
+CREATE TABLE IF NOT EXISTS categories
 (
-    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
-    name text COLLATE pg_catalog."default" NOT NULL,
-    password text COLLATE pg_catalog."default" NOT NULL DEFAULT ''::text,
-    score integer NOT NULL DEFAULT 0,
-    CONSTRAINT user_pkey PRIMARY KEY (id)
-)
+    id SERIAL NOT NULL,
+    name text NOT NULL,
+    PRIMARY KEY (id)
+);
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public."user"
-    OWNER to postgres;
-
-COMMENT ON TABLE public."user"
-    IS 'Store all user information such as, username, password, (highest) score.';
-
-COMMENT ON COLUMN public."user".score
-    IS 'Highest score of user';
-
--- Table: public.category
-
-DROP TABLE IF EXISTS public.category;
-
-CREATE TABLE IF NOT EXISTS public.category
+CREATE TABLE IF NOT EXISTS options
 (
-    id integer NOT NULL DEFAULT nextval('category_id_seq'::regclass),
-    name text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT category_pkey PRIMARY KEY (id),
-    CONSTRAINT category_name_key UNIQUE (name)
-)
+    id SERIAL NOT NULL,
+    text text NOT NULL,
+    PRIMARY KEY (id)
+);
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.category
-    OWNER to postgres;
-
-COMMENT ON TABLE public.category
-    IS 'Store all question categories';
-
--- Table: public.option
-
-DROP TABLE IF EXISTS public.option;
-
-CREATE TABLE IF NOT EXISTS public.option
+CREATE TABLE IF NOT EXISTS questions
 (
-    id integer NOT NULL DEFAULT nextval('answer_id_seq'::regclass),
-    text text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT answer_pkey PRIMARY KEY (id),
-    CONSTRAINT answer_text_key UNIQUE (text)
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.option
-    OWNER to postgres;
-
-COMMENT ON TABLE public.option
-    IS 'Store answers to quiz-questions';
-
--- Table: public.question
-
-DROP TABLE IF EXISTS public.question;
-
-CREATE TABLE IF NOT EXISTS public.question
-(
-    id integer NOT NULL DEFAULT nextval('question_id_seq'::regclass),
+    id SERIAL NOT NULL,
     "categoryId" integer NOT NULL,
     "answerId" integer NOT NULL,
     "option2Id" integer NOT NULL,
     "option3Id" integer NOT NULL,
     "option4Id" integer NOT NULL,
-    text text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT question_pkey PRIMARY KEY (id),
-    CONSTRAINT question_text_key UNIQUE (text),
-    CONSTRAINT "question_answerId_fkey" FOREIGN KEY ("answerId")
-        REFERENCES public.option (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT "question_categoryId_fkey" FOREIGN KEY ("categoryId")
-        REFERENCES public.category (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT "question_option2Id_fkey" FOREIGN KEY ("option2Id")
-        REFERENCES public.option (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID,
-    CONSTRAINT "question_option3Id_fkey" FOREIGN KEY ("option3Id")
-        REFERENCES public.option (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID,
-    CONSTRAINT "question_option4Id_fkey" FOREIGN KEY ("option4Id")
-        REFERENCES public.option (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID
-)
+    text text NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (text),
+    FOREIGN KEY ("categoryId")
+      REFERENCES categories (id),
+    FOREIGN KEY ("answerId")
+      REFERENCES options (id),
+    FOREIGN KEY ("option2Id")
+      REFERENCES options (id),
+    FOREIGN KEY ("option3Id")
+      REFERENCES options (id),
+    FOREIGN KEY ("option4Id")
+      REFERENCES options (id)
+);
 
-TABLESPACE pg_default;
+CREATE TABLE IF NOT EXISTS users
+(
+    id SERIAL NOT NULL,
+    name text NOT NULL,
+    password text NOT NULL DEFAULT '',
+    score integer NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
 
-ALTER TABLE IF EXISTS public.question
-    OWNER to postgres;
-
-COMMENT ON TABLE public.question
-    IS 'Store quiz-questions';
-
--- Table: public.solved
-
-DROP TABLE IF EXISTS public.solved;
-
-CREATE TABLE IF NOT EXISTS public.solved
+CREATE TABLE IF NOT EXISTS solveds
 (
     "userId" integer NOT NULL,
     "questionId" integer NOT NULL,
-    CONSTRAINT "solved_questionId_fkey" FOREIGN KEY ("questionId")
-        REFERENCES public.question (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT "solved_userId_fkey" FOREIGN KEY ("userId")
-        REFERENCES public."user" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
+    FOREIGN KEY ("questionId")
+        REFERENCES questions (id),
+    FOREIGN KEY ("userId")
+        REFERENCES users (id)
+);
 
-TABLESPACE pg_default;
+-- Inserting data
+-- More Data into users hasn't been added
+-- LOGIN using 'root' (password is space '')
 
-ALTER TABLE IF EXISTS public.solved
-    OWNER to postgres;
+INSERT INTO users VALUES (0, 'root', '', 0);
 
-COMMENT ON TABLE public.solved
-    IS 'Store which users solved which questions';
+INSERT INTO categories VALUES
+  (0,	'Misc'),
+  (1,	'Entertainment'),
+  (2,	'Science'),
+  (3,	'Sports'),
+  (4,	'General Knowledge'),
+  (5,	'TV Shows'),
+  (6,	'Anime')
+;
+
+INSERT INTO options VALUES
+  (0,	'Not Found'),
+  (1,	'None'),
+  (2,	'Dadasaheb Phalke'),
+  (3,	'Satyajit Ray'),
+  (4,	'V.Shantaram'),
+  (5,	'Dadasaheb Torne'),
+  (6,	'70'),
+  (7,	'80'),
+  (8,	'69'),
+  (9,	'50'),
+  (10,	'Devika Rani'),
+  (11,	'Prithviraj Kapoor'),
+  (12,	'Raj Kapoor'),
+  (13,	'Pankaj Mullick'),
+  (14,	'Gabbar Singh'),
+  (15,	'Shakaal'),
+  (16,	'Bulla'),
+  (17,	'Mogambo'),
+  (18,	'Mohini'),
+  (19,	'Rohini'),
+  (20,	'Sunandha'),
+  (21,	'Radha'),
+  (22,	'Maa hai'),
+  (23,	'Paisa hai'),
+  (24,	'Ghar hai'),
+  (25,	'Gaadi hai'),
+  (26,	'Princess Fiona'),
+  (27,	'Princess Simona'),
+  (28,	'Princess Fora'),
+  (29,	'Princess Cora'),
+  (30,	'Edward Smith'),
+  (31,	'Edwin Smith'),
+  (32,	'Edward Curt'),
+  (33,	'Edwin Curt'),
+  (34,	'Johnny Depp'),
+  (35,	'Dwayne Johnson'),
+  (36,	'Orlando Bloom'),
+  (37,	'Timothée Chalamet'),
+  (38,	'Mehboob Khan'),
+  (39,	'K. Asif'),
+  (40,	'Yash Chopra'),
+  (41,	'Kanhaiyalal'),
+  (42,	'6'),
+  (43,	'7'),
+  (44,	'8'),
+  (45,	'5'),
+  (46,	'Mjolnir'),
+  (47,	'Stormcaster'),
+  (48,	'Hulkbuster'),
+  (49,	'Jarnbjorn'),
+  (50,	'Loki'),
+  (51,	'Magneto'),
+  (52,	'Norman Osborn'),
+  (53,	'Thanos'),
+  (54,	'Heath Ledger'),
+  (55,	'Gary Oldman'),
+  (56,	'Michael Caine'),
+  (57,	'Aaron Eckhart'),
+  (58,	'Andaaz Apna Apna'),
+  (59,	'Maine Pyar Kiya'),
+  (60,	'Sholay'),
+  (61,	'Hera Pheri'),
+  (62,	'Kratos'),
+  (63,	'Atreus'),
+  (64,	'zeus'),
+  (65,	'Thor'),
+  (66,	'Rayleigh scattering'),
+  (67,	'Adsorption'),
+  (68,	'Refraction'),
+  (69,	'Reflection'),
+  (70,	'VIBGYOR'),
+  (71,	'ROYBIGV'),
+  (72,	'YOGVIBR'),
+  (73,	'RYOVIBG'),
+  (74,	'Mercury'),
+  (75,	'Lithium'),
+  (76,	'Copper'),
+  (77,	'Sodium'),
+  (78,	'118'),
+  (79,	'117'),
+  (80,	'106'),
+  (81,	'130'),
+  (82,	'J and Q'),
+  (83,	'J'),
+  (84,	'Q'),
+  (85,	'Z'),
+  (86,	'Graphite'),
+  (87,	'Charcoal'),
+  (88,	'Phosphorus'),
+  (89,	'Silicon'),
+  (90,	'Hydrogen'),
+  (91,	'Carbon Dioxide'),
+  (92,	'Methane'),
+  (93,	'Chlorofluorocarbons'),
+  (94,	'Homo sapiens'),
+  (95,	'Bos taurus'),
+  (96,	'Macaca mulatta'),
+  (97,	'Serpentes'),
+  (98,	'Teflon'),
+  (99,	'Polystyrene'),
+  (100,	'PVC'),
+  (101,	'Black paint'),
+  (102,	'Diamond'),
+  (103,	'Gold'),
+  (104,	'Germanium'),
+  (105,	'Deoxyribonucleic acid'),
+  (106,	'Dioxyribonucleic acid'),
+  (107,	'De riboacid'),
+  (108,	'Di riboacid'),
+  (109,	'206'),
+  (110,	'240'),
+  (111,	'110'),
+  (112,	'210'),
+  (113,	'8 minutes'),
+  (114,	'8 days'),
+  (115,	'8 hours'),
+  (116,	'8 seconds'),
+  (117,	'-40'),
+  (118,	'40'),
+  (119,	'37'),
+  (120,	'25'),
+  (121,	'Rafael Nadal'),
+  (122,	'Pete Sampras'),
+  (123,	'Roger Federer'),
+  (124,	'Noval Djokovic'),
+  (125,	'Football Team'),
+  (126,	'Cricket Team'),
+  (127,	'Hockey Team'),
+  (128,	'Kabaddi Team'),
+  (129,	'1912'),
+  (130,	'1915'),
+  (131,	'1920'),
+  (132,	'1924'),
+  (133,	'1914'),
+  (134,	'1928'),
+  (135,	'Germany'),
+  (136,	'South Korea'),
+  (137,	'Norway'),
+  (138,	'Canada'),
+  (139,	'Vancouver'),
+  (140,	'New York'),
+  (141,	'Melbourne'),
+  (142,	'Montreal'),
+  (143,	'Jim Courier'),
+  (144,	'Jacques Rogge'),
+  (145,	'Ugur Erdener'),
+  (146,	'Anita DeFrantz'),
+  (147,	'Yu Zaiqing'),
+  (148,	'Pierre de Coubertin'),
+  (149,	'Spyridon Samaras'),
+  (150,	'Woodrow Wilson'),
+  (151,	'Herbert Hoover'),
+  (152,	'United States of America'),
+  (153,	'China'),
+  (154,	'Russia'),
+  (155,	'Carolina Marin'),
+  (156,	'Nozomi Okuhara'),
+  (157,	'P.V. Sindhu'),
+  (158,	'Wang Yihan'),
+  (159,	'Basketball'),
+  (160,	'Football'),
+  (161,	'Rugby'),
+  (162,	'Baseball'),
+  (163,	'Archery'),
+  (164,	'Polo'),
+  (165,	'Boxing'),
+  (166,	'Table Tennis'),
+  (167,	'Belgium'),
+  (168,	'France'),
+  (169,	'Raging Bull'),
+  (170,	'Taxi driver'),
+  (171,	'The Deer Hunter'),
+  (172,	'The deep ocean'),
+  (173,	'1780'),
+  (174,	'1970'),
+  (175,	'1882'),
+  (176,	'1790'),
+  (177,	'Jalebi Fafda'),
+  (178,	'Undhiyo'),
+  (179,	'Dhokla'),
+  (180,	'Khandvi'),
+  (181,	'Kanha'),
+  (182,	'Bhindi Master'),
+  (183,	'Mehtoos'),
+  (184,	'ATM'),
+  (185,	'Bawari'),
+  (186,	'Natu Kaka'),
+  (187,	'Bagha'),
+  (188,	'Magan'),
+  (189,	'Powder Gali'),
+  (190,	'Gandhi Street'),
+  (191,	'Fim City'),
+  (192,	'Hum Log'),
+  (193,	'TMKOC'),
+  (194,	'Bhagya'),
+  (195,	'Baalveer'),
+  (196,	'Sony SAB'),
+  (197,	'Sony TV'),
+  (198,	'Sony Pal'),
+  (199,	'Sony MAX')
+;
+
+INSERT INTO questions VALUES 
+  (1,	1,	2,	3,	4,	5,	'Who is known as the "father of Indian Cinema"?'),
+  (2,	1,	6,	7,	8,	9,	'In Chak De! India, how many minutes, according to coach Kabir Khan, does the team have?'),
+  (3,	1,	10,	11,	12,	13,	'Who won the first Dadasaheb Phalke Award?'),
+  (4,	1,	14,	15,	16,	17,	'What is the name of Sholay''s iconic villain?'),
+  (5,	1,	18,	19,	20,	21,	'Madhuri Dixit''s name in N Chandra''s "Tezaab" was _____'),
+  (6,	1,	22,	23,	24,	25,	'Finish the quote from Deewar: Mere paas _____.'),
+  (7,	1,	26,	27,	28,	29,	'Who was the fictional character Shrek marries in his titular film series?'),
+  (8,	1,	30,	31,	32,	33,	'Who was captain of Titanic?'),
+  (9,	1,	34,	35,	36,	37,	'The famous character of Jack Sparrow from the movie Pirates of The Caribbean is played by which actor?'),
+  (10,	1,	38,	39,	40,	41,	'Who was the director of the famous movie "Mother India"?'),
+  (11,	1,	42,	43,	44,	45,	'How many Infinity Stones are there?'),
+  (12,	1,	46,	47,	48,	49,	'Name Thor''s hammer.'),
+  (13,	1,	50,	51,	52,	53,	'Which villain is responsible for the original formation of the Avengers?'),
+  (14,	1,	54,	55,	56,	57,	'Who played joker in the movie The Dark Knight'),
+  (15,	1,	58,	59,	60,	61,	'Which movie is this groundbreaking line from: "Teja main hoon, Mark idhar hai"?'),
+  (16,	1,	62,	63,	64,	65,	'who is the main character in the GOD OF WAR series'),
+  (17,	2,	66,	67,	68,	69,	'Sky is blue due to the phenomenon of _______'),
+  (18,	2,	70,	71,	72,	73,	'What is the sequence of colours in the rainbow(from bottom to top)?'),
+  (19,	2,	74,	75,	76,	77,	'Which of the following is a metal that remains liquid at room temperature?'),
+  (20,	2,	78,	79,	80,	81,	'How many elements are there in periodic table?'),
+  (21,	2,	82,	83,	84,	85,	'Which letter from the alphabet doesn''t appear in the official element names of periodic table?'),
+  (22,	2,	86,	87,	88,	89,	'Which of the following is used in pencils?'),
+  (23,	2,	90,	91,	92,	93,	'Which of the gas is not known as green house gas?'),
+  (24,	2,	94,	95,	96,	97,	'What is the scientific name of human beings?'),
+  (25,	2,	43,	42,	45,	44,	'What is the pH of blood?(approximate value)'),
+  (26,	2,	98,	99,	100,	101,	'Non stick cooking utensils are coated with ______'),
+  (27,	2,	102,	103,	104,	86,	'Which is the hardest non-metal?'),
+  (28,	2,	105,	106,	107,	108,	'What does DNA stand for?'),
+  (29,	2,	109,	110,	111,	112,	'How many bones are in the human body?'),
+  (30,	2,	113,	114,	115,	116,	'Roughly how long does it take for the sun''s light to reach Earth?'),
+  (31,	2,	117,	118,	119,	120,	'At what temperature are Celsius and Fahrenheit equal?'),
+  (32,	3,	121,	122,	123,	124,	'Which player has won 11 titles at one particular Grand Slam event?'),
+  (33,	3,	125,	126,	127,	128,	'Which of the following Indian Sports Team is also known as "The Bhangra Boys"?'),
+  (34,	3,	129,	130,	131,	132,	'In which year was the Olympic Symbol designed?'),
+  (35,	3,	132,	133,	134,	131,	'When was the Olympic Motto introduced?'),
+  (36,	3,	135,	136,	137,	138,	'Which country led the medal tally in the 2018 Pyeongchang Winter Olympics?'),
+  (37,	3,	139,	140,	141,	142,	'Where is the International Women''s Boxing Hall of Fame based?'),
+  (38,	3,	123,	143,	122,	121,	'Which player has won 20 Major singles titles?'),
+  (39,	3,	144,	145,	146,	147,	'Who among the following is not Vice-President of IOC?'),
+  (40,	3,	148,	149,	150,	151,	'Who is known as the father of the modern Olympic Games?'),
+  (41,	3,	152,	153,	154,	135,	'Which country leads the all-time medal table for the summer Olympics?'),
+  (42,	3,	155,	156,	157,	158,	'Who won the gold medal in badminton women''s singles in the 2016 Summer Olympics?'),
+  (43,	3,	159,	160,	161,	162,	'Which sport''s professional league is known as the “Liga Nationala”?'),
+  (44,	3,	163,	164,	165,	166,	'Which sport''s informal version is "Popinjay" or "Papingo"?'),
+  (45,	3,	136,	152,	167,	168,	'Which country won the most number of medals in archery at the Summer Olympics?'),
+  (46,	5,	169,	170,	171,	172,	'Which movie did Robert De Niro win an oscar?'),
+  (47,	5,	173,	174,	175,	176,	'In which year, print media started in India?'),
+  (48,	5,	177,	178,	179,	180,	'Which of the following is Jethalal''s favourite breakfast for Sundays?'),
+  (49,	5,	181,	182,	183,	184,	'As per the show "The Boys", which of the following is not a nickname of any character?'),
+  (50,	5,	185,	186,	187,	188,	'Who from the following is not an employee at the Gada electronics?'),
+  (51,	5,	189,	190,	191,	1,	'On which street is the Gokuldham society located?'),
+  (52,	5,	192,	193,	194,	195,	'India''s first television drama was'),
+  (53,	5,	196,	197,	198,	199,	'On which channel Baalveer returns comes?')
+;
