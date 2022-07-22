@@ -10,7 +10,7 @@ yarn build
 
 echo "Copy all static files into $BUILD_PATH"
 
-mdir -p $BUILD_PATH/static/media
+mkdir -p $BUILD_PATH/static/media
 cp src/static/media/* $BUILD_PATH/static/media/
 
 cd $PROJECT_ROOT/backend/
