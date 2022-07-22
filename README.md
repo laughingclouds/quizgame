@@ -23,6 +23,8 @@ We're going to need a postgres database to start. I've already included an SQL s
 - cd into project directory
 - run the below script for user `postgres` who owns a database `quizgame`
 
+> Feel free to change these values to your liking
+
 ```bash
 psql -U postgres -d quizgame -a -f backend/scripts/database.sql
 ```
@@ -42,3 +44,41 @@ export QZ_USERNAME="postgres"
 export QZ_PASSWORD="PASSWORD"
 export QZ_DBNAME="quizgame"
 ```
+
+## Build
+
+Run the build script after installing the dependencies  ([below](###Install-Dependencies))
+
+```bash
+sh build.sh
+```
+
+### Install Dependencies
+
+#### Frontend
+
+- cd into frontend
+- install dependencies
+
+```bash
+yarn install
+```
+
+or
+
+```bash
+npm install
+```
+
+#### Backend
+
+- cd into backend
+- download dependencies
+
+```bash
+go get
+```
+
+### Alternative
+
+You can also simply invoke individual build systems for both react and go.
